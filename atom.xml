@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://wonder-zhang.github.io</id>
     <title>wonder&apos;s blog</title>
-    <updated>2020-06-07T14:16:55.445Z</updated>
+    <updated>2020-06-07T14:18:33.348Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://wonder-zhang.github.io"/>
     <link rel="self" href="https://wonder-zhang.github.io/atom.xml"/>
@@ -19,8 +19,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[她那时候还太年轻，不知道所有命运赠送的礼物，早已在暗中标好了价格。]]></title>
-        <id>https://wonder-zhang.github.io/ta-na-shi-hou-huan-tai-nian-qing-bu-zhi-dao-suo-you-ming-yun-zeng-song-de-li-wu-zao-yi-zai-an-zhong-biao-hao-liao-jie-ge/</id>
-        <link href="https://wonder-zhang.github.io/ta-na-shi-hou-huan-tai-nian-qing-bu-zhi-dao-suo-you-ming-yun-zeng-song-de-li-wu-zao-yi-zai-an-zhong-biao-hao-liao-jie-ge/">
+        <id>https://wonder-zhang.github.io/jiazhi/</id>
+        <link href="https://wonder-zhang.github.io/jiazhi/">
         </link>
         <updated>2020-06-07T13:32:14.000Z</updated>
     </entry>
