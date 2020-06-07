@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://wonder-zhang.github.io</id>
     <title>wonder&apos;s blog</title>
-    <updated>2020-06-07T14:12:13.188Z</updated>
+    <updated>2020-06-07T14:16:55.445Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://wonder-zhang.github.io"/>
     <link rel="self" href="https://wonder-zhang.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://wonder-zhang.github.io/images/avatar.png</logo>
     <icon>https://wonder-zhang.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, wonder&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[如果想征服生命中的焦虑，活在当下，活在每一个呼吸里。]]></title>
+        <id>https://wonder-zhang.github.io/rf8Hr_aT1/</id>
+        <link href="https://wonder-zhang.github.io/rf8Hr_aT1/">
+        </link>
+        <updated>2020-06-07T14:15:44.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[她那时候还太年轻，不知道所有命运赠送的礼物，早已在暗中标好了价格。]]></title>
         <id>https://wonder-zhang.github.io/ta-na-shi-hou-huan-tai-nian-qing-bu-zhi-dao-suo-you-ming-yun-zeng-song-de-li-wu-zao-yi-zai-an-zhong-biao-hao-liao-jie-ge/</id>
