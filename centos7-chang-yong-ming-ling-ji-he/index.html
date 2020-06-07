@@ -1,0 +1,317 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CentOS7 常用命令集合 | wonder&#39;s blog</title>
+<link rel="shortcut icon" href="https://wonder-zhang.github.io/favicon.ico?v=1591533714887">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="CentOS7 常用命令集合 | wonder&#39;s blog - Atom Feed" href="https://wonder-zhang.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="常用命令文件与目录操作
+cd /home 进入 ‘/home’ 目录
+cd .. 返回上一级目录
+cd ../.. 返回上两级目录
+cd – 返回上次所在目录
+cp file1 file2 将file1复制为file2
+cp -a dir1..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://wonder-zhang.github.io">
+  <img class="avatar" src="https://wonder-zhang.github.io/images/avatar.png?v=1591533714887" alt="">
+  </a>
+  <h1 class="site-title">
+    wonder&#39;s blog
+  </h1>
+  <p class="site-description">
+    胆小鬼连幸福都害怕，碰到棉花都会受伤。
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/wonder-zhang" target="_blank">
+          <i class="ri-github-line"></i>
+        </a>
+      
+    
+      
+    
+      
+        <a href="https://weibo.com/6094785105/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo" target="_blank">
+          <i class="ri-weibo-line"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/bing-xue-chen-xi-59" target="_blank">
+          <i class="ri-zhihu-line"></i>
+        </a>
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              CentOS7 常用命令集合
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-06-07
+              </span>
+              <span>
+                7 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p><strong>常用命令文件与目录操作</strong></p>
+<p>cd /home 进入 ‘/home’ 目录<br>
+cd .. 返回上一级目录<br>
+cd ../.. 返回上两级目录<br>
+cd – 返回上次所在目录<br>
+cp file1 file2 将file1复制为file2<br>
+cp -a dir1 dir2 复制一个目录<br>
+cp -a /tmp/dir1 . 复制一个目录到当前工作目录（.代表当前目录）<br>
+ls 查看目录中的文件<br>
+ls -a 显示隐藏文件<br>
+ls -l 显示详细信息<br>
+ls -lrt 按时间显示文件（l表示详细列表，r表示反向排序，t表示按时间排序）<br>
+pwd 显示工作路径<br>
+mkdir dir1 创建 ‘dir1’ 目录<br>
+mkdir dir1 dir2 同时创建两个目录<br>
+mkdir -p /tmp/dir1/dir2 创建一个目录树<br>
+mv dir1 dir2 移动/重命名一个目录<br>
+rm -f file1 删除 ‘file1’<br>
+rm -rf dir1 删除 ‘dir1’ 目录及其子目录内容查看文件内容</p>
+<p>cat file1 从第一个字节开始正向查看文件的内容<br>
+head -2 file1 查看一个文件的前两行<br>
+more file1 查看一个长文件的内容<br>
+tac file1 从最后一行开始反向查看一个文件的内容<br>
+tail -3 file1 查看一个文件的最后三行<br>
+vi file 打开并浏览文件</p>
+<p><strong>文本内容处理</strong></p>
+<p>grep str /tmp/test 在文件 ‘/tmp/test’ 中查找 “str”<br>
+grep ^str /tmp/test 在文件 ‘/tmp/test’ 中查找以 “str” 开始的行<br>
+grep [0-9] /tmp/test 查找 ‘/tmp/test’ 文件中所有包含数字的行<br>
+grep str -r /tmp/* 在目录 ‘/tmp’ 及其子目录中查找 “str” diff file1 file2 找出两个文件的不同处<br>
+sdiff file1 file2 以对比的方式显示两个文件的不同<br>
+vi file操作</p>
+<p>i 进入编辑文本模式<br>
+Esc 退出编辑文本模式<br>
+:w 保存当前修改<br>
+:q 不保存退出vi<br>
+:wq 保存当前修改并退出vi查询操作</p>
+<p>find / -name file1 从 ‘/’ 开始进入根文件系统查找文件和目录<br>
+find / -user user1 查找属于用户 ‘user1’ 的文件和目录<br>
+find /home/user1 -name .bin 在目录 ‘/ home/user1’ 中查找以 ‘.bin’ 结尾的文件<br>
+find /usr/bin -type f -atime +100 查找在过去100天内未被使用过的执行文件<br>
+find /usr/bin -type f -mtime -10 查找在10天内被创建或者修改过的文件<br>
+locate .ps 寻找以 ‘.ps’ 结尾的文件，先运行 ‘updatedb’ 命令<br>
+find -name ‘*.[ch]’ | xargs grep -E ‘expr’ 在当前目录及其子目录所有.c和.h文件中查找 ‘expr’<br>
+find -type f -print0 | xargs -r0 grep -F ‘expr’ 在当前目录及其子目录的常规文件中查找 ‘expr’<br>
+find -maxdepth 1 -type f | xargs grep -F ‘expr’ 在当前目录中查找 ‘expr’压缩、解压</p>
+<p>bzip2 file1 压缩 file1<br>
+bunzip2 file1.bz2 解压 file1.bz2<br>
+gzip file1 压缩 file1<br>
+gzip -9 file1 最大程度压缩 file1<br>
+gunzip file1.gz 解压 file1.gz<br>
+tar -cvf archive.tar file1 把file1打包成 archive.tar（-c: 建立压缩档案；-v: 显示所有过程；-f: 使用档案名字，是必须的，是最后一个参数）<br>
+tar -cvf archive.tar file1 dir1 把 file1，dir1 打包成 archive.tar<br>
+tar -tf archive.tar 显示一个包中的内容<br>
+tar -xvf archive.tar 释放一个包<br>
+tar -xvf archive.tar -C /tmp 把压缩包释放到 /tmp目录下<br>
+zip file1.zip file1 创建一个zip格式的压缩包<br>
+zip -r file1.zip file1 dir1 把文件和目录压缩成一个zip格式的压缩包<br>
+unzip file1.zip 解压一个zip格式的压缩包到当前目录<br>
+unzip test.zip -d /tmp/ 解压一个zip格式的压缩包到 /tmp 目录yum安装器</p>
+<p>yum -y install [package] 下载并安装一个rpm包<br>
+yum localinstall [package.rpm] 安装一个rpm包，使用你自己的软件仓库解决所有依赖关系<br>
+yum -y update 更新当前系统中安装的所有rpm包<br>
+yum update [package] 更新一个rpm包<br>
+yum remove [package] 删除一个rpm包<br>
+yum list 列出当前系统中安装的所有包<br>
+yum search [package] 在rpm仓库中搜寻软件包<br>
+yum clean [package] 清除缓存目录（/var/cache/yum）下的软件包<br>
+yum clean headers 删除所有头文件<br>
+yum clean all 删除所有缓存的包和头文件网络相关</p>
+<p>ifconfig eth0 显示一个以太网卡的配置<br>
+ifconfig eth0 192.168.1.1 netmask 255.255.255.0 配置网卡的IP地址<br>
+ifdown eth0 禁用 ‘eth0’ 网络设备<br>
+ifup eth0 启用 ‘eth0’ 网络设备<br>
+iwconfig eth1 显示一个无线网卡的配置<br>
+iwlist scan 显示无线网络<br>
+ip addr show 显示网卡的IP地址系统相关</p>
+<p>su – 切换到root权限（与su有区别）<br>
+shutdown -h now 关机<br>
+shutdown -r now 重启<br>
+top 罗列使用CPU资源最多的linux任务 （输入q退出）<br>
+pstree 以树状图显示程序<br>
+man ping 查看参考手册（例如ping 命令）<br>
+passwd 修改密码<br>
+df -h 显示磁盘的使用情况<br>
+cal -3 显示前一个月，当前月以及下一个月的月历<br>
+cal 10 1988 显示指定月，年的月历<br>
+date –date ‘1970-01-01 UTC 1427888888 seconds’ 把一相对于1970-01-01 00:00的秒数转换成时间XSheel 5相关操作窗体快捷键</p>
+<p>Ctrl + u 删除光标之前到行首的字符<br>
+Ctrl + k 删除光标之前到行尾的字符<br>
+Ctrl + c 取消当前行输入的命令，相当于Ctrl + Break<br>
+Ctrl + a 光标移动到行首（ahead of line），相当于通常的Home键<br>
+Ctrl + e 光标移动到行尾（end of line）<br>
+Ctrl + f 光标向前（forward）移动一个字符位置<br>
+Ctrl + b 光标往回（backward）移动一个字符位置<br>
+Ctrl + l 清屏，相当于执行clear命令<br>
+Ctrl + r 显示:号提示，根据用户输入查找相关历史命令（reverse-i-search）<br>
+Ctrl + w 删除从光标位置前到当前所处单词（word）的开头<br>
+Ctrl + t 交换光标位置前的两个字符<br>
+Ctrl + y 粘贴最后一次被删除的单词<br>
+Ctrl + Alt + d 显示桌面<br>
+Alt + b 光标往回（backward）移动到前一个单词<br>
+Alt + d 删除从光标位置到当前所处单词的末尾<br>
+Alt + F2 运行<br>
+Alt + F4 关闭当前窗口<br>
+Alt + F9 最小化当前窗口<br>
+Alt + F10 最大化当前窗口<br>
+Alt + Tab 切换窗口<br>
+Alt + 左键 移动窗口（或在最下面的任务栏滚动鼠标滑轮）</p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://wonder-zhang.github.io/jie-dian-ding-yue/">
+              <h3 class="post-title">
+                节点订阅
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '',
+    clientSecret: '',
+    repo: '',
+    owner: '',
+    admin: [''],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
+  <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
