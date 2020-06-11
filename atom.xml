@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://wonder-zhang.github.io</id>
     <title>wonder&apos;s blog</title>
-    <updated>2020-06-11T13:08:40.860Z</updated>
+    <updated>2020-06-11T15:27:08.471Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://wonder-zhang.github.io"/>
     <link rel="self" href="https://wonder-zhang.github.io/atom.xml"/>
@@ -10,6 +10,20 @@
     <logo>https://wonder-zhang.github.io/images/avatar.png</logo>
     <icon>https://wonder-zhang.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, wonder&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[我们从相遇时就开始告别]]></title>
+        <id>https://wonder-zhang.github.io/2rJ_TdURp/</id>
+        <link href="https://wonder-zhang.github.io/2rJ_TdURp/">
+        </link>
+        <updated>2020-06-11T15:17:45.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[从思想开始，聊聊系统与个体的关系]]></title>
+        <id>https://wonder-zhang.github.io/nrkBaNcXV/</id>
+        <link href="https://wonder-zhang.github.io/nrkBaNcXV/">
+        </link>
+        <updated>2020-06-11T15:09:01.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[如果想征服生命中的焦虑，活在当下，活在每一个呼吸里。]]></title>
         <id>https://wonder-zhang.github.io/rf8Hr_aT1/</id>
