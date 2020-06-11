@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://wonder-zhang.github.io</id>
     <title>wonder&apos;s blog</title>
-    <updated>2020-06-11T16:20:00.063Z</updated>
+    <updated>2020-06-11T16:26:55.994Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://wonder-zhang.github.io"/>
     <link rel="self" href="https://wonder-zhang.github.io/atom.xml"/>
@@ -10,6 +10,20 @@
     <logo>https://wonder-zhang.github.io/images/avatar.png</logo>
     <icon>https://wonder-zhang.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, wonder&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[你可以哭，但别哭太久]]></title>
+        <id>https://wonder-zhang.github.io/0whhhgfHB/</id>
+        <link href="https://wonder-zhang.github.io/0whhhgfHB/">
+        </link>
+        <updated>2020-06-11T16:26:20.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[为了有能力去爱，必须坚强到能够忍耐孤独]]></title>
+        <id>https://wonder-zhang.github.io/Usah1S2dX/</id>
+        <link href="https://wonder-zhang.github.io/Usah1S2dX/">
+        </link>
+        <updated>2020-06-11T16:25:12.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[生命中不能拥有的]]></title>
         <id>https://wonder-zhang.github.io/CKD8ZvaEV/</id>
@@ -65,12 +79,5 @@
         <link href="https://wonder-zhang.github.io/jie-dian-ding-yue/">
         </link>
         <updated>2020-06-07T11:18:02.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[我的第一篇GitHub博客]]></title>
-        <id>https://wonder-zhang.github.io/ce-shi/</id>
-        <link href="https://wonder-zhang.github.io/ce-shi/">
-        </link>
-        <updated>2020-06-07T08:52:39.000Z</updated>
     </entry>
 </feed>
