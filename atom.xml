@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://wonder-zhang.github.io</id>
     <title>wonder&apos;s blog</title>
-    <updated>2020-06-11T17:00:32.167Z</updated>
+    <updated>2020-06-11T17:07:08.334Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://wonder-zhang.github.io"/>
     <link rel="self" href="https://wonder-zhang.github.io/atom.xml"/>
@@ -10,6 +10,24 @@
     <logo>https://wonder-zhang.github.io/images/avatar.png</logo>
     <icon>https://wonder-zhang.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, wonder&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[我有两个博客]]></title>
+        <id>https://wonder-zhang.github.io/l5lJ5cgVb/</id>
+        <link href="https://wonder-zhang.github.io/l5lJ5cgVb/">
+        </link>
+        <updated>2020-06-11T17:06:42.000Z</updated>
+        <content type="html"><![CDATA[<p>我有两个博客<br>
+一个黑白极简<br>
+一个五彩缤纷</p>
+<p>我伤心时，会在黑白博客上写下自己的伤心回忆<br>
+我开心时，会在五彩博客上卸载自己的甜蜜幻想</p>
+<p>这样多好</p>
+<p>伤心时看看自己五彩的博客，人生的路前面还有光。<br>
+开心时看看自己黑白的博客，甜蜜总是伴随着苦涩。</p>
+<p>忽然想起丰子恺先生的一句话，<br>
+不困于心，不乱与情，不惧将来，不念过往。如此，甚好。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[你可以哭，但别哭太久]]></title>
         <id>https://wonder-zhang.github.io/0whhhgfHB/</id>
