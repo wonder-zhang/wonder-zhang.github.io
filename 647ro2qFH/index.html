@@ -2,7 +2,7 @@
 <html lang="zh-CN">
  <head>
      <meta charset="utf-8" />
-  <title>我们从相遇时就开始告别 | wonder&#39;s blog</title>
+  <title>借助宝塔使用nginx搭建webdav | wonder&#39;s blog</title>
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
   <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -90,41 +90,42 @@
      <div class="post-page">
       <div class="post animated fadeInDown">
        <div class="post-title">
-        <h3><a>我们从相遇时就开始告别</a></h3>
+        <h3><a>借助宝塔使用nginx搭建webdav</a></h3>
        </div>
        <div class="post-content">
-        <p>一阵微风吹过，传来淡淡花香，飘落几片树叶，于是我知道清风你曾来过，我想追寻你的脚步，花香和落叶告诉我你已走过……</p>
-<p>风起云涌，日升月落，我走过春夏秋冬。花开叶落，这天地不曾变过，为何千万年的时光却已灰飞烟灭？</p>
-<p>忘川之上我想与那流水告别，流水淙淙，甘甜清冽。水向东流，不舍昼夜，千万颗水滴从我面前经过，唯独我第一眼见到的那颗水滴不再来过。</p>
-<p>大雨滂沱冲走谁的忧伤，又带来谁的落寞？你听那汽车呼啸而过，你见那闪电照亮天际，可是他已远去，你听听，所见都是他的告别……</p>
-<p>我们若如那流水该有多好，只需奔涌向前，一泻千里，又何必回头去望，又挥手告别……</p>
-<p>童稚的我欢快的招手，不经人事怎懂得离愁与悲伤，相思与难忘。</p>
-<p>我向那青春告别，炎热的午后，我们光着脚丫在河里摸鱼捉蟹，那又是多少年前的日光……</p>
-<p>再见吧，过往，不堪回首或是难忘，是非过错，善良混入染缸。</p>
-<p>再见吧，岁月，减不掉的皱纹，回不去的故乡，是此情可待成追忆的唏嘘，也是曾经沧海难为水的惆怅。</p>
-<p>再见吧，朋友，渐行渐远的我们，形同陌路，相顾无言。</p>
-<p>再见吧，那些我爱过的人，人生短暂，过客匆匆，总有一人照亮你的天地又匆匆离去，记忆恍惚无法追忆。</p>
-<p>再见吧，我曾做过的梦，挥手告别吧，不再想起更是恍如隔世，我们再也忘不掉，再也回不去，仿佛经历过，那又都是别人的故事。</p>
-<p>我们到底从何时开始告别，是每想起一次就越发模糊的回忆，还是变形的身体与脾气。</p>
-<p>我曾见过一个人，也曾忘掉一个人，虽同名同姓，却再也不是你。</p>
-<p>我们是否也告别了曾经的自己，如今的你是谁，我又是谁？我为何欢乐，又为何郁郁寡欢，我们是经历太多还是走的太远，是否告诉这天地我曾来过……</p>
-<p>泛黄的照片，年轻的容颜，有的人离去，来不及告别……</p>
-<p>想见的人总会相遇，跨越山川河流的阻隔，相遇的人总会告别，不分昼夜，招一招手就是永别，永不再见……</p>
-<p>光与声的告别是电闪雷鸣，倏忽而逝、天地震颤。人与人的告别是咫尺天涯，不生不灭，难以忘却。</p>
-<p>这告别是树叶与地面的距离，是弹指间世事沧桑，一念间情思百转，回首间换了人间……</p>
-<p>种子从埋入土地时就开始发芽，我们从相遇时就开始告别。</p>
+        <p>今天忽然发现了一个叫易码的app里面的云同步很赞了，但是学了这么多还是不知道webdev是啥，于是上网查了查关于webdav的相关资料。</p>
+<p><strong>WebDAV是一组基于超文本传输协议的技术集合，有利于用户间协同编辑和管理存储在万维网服务器文档。通俗一点儿来说，WebDAV 就是一种互联网方法，应用此方法可以在服务器上划出一块存储空间，可以使用用户名和密码来控制访问，让用户可以直接存储、下载、编辑文件。</strong></p>
+<p>这个就很类似于ftp了不过webdav比ftp强大无论是实用性还是其他方面，可以类似于把你的服务器当作一个云盘比较。</p>
+<p>好了，正文开始，先把以前的nginx卸载了，再重新安装，以前的网页虽然会受到影响，但是再安装好之后就没事了，所以，没必要担心。</p>
+<p>我还是用的宝塔，再选择安装nginx的时候选择编译安装并且添加自定义模块，目的是补全nginx的webdav功能，我之前查的时候发现，nginx他不会给你安装，所以需要自己补全。</p>
+<pre><code>模块名称：http_dav_module
+模块描述：webdev
+模块参数：--with-http_dav_module --add-module=/root/nginx-dav-ext-module
+前置脚本：git clone https://github.com/arut/nginx-dav-ext-module.git /root/nginx-dav-ext-module
+</code></pre>
+<p>新建网页，自己命名，php版本选择<strong>纯静态</strong>并且在配置文件中添加</p>
+<pre><code>location / {
+        root /www/wwwroot/webdav;
+        #client_max_body_size 102400M;#大文件支持
+        autoindex on;
+        dav_methods PUT DELETE MKCOL COPY MOVE;
+        # 需要 nginx-dav-ext-module 才有下面的选项
+        dav_ext_methods PROPFIND OPTIONS LOCK UNLOCK;
+        create_full_put_path  on;
+    }
+
+</code></pre>
+<p>然后再<strong>网站目录</strong>添加账号密码即可，如果需要用到webdav的话，账号就是你添加的账号，密码就是你添加的密码，地址就是你的webdav的网页。</p>
 
        </div>
        <div class="post-footer">
         <div class="meta">
          <div class="info">
           <i class="fa fa-sun-o"></i>
-          <span class="date">2020-06-11</span>
+          <span class="date">2020-06-22</span>
           <i class="fa fa-tag"></i>
           
-          <a class="tag" href="https://wonder-zhang.github.io/1w5HbnM2c/" title="阅读">阅读 </a>
-          
-          <a class="tag" href="https://wonder-zhang.github.io/ulBkKQwhp/" title="随笔">随笔 </a>
+          <a class="tag" href="https://wonder-zhang.github.io/HnnDbkxKC/" title="web">web </a>
           
          </div>
         </div>
@@ -138,16 +139,14 @@
         <a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
        </div>
        <div class="twitter">
-        <a class="fa fa-twitter" href="http://twitter.com/home?status=,https://wonder-zhang.github.io/2rJ_TdURp/,;"></a>
+        <a class="fa fa-twitter" href="http://twitter.com/home?status=,https://wonder-zhang.github.io/647ro2qFH/,;"></a>
        </div>
       </div>
       <div class="pagination">
        <ul class="clearfix">
 
-        <li class="pre pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/7ctB0aL82/" title="没有嫁给你">上一篇</a></li>
-         
         
-        <li class="next pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/nrkBaNcXV/" title=" 从思想开始，聊聊系统与个体的关系">下一篇</a></li>
+        <li class="next pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/fLL3Pgy4M/" title=" 你余生的故事">下一篇</a></li>
         
        </ul>
       </div>
