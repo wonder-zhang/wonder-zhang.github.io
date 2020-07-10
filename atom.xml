@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://wonder-zhang.github.io</id>
     <title>wonder&apos;s blog</title>
-    <updated>2020-07-10T16:58:39.657Z</updated>
+    <updated>2020-07-10T17:05:49.512Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://wonder-zhang.github.io"/>
     <link rel="self" href="https://wonder-zhang.github.io/atom.xml"/>
@@ -53,8 +53,8 @@ Settings -&gt; Developer settings -&gt; Personal access tokens<br>
 然后点击generate new tonken。命名picgo即可，repo那一区域全部点击一下。</p>
 <p>picgo配置如下：<br>
 <a href="https://raw.githubusercontent.com/wonder-zhang/image/master/picgo.png" title="这个就是用的GitHub图床"><img src="https://raw.githubusercontent.com/wonder-zhang/image/master/picgo.png" alt="这个就是用的GitHub图床" title="这个就是用的GitHub图床" loading="lazy"></a></p>
-<p>因为某些原因，GitHub图床很慢就是了。<br>
-说明一下</p>
+<p>因为某些原因，GitHub图床很慢就是了。还有就是，有好几次会传输失败，等一下就行了，没啥大不了的。</p>
+<p>说明一下</p>
 <p>仓库名：即你的仓库名（GitHub即用户名/仓库名）<br>
 分支名：默认 master<br>
 Token：就是刚刚复制的那一串字符<br>
