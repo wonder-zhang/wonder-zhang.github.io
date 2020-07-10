@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://wonder-zhang.github.io</id>
     <title>wonder&apos;s blog</title>
-    <updated>2020-07-09T15:16:05.422Z</updated>
+    <updated>2020-07-10T16:58:39.657Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://wonder-zhang.github.io"/>
     <link rel="self" href="https://wonder-zhang.github.io/atom.xml"/>
@@ -10,6 +10,59 @@
     <logo>https://wonder-zhang.github.io/images/avatar.png</logo>
     <icon>https://wonder-zhang.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, wonder&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[自建网易云音乐破版权服务器]]></title>
+        <id>https://wonder-zhang.github.io/-mg31HBnu/</id>
+        <link href="https://wonder-zhang.github.io/-mg31HBnu/">
+        </link>
+        <updated>2020-07-10T16:58:00.000Z</updated>
+        <content type="html"><![CDATA[<p>首先你的准备一台服务器不用太高配置，512MB内存1核即可。<br>
+服务器安装好宝塔面板，然后在宝塔面板的软件管理页面安装PM2管理器</p>
+<figure data-type="image" tabindex="1"><img src="https://pic.downk.cc/item/5e7cd60f504f4bcb04de4da8.png" alt="安装pm2管理器" loading="lazy"></figure>
+<p>然后在终端执行命令：</p>
+<pre><code>git clone https://github.com/nondanee/UnblockNeteaseMusic.git
+</code></pre>
+<p>他的默认端口是8080，自己自行更改即可，我没有改，直接弄的8080端口<br>
+修改好后点击安全，放行端口，这就像开门迎客，你门都不开，那怎么让客人来</p>
+<figure data-type="image" tabindex="2"><img src="https://pic.downk.cc/item/5e7cd60f504f4bcb04de4daa.png" alt="开启端口，可以自定义" loading="lazy"></figure>
+<p>回到PM2管理器中，设置，根据下图添加即可</p>
+<figure data-type="image" tabindex="3"><img src="https://pic.downk.cc/item/5e7cd60f504f4bcb04de4dac.png" alt="添加个进程" loading="lazy"></figure>
+<p>记得要给项目添加个名称在点击添加！！<br>
+然后在客户端设置相应的代理，然后确定</p>
+<p><img src="https://pic.downk.cc/item/5e7cd60f504f4bcb04de4daf.png" alt="找到设置" loading="lazy"><br>
+<img src="https://pic.downk.cc/item/5e7cd60f504f4bcb04de4db3.png" alt="设置你的端口和代理ip" loading="lazy"></p>
+<p>好啦！这样就大功告成了，如果还是提示错误，那就要修改host文件了。将前面参数修改为服务器IP</p>
+<pre><code>你的服务器ip music.163.com
+你的服务器ip interface.music.163.com
+</code></pre>
+<p>很多人也许会遇到pm2中的管理进程莫名其妙会自动关闭的现象，其实，这个正常，你的端口冲突了，兄弟!!!也就是说，这个端口正在被占用，你该换一个别的端口去。阿里云服务器的用户，记得打开你所需防火墙的端口，要不然联通能联通，就是没办法加载！！！</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[日常笔记，用picgo搭建图床]]></title>
+        <id>https://wonder-zhang.github.io/56LBmQv-5/</id>
+        <link href="https://wonder-zhang.github.io/56LBmQv-5/">
+        </link>
+        <updated>2020-07-10T16:56:48.000Z</updated>
+        <content type="html"><![CDATA[<p>先下载picgo<br>
+https://github.com/Molunerfinn/PicGo/releases</p>
+<p>创建GitHub账户<br>
+创建仓库，设置仓库名称，设置为公有仓库，然后点一下readme那一行，要不然会很烦人的。</p>
+<p>之后创建token<br>
+Settings -&gt; Developer settings -&gt; Personal access tokens<br>
+然后点击generate new tonken。命名picgo即可，repo那一区域全部点击一下。</p>
+<p>picgo配置如下：<br>
+<a href="https://raw.githubusercontent.com/wonder-zhang/image/master/picgo.png" title="这个就是用的GitHub图床"><img src="https://raw.githubusercontent.com/wonder-zhang/image/master/picgo.png" alt="这个就是用的GitHub图床" title="这个就是用的GitHub图床" loading="lazy"></a></p>
+<p>因为某些原因，GitHub图床很慢就是了。<br>
+说明一下</p>
+<p>仓库名：即你的仓库名（GitHub即用户名/仓库名）<br>
+分支名：默认 master<br>
+Token：就是刚刚复制的那一串字符<br>
+储存路径和自定义域名不建议弄，反正有些小麻烦，要不然路径对了上传不去，路径不对，但图片能显示，还要加用户名，晕！</p>
+<p>测试图片<br>
+<a href="https://raw.githubusercontent.com/wonder-zhang/image/master/pictures/20200711004148.jpg" title="测试图片"><img src="https://raw.githubusercontent.com/wonder-zhang/image/master/pictures/20200711004148.jpg" alt="测试图片" title="测试图片" loading="lazy"></a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[纳兰词——美到极致，唱尽悲欢]]></title>
         <id>https://wonder-zhang.github.io/1xyUcrkV3/</id>
@@ -2043,101 +2096,6 @@
 <p>一个人在经历过无数失去后，就不再渴望得到，在旁观过无数悲欢后，就不再希冀时光有情，相伴终老。</p>
 <p>但若是上天再给我一次机会，明知道往后的故事浸满悲伤。</p>
 <p>我也定不后悔和你相遇。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[一个人深到骨子里的教养，是对底层的尊重]]></title>
-        <id>https://wonder-zhang.github.io/U-LQqq6eL/</id>
-        <link href="https://wonder-zhang.github.io/U-LQqq6eL/">
-        </link>
-        <updated>2020-06-12T11:55:19.000Z</updated>
-        <content type="html"><![CDATA[<p>文/张牧野</p>
-<p><strong>01</strong><br>
-什么样的人是有教养的？<br>
-有人说，是懂得尊重别人的；也有人说，是会照顾别人感受的。<br>
-在我看来，一个人是否有教养，对待底层人的态度就能看的清清楚楚。<br>
-去年国庆节，某聘请回国教授暴打环卫工一事，大家应该都有耳闻。<br>
-葛某获得日本博士学位，在美国工作多年，是千万级学科项目带头人，就是这样一位学识渊博、貌似温文尔雅的教授，却在街头暴打环卫工。<br>
-起因是垃圾车停在垃圾站点作业时，阻挡了他的行车道路。<br>
-按捺不住火气的葛教授下车后连踹带踢，将环卫工打倒在地，并大声叫嚣，你挣多少钱，我挣多少钱，你挡着我挣钱！<br>
-陈道明说：<br>
-教养和文化是两回事。有的人很有文化，但是很没教养，有的人没有什么太高的学历和学识，但仍然很有教养，很有分寸。<br>
-有些人文化程度的确很高，但对比其面对底层的态度，教养瞬间碎成了渣。<br>
-戴尔·卡耐基《人性的弱点》中写道：“只为自己着想的人是无药可救的，他们是没有教养的人，无论他受过什么样的教育。”<br>
-教养不是逢场作戏时表现出来的谦逊和低调，而是对待底层人，依然谦卑有礼，以礼相待，这才是一个人真实的教养。</p>
-<p><strong>02</strong><br>
-有一位朋友，对待朋友很仗义，只要你有事找他，他绝不推辞。<br>
-可他有个很不好的行为，就是每次去吃饭，他对服务员的态度都很不友好。<br>
-上菜慢，他对服务员冷脸，大声呼喊；<br>
-菜品不好吃，他用筷子敲盘子，对服务员粗声粗气；<br>
-茶水没了，他也要抱怨服务员没有眼力见。<br>
-面对服务员他态度永远是冷冰冰的，转过头，面对朋友又是满脸和颜悦色。<br>
-他对服务员发多少次脾气，我就得对服务员道多少次歉，每次都弄得我很尴尬。<br>
-起初，我会提出他这个毛病，刚开始他也会有所收敛，但到了后面，又原形毕露了。<br>
-所以，后来他再约我吃饭，我都会推脱。<br>
-教养是根植在内心的东西，是经年累月一点一滴积累形成的品性，是装不出来的。<br>
-知名导演冯小刚曾在机场用餐时，因饭菜难吃，对着服务员足足骂了十分钟，最终把服务员骂哭了，无论旁边的人怎么阻拦，冯小刚都不为所动。<br>
-视频曝光以后，不少人指责冯小刚，认为他做的很过分。<br>
-我们去餐厅吃饭，只是花钱买了服务和餐食，并没有买服务员的尊严，有什么理由指着服务员的鼻子骂骂咧咧呢？<br>
-如果餐食不好吃，可以找老板或厨师调解，为什么要把脾气发在一个只是为你服务的人身上呢？<br>
-龙应台说，一个真正有教养的人，绝不是一个没有脾气的人，只是不会把脾气发到一个比自己弱的人身上。<br>
-一个人对待弱者的态度，就是你真实的教养。<br>
-每个人都有脾性，但在比自己强的人面前，唯唯诺诺，在比自己弱的人面前，趾高气扬，就是没教养。<br>
-有教养的人，都有一颗怜悯之心，懂得克制自己的脾气，不会乱发脾气，更不会把脾气无缘无故发在比自己“弱”的人身上。</p>
-<p><strong>03</strong><br>
-钱钟书晚年时，请了保姆料理生活，保姆来自乡下，文化程度也不高。<br>
-住院期间，无论吃任何东西，钱钟书都只吃一半，剩下的一半留给保姆。<br>
-有一次，杨绛去医院探望他，钱钟书让杨绛下次来的时候，带3000块钱。<br>
-杨绛不解，躺在病床上的钱钟书要钱有什么用。<br>
-钱钟书就用家乡话和杨绛交谈了起来。<br>
-杨绛再来医院时，给保姆递了3000块钱。保姆很诧异，杨绛指着躺在病床上的钱钟书，笑着说，他听说你家在盖房子，怕你缺钱，叫我拿来给你的。<br>
-原来是一次趁钱钟书睡觉之际，保姆和护士聊天，护士问她为什么大老远跑来北京。<br>
-保姆说，家里穷，正在盖房子，需要钱。<br>
-这话恰好被钱钟书偷听到了，为了怕伤到保姆面子，钱钟书特意用家乡话和杨绛说话。<br>
-钱钟书并没有用自己名人的身份，对服务自己的保姆刁难，或是厌弃，反而心存关怀，处处为保姆着想，体现了一个文人真正的教养。<br>
-后来，钱钟书去世，保姆伤感地说道，我干这个的，有什么地位呀。<br>
-可是钱先生每次跟我说话，极客气，十分尊重，生怕刺伤我。<br>
-即使疼的要命，也忍着，生怕影响我休息。现在到哪里去找钱先生这样的人啊！<br>
-有些人就像是一面镜子，站在那里，你的所作所为都能透过镜面反射出来。<br>
-你的教养，让别人得到了尊重，同样地，你也得到了尊重。</p>
-<p><strong>04</strong><br>
-冯仑写过一篇文章叫《近距离察看李嘉诚如何请人吃饭》，一个细节十分感人。<br>
-李嘉诚请客人吃饭，饭毕，李嘉诚逐一跟客人握手道别，跟客人道别完，他会特意走过去，跟所有的服务员握手表示感谢，连墙角的服务员都不会放过。<br>
-有人说，细节显教养，谦卑藏高贵。<br>
-李嘉诚对待服务人员的这个小细节，恰恰暴露了他极高的教养。<br>
-一个懂得尊重别人的人，才是真正高贵的人。<br>
-牛皮明明有句话说的很好，人行走世间，想走得更远，最终靠的还是心软和尊重。<br>
-你有多好的教养，你就能走多远。<br>
-想要获得别人的尊重，先懂得尊重别人，尊重别人自然靠的是你的教养。<br>
-之前有个同事，夏天天热的时候，叫了外卖，她一定会接一杯水放在旁边。<br>
-外卖员把外卖递给她时，她也会递一杯水给小哥，非常有礼貌地说，外面天热，吃杯水，辛苦了。<br>
-她完全没有把送餐当成是理所当然的事，反而对小哥表现出了极大的尊重。<br>
-就是这个举动，让我大为吃惊。<br>
-当然了，你也能想到，这位同事是整个公司最受人尊重和欢迎的。<br>
-木心说过：有教养的人士，对车夫、浴室侍应生、任何传递物品的人，从来不会敷衍搪塞。<br>
-其实，所有的服务人员，无论是餐厅的服务员，还是环卫工、外卖员、保安、保姆等等，他们的职业或许没有那么光鲜亮丽，但正是因为他们的存在，让我们生活的环境变得干净、舒适、安全和高效。<br>
-职业也绝不是被冷落和歧视的理由。<br>
-因为在有教养的人眼里，没有所谓的职业高低和三六九等，所有人都是一视同仁的，一样值得被尊重和善待。<br>
-衡量一个人是否有教养，最根本的一点就是取决于他是否理解底层人的不易，体谅底层人的辛苦，尊重和善待每一个底层人。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[失约和等待]]></title>
-        <id>https://wonder-zhang.github.io/5aw7Cr_S3/</id>
-        <link href="https://wonder-zhang.github.io/5aw7Cr_S3/">
-        </link>
-        <updated>2020-06-12T08:17:47.000Z</updated>
-        <content type="html"><![CDATA[<p>文/张小娴</p>
-<p>我常常在想，世上会不会有一段爱情是这样的：</p>
-<p>一方不停地失约，另一方却不停地等待。</p>
-<p>他常常在约定的时刻失约，她却心甘情愿地等待。</p>
-<p>他说好今天晚上无论如何也会溜出来跟她见面，于是，她满心欢喜的在那里等他。他失约了，她没有埋怨，只是继续等他。她没有打电话找他，问他为什么不来，她知道，要是他能够来的话，一定不会失约。</p>
-<p>他不止一次失约。那天，他说好要陪她过情人节，她喜出望外，半信半疑的问他：</p>
-<p>&quot;你真的可以来？&quot;</p>
-<p>他点头。</p>
-<p>情人节的晚上，她穿好一身最漂亮的衣服等他，他又失约了。每一次的失约，事先也毫无征兆，其至没有交代。她安然坐在家里等待，约定的时候，她是有点怀疑的，然而，他失约了，她却毫不怀疑地等下去，仿佛这一辈子也不会动摇。</p>
-<p>这天晚上，雨不得很大，她站在窗前等他，他又失约了，不过，她还是会等下去的。虽然他说谎，说好了会来又失约，然而，既然他说过会来，他一定是曾经决定无论如何也要想办法来跟她相聚的，无奈却不能来。她怎么忍心怪责他？</p>
-<p>在谎言和失约中，她变得坚强，也更能面对孤独，因为，长久地、一往情深地等待一个常常失约的男人，毕竟需要很大的勇气。</p>
 ]]></content>
     </entry>
 </feed>

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
  <head>
      <meta charset="utf-8" />
-  <title>有哪些句子曾经激励过你？ | wonder&#39;s blog</title>
+  <title>自建网易云音乐破版权服务器 | wonder&#39;s blog</title>
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
   <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -86,42 +86,41 @@
      <div class="post-page">
       <div class="post animated fadeInDown">
        <div class="post-title">
-        <h3><a>有哪些句子曾经激励过你？</a></h3>
+        <h3><a>自建网易云音乐破版权服务器</a></h3>
        </div>
        <div class="post-content">
-        <p>@愿有人陪你流离颠沛：“我读过很多书，但后来大部分都被我忘记了，那读书的意义是什么？当我还是个孩子的时候，我吃过很多食物，到现在记不起来吃过什么了。但可以肯定的是，它们中的一部分已经长成为我的骨头和肉。”</p>
-<p>@梅小团库小呆蒂小宝：总有人要赢的，为什么不能是我？</p>
-<p>@凡迦尔：人呐，得自个儿成全自个儿。</p>
-<p>@神苗这个名字有点来历：你才25岁，你可以成为任何你想成为的人。我希望你成为有勇气的人。</p>
-<p>@阿健像条狗：人都会苦一阵子，不会苦一辈子。</p>
-<p>@是张知意：人是要死的，你到底怕什么？</p>
-<p>@盐盐小彭友：人生没有白走的路，每一步都算数。</p>
-<p>@Dear-杰：要有最朴素的生活和最遥远的理想，即使明天天寒地冻，路遥马亡。</p>
-<p>@多啦诺旖呀：【中国邮政】你的快递（录取通知书）由单位收发室于7月23日代收，请速取。</p>
-<p>@張旑旎：太阳不出来也是在那的。</p>
-<p>@想要香橙_：时间就是金钱，金钱可以储存，但时间不可以。</p>
-<p>@伪文青_赵伞伞：“我在呢”。有一次情绪上来了给朋友打电话，自己一个人使劲儿哭，后来哭累了停下来听到电话那头一直在重复这句话。我突然就好了，好像有魔力一样。</p>
-<p>@TsonngYu：now or never!</p>
-<p>@带着本命狗墙头的怪阿姨希：呼吸停止之前没有不幸。</p>
-<p>@与木十禾：我曾经给复读的一个朋友说过：你要相信这世间有光，如果没有，就让它在你的心底长出来。后来那位朋友说这句话陪伴了他很久。</p>
-<p>@赵天天：生而为人，请务必善良！</p>
-<p>@是凯哥哥呀呀：最让人踏实的就是孤独，最稳定的关系或许就是没有关系。</p>
-<p>@苑子豪家的大米：有一个喜欢的偶像，像是件很了不起的事情。(看到这句话我就会想到我自己的偶像，想到他一路艰辛的历程时，我就会觉得，我现在经历的不过是毛毛雨！有什么过不去的槛？加油坚持，努力奋斗就完事了)</p>
-<p>@月亮想见你·：不想沦为女孩子嫁得好就好了。</p>
-<p>@一颗筱筱的糖：班主任无数次对我说：“相信自己”！就是这短短的一句话，让我熬过了最艰难的高三，最终让我得以奔向远方。</p>
-<p>@-星星会不亮吗-：想家了，就回来。</p>
-<p>@葱沫君：突然想起前段时间自己有感悟的一段话。虽然运动的痕迹会删掉，但是身体会留下锻炼的痕迹。虽然读过的书主人公名字记不住，但是心会记得阅读时的感悟。虽然努力的你还看不到结果，但是这点点滴滴正记录着你的成长。</p>
-<p>@擅长摘星：“加油噢，小朋友”！</p>
+        <p>首先你的准备一台服务器不用太高配置，512MB内存1核即可。<br>
+服务器安装好宝塔面板，然后在宝塔面板的软件管理页面安装PM2管理器</p>
+<figure data-type="image" tabindex="1"><img src="https://pic.downk.cc/item/5e7cd60f504f4bcb04de4da8.png" alt="安装pm2管理器" loading="lazy"></figure>
+<p>然后在终端执行命令：</p>
+<pre><code>git clone https://github.com/nondanee/UnblockNeteaseMusic.git
+</code></pre>
+<p>他的默认端口是8080，自己自行更改即可，我没有改，直接弄的8080端口<br>
+修改好后点击安全，放行端口，这就像开门迎客，你门都不开，那怎么让客人来</p>
+<figure data-type="image" tabindex="2"><img src="https://pic.downk.cc/item/5e7cd60f504f4bcb04de4daa.png" alt="开启端口，可以自定义" loading="lazy"></figure>
+<p>回到PM2管理器中，设置，根据下图添加即可</p>
+<figure data-type="image" tabindex="3"><img src="https://pic.downk.cc/item/5e7cd60f504f4bcb04de4dac.png" alt="添加个进程" loading="lazy"></figure>
+<p>记得要给项目添加个名称在点击添加！！<br>
+然后在客户端设置相应的代理，然后确定</p>
+<p><img src="https://pic.downk.cc/item/5e7cd60f504f4bcb04de4daf.png" alt="找到设置" loading="lazy"><br>
+<img src="https://pic.downk.cc/item/5e7cd60f504f4bcb04de4db3.png" alt="设置你的端口和代理ip" loading="lazy"></p>
+<p>好啦！这样就大功告成了，如果还是提示错误，那就要修改host文件了。将前面参数修改为服务器IP</p>
+<pre><code>你的服务器ip music.163.com
+你的服务器ip interface.music.163.com
+</code></pre>
+<p>很多人也许会遇到pm2中的管理进程莫名其妙会自动关闭的现象，其实，这个正常，你的端口冲突了，兄弟!!!也就是说，这个端口正在被占用，你该换一个别的端口去。阿里云服务器的用户，记得打开你所需防火墙的端口，要不然联通能联通，就是没办法加载！！！</p>
 
        </div>
        <div class="post-footer">
         <div class="meta">
          <div class="info">
           <i class="fa fa-sun-o"></i>
-          <span class="date">2020-06-27</span>
+          <span class="date">2020-07-11</span>
           <i class="fa fa-tag"></i>
           
-          <a class="tag" href="https://wonder-zhang.github.io/OVQhcUD1u/" title="摘抄">摘抄 </a>
+          <a class="tag" href="https://wonder-zhang.github.io/HnnDbkxKC/" title="web">web </a>
+          
+          <a class="tag" href="https://wonder-zhang.github.io/MlPEoUGcv/" title="linux">linux </a>
           
          </div>
         </div>
@@ -135,16 +134,14 @@
         <a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
        </div>
        <div class="twitter">
-        <a class="fa fa-twitter" href="http://twitter.com/home?status=,https://wonder-zhang.github.io/vDZWV-_Fh/,;"></a>
+        <a class="fa fa-twitter" href="http://twitter.com/home?status=,https://wonder-zhang.github.io/-mg31HBnu/,;"></a>
        </div>
       </div>
       <div class="pagination">
        <ul class="clearfix">
 
-        <li class="pre pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/bE69FseBr/" title="如何成为一个坚守原则的人？">上一篇</a></li>
-         
         
-        <li class="next pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/nT_5pB_Dm/" title=" 无题">下一篇</a></li>
+        <li class="next pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/56LBmQv-5/" title=" 日常笔记，用picgo搭建图床">下一篇</a></li>
         
        </ul>
       </div>
