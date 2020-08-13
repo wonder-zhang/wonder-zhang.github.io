@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+     <meta charset="utf-8" />
+  <title>wsl安装图形界面——体验有脸有面的图形界面 | wonder&#39;s blog</title>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+   <script src="https://cdn.staticfile.org/highlight.js/9.15.9/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+ </head>
+ <body>
+     <div class="sidebar animated fadeInDown">
+   <div class="logo-title">
+    <div class="title">
+     <img src="https://wonder-zhang.github.io/images/avatar.png?v=1597297170601" style="width:127px;" />
+
+     <h3 title=""><a href="/">wonder</a></h3>
+
+     <div class="description">
+      <p>Stay Hungry. Stay Foolish</p>
+     </div>
+    </div>
+   </div>
+   <ul class="social-links">
+
+
+    <li><a href="https://wonder-zhang.github.io/atom.xml"><i class="fa fa-rss"></i></a></li>
+ 
+    
+
+    
+
+    
+
+    <li><a href="https://github.com/wonder-zhang"><i class="fa fa-github"></i></a></li>
+ 
+    
+
+    
+
+    
+
+    
+
+    <li><a href="https://weibo.com/936659044"><i class="fa fa-weibo"></i></a></li>
+ 
+    
+
+    
+
+    
+
+   </ul>
+   <div class="footer">
+    <div class="by_farbox">
+   Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
+ <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+    </div>
+    
+
+    </div>
+   </div>
+  </div>
+  <div class="main">
+     <div class="page-top animated fadeInDown">
+    <div class="nav">
+    
+     <li><a  href="/">首页</a></li>
+
+     <li><a  href="/archives">归档</a></li>
+
+     <li><a  href="/tags">标签</a></li>
+
+    </div>
+    <div class="information">
+     <div class="back_btn">
+      <li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li>
+     </div>
+    </div>
+   </div>
+   <div class="autopagerize_page_element">
+    <div class="content">
+     <div class="post-page">
+      <div class="post animated fadeInDown">
+       <div class="post-title">
+        <h3><a>wsl安装图形界面——体验有脸有面的图形界面</a></h3>
+       </div>
+       <div class="post-content">
+        <p>不得不说，自动windows支持linux子系统之后，这又使其成为一大卖点。</p>
+<p>首先「Linux」的分发版本非常多，例如有：Ubuntu、openSUSE、SUSE Linux、Fedora、Kali Linux 等等。先拿windows商店中的ubuntu为例。</p>
+<p>1.下载ubuntu子系统</p>
+<p>2.打开控制面板 → 程序和功能 → 启用或关闭 Windows功能 → 适用于 Linux 的 Windows 子系统，选上后，点击确定，等待安装，然后重启系统。</p>
+<p>3.安装完毕后启动 &quot;Ubuntu&quot; 系统，默认是没有图像界面的，因为主要是面向开发者使用。我们先设置一个用户名和密码。</p>
+<p>4.接着修改软件源地址，因为自带的源速度太慢了，这里我建议使用阿里云的源地址。</p>
+<p>为方便编辑源地址，这里推荐大家安装一个 nano 编辑器（别问我为啥不用vim，主要是因为vim在复制的时候总是少），输入下面的命令安装：</p>
+<p><code>sudo apt-get install nano</code></p>
+<p>5.打开 sources.list 源地址文件，输入下面的命令（密码就是root密码，需要自己设置）：</p>
+<p><code>sudo nano /etc/apt/sources.list</code></p>
+<p>6.如果你不需要默认自带的源，可以按快捷键 Ctrl+K 把所有内容都给删除了，如果想保留，可以在自带的源地址前面加上 # 符号注释掉。</p>
+<p>打开阿里云的 Ubuntu 镜像源地址，里面包含有 Ubuntu 16.04 / Ubuntu 18.04 / ubuntu 20.04 的源，选择对应版本添加源。</p>
+<p>阿里云源地址：https://developer.aliyun.com/mirror/ubuntu</p>
+<p>复制源，鼠标右键粘贴，全部添加完毕后，按快捷键 Ctrl+O 回车保存，再按 Ctrl+X 退出。</p>
+<p>7.接着依次输入下面的命令，进行更新源地址和更新包：</p>
+<p><code>sudo apt-get update</code></p>
+<p><code>sudo apt-get upgrade</code></p>
+<p>7.5.如果你有一定的「Linux」知识，这样就算安装完毕了，你可以通过命令来安装应用程序，例如可以装一个「Lnmp」程序用来搭建网站。</p>
+<p>8.安装图形界面</p>
+<p>图形界面有两种方式：本机远程桌面 和 桌面环境，「VcXsrv」桌面环境安装图形界面，无论操作还是体验上都比远程桌面好。</p>
+<p>另外「VcXsrv」是免费开源软件，安装好后运行 &quot;XLaunch&quot;，在界面里选择 &quot;one large window&quot; ，&quot;Display number&quot; 设置为 0 ，然后其它选项默认，一直下一步就行了。</p>
+<p>一直到最后完成，点击 &quot;Save Configuration&quot; 保存设置，会让你保存一个 &quot;config.xlaunch&quot; 的配置文件快捷方式，下次运行这个快捷方式就不用重新设置了。</p>
+<p>9.接着回到 &quot;Ubuntu&quot; 命令行界面，开始安装桌面环境需要的软件，依次输入下面的命令：</p>
+<p><code>sudo apt-get install xfce4-terminal</code></p>
+<p><code>sudo apt-get install xfce4</code></p>
+<p>配置文件：<code>~/.bashrc</code><br>
+直接复制粘贴下面的就行<br>
+echo &quot;export DISPLAY=:0.0&quot; &gt;&gt; ~/.bashrc<br>
+echo &quot;export LIBGL_ALWAYS_INDIRECT=1&quot; &gt;&gt; ~/.bashrc</p>
+<p>10.在WSL 输入：startxfce4，XLaunch窗口就会跳出来以下窗口：<br>
+<a href="https://upload-images.jianshu.io/upload_images/3843091-efe56ee2aec7702d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp" title="startxfce4"><img src="https://upload-images.jianshu.io/upload_images/3843091-efe56ee2aec7702d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp" alt="startxfce4" title="startxfce4" loading="lazy"></a></p>
+<p><strong>备注：</strong><br>
+期间它会让你选择gdm3或者是lightdm<br>
+普及一下<br>
+gdm3，kdm 和 lightdm 都是显示管理器。 它们提供图形化登录并处理用户身份验证。</p>
+<p>从维基文章中：</p>
+<p>显示管理器向用户显示登录屏幕。 当用户成功输入用户名和密码的有效组合时，会话开始。</p>
+<p><strong>gdm3 是 gdm的继承者，它是GNOME显示管理器。 更新的gdm3 使用了最小的gnome-shell 版本，并提供了与GNOME3会话相同的外观和感觉。</strong><br>
+安装：<br>
+复制代码<br>
+<code>sudo apt-get install gdm3</code><br>
+并将它的删除：<br>
+复制代码<br>
+<code>sudo apt-get remove gdm3</code></p>
+<p><strong>kdm 是kde管理器的显示。 但在KDE5中，它被否决为 SDDM，它更适合作为显示管理器，因此在默认情况下，它是在屏幕。</strong></p>
+<p>安装：<br>
+复制代码<br>
+<code>sudo apt-get install sddm</code><br>
+并将它的删除：<br>
+复制代码<br>
+<code>sudo apt-get remove sddm</code></p>
+<p><strong>LightDM用于显示管理器的规范解决方案。 它应该是轻量级的，默认情况下是 Ubuntu。Xubuntu和 Lubuntu。 它是可以配置的，有多种欢迎主题可用。</strong></p>
+<p>安装：<br>
+复制代码<br>
+<code>sudo apt-get install lightdm</code><br>
+并将它的删除：<br>
+复制代码<br>
+<code>sudo apt-get remove lightdm</code></p>
+<p><strong>备注2：</strong><br>
+GDM(GNOME Display Manager)，LightDM(Light Display Manager) 和 KDM(KDE Display Manager) 是为不同版本的Ubuntu配置的管理器。 他们帮助启动X 服务器。用户会话和欢迎( 登录屏幕)。 你可以运行 sudo dpkg-reconfigure gdm 以在 lightdm。gdm和KDM之间进行更改。 安装它们就像 sudo apt-get install <your desired display manager> ( 显示amanger将被 kdm，gdm 和 lightdm 替换。</p>
+
+       </div>
+       <div class="post-footer">
+        <div class="meta">
+         <div class="info">
+          <i class="fa fa-sun-o"></i>
+          <span class="date">2020-08-13</span>
+          <i class="fa fa-tag"></i>
+          
+          <a class="tag" href="https://wonder-zhang.github.io/MlPEoUGcv/" title="linux">linux </a>
+          
+          <a class="tag" href="https://wonder-zhang.github.io/ulBkKQwhp/" title="随笔">随笔 </a>
+          
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="share">
+       <div class="evernote">
+        <a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a>
+       </div>
+       <div class="weibo">
+        <a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+       </div>
+       <div class="twitter">
+        <a class="fa fa-twitter" href="http://twitter.com/home?status=,https://wonder-zhang.github.io/Khx_QbT1T/,;"></a>
+       </div>
+      </div>
+      <div class="pagination">
+       <ul class="clearfix">
+
+        
+        <li class="next pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/uoJLplXal/" title=" 没有追责，“张玉环案”依旧会发生！">下一篇</a></li>
+        
+       </ul>
+      </div>
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '0a75e243e68be28523b4',
+    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
+    repo: 'wonder-zhang.github.io',
+    owner: 'wonder-zhang',
+    admin: ['wonder-zhang'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+          
+        
+     </div>
+    </div>
+   </div>
+  </div>
+  <script src="https://wonder-zhang.github.io/media/scripts/jquery.js"></script>
+  <script src="https://wonder-zhang.github.io/media/scripts/jquery-migrate-1.2.1.min.js"></script>
+  <script src="https://wonder-zhang.github.io/media/scripts/jquery.appear.js"></script>
+
+
+ </body>
+</html>
