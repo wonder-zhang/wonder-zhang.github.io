@@ -2,7 +2,7 @@
 <html lang="zh-CN">
  <head>
      <meta charset="utf-8" />
-  <title>节点订阅 | wonder&#39;s blog</title>
+  <title>aria2安装实录，利用termux实现高速下载 | wonder&#39;s blog</title>
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
   <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -86,45 +86,58 @@
      <div class="post-page">
       <div class="post animated fadeInDown">
        <div class="post-title">
-        <h3><a>节点订阅</a></h3>
+        <h3><a>aria2安装实录，利用termux实现高速下载</a></h3>
        </div>
        <div class="post-content">
-        <h4 id="ssr">ssr</h4>
-<ol>
-<li></li>
-</ol>
-<p>https://raw.githubusercontent.com/ssrsub/ssr/master/ssrsub<br>
-2.<br>
-https://yzzz.ml/freessr/<br>
-3.<br>
-https://raw.githubusercontent.com/AmazingDM/sub/master/ssrshare.com<br>
-4.<br>
-https://haobang.yangwang.workers.dev/<br>
-5.<br>
-http://www.yangwang.tk/<br>
-6.<br>
-https://shadow-socks-share.herokuapp.com/subscribe</p>
-<h4 id="v2ray">v2ray</h4>
-<p>1.二爷：<br>
-https://jiang.netlify.com/<br>
-2.油脸博士:<br>
-https://youlianboshi.netlify.com/<br>
-3.kitsunebi：<br>
-https://raw.githubusercontent.com/eycorsican/rule-sets/master/kitsunebi_sub<br>
-4.ssrsub<br>
-https://raw.githubusercontent.com/ssrsub/ssr/master/v2ray</p>
-<h4 id="proxy代理">proxy代理</h4>
-<p>http://www.live-socks.net/</p>
+        <p>今天用termux尝试安装aria2实现一些文件的高速下载。<br>
+好吧现在开始为了方便我直接用的电脑ssh连接</p>
+<h2 id="ssh连接电脑">ssh连接电脑</h2>
+<p>1.安装openssh<br>
+<code>pkg install openssh</code><br>
+2.开始ssh服务<br>
+<code>sshd</code><br>
+<a href="https://pic.downk.cc/item/5f190f7414195aa594f9d8de.jpg" title="连接"><img src="https://pic.downk.cc/item/5f190f7414195aa594f9d8de.jpg" alt="连接" title="连接" loading="lazy"></a><br>
+3.电脑连接，在这里我用的xshell，termux用的是8022端口<br>
+<a href="https://pic.downk.cc/item/5f190fd614195aa594fa0f20.png" title="电脑连接"><img src="https://pic.downk.cc/item/5f190fd614195aa594fa0f20.png" alt="电脑连接" title="电脑连接" loading="lazy"></a></p>
+<h2 id="现在开始正课">现在开始正课</h2>
+<p>1.升级软件包<code>pkg upgrade</code><br>
+2.然后安装aria2的文件<br>
+<code>pkg install aria2</code><br>
+3.使用la命令找到aria2的配置文件，因为是默认不显示的<br>
+<a href="https://pic.downk.cc/item/5f19107414195aa594fa92d4.png" title="配置文件在这里"><img src="https://pic.downk.cc/item/5f19107414195aa594fa92d4.png" alt="配置文件在这里" title="配置文件在这里" loading="lazy"></a><br>
+4.进入.config里面的aria2目录,并对配置文件进行编辑,省略掉vim aria2 这一行命令，我手快敲错了<br>
+<a href="https://pic.downk.cc/item/5f19114814195aa594fb54d5.png" title="使用vim编辑器，编辑文件"><img src="https://pic.downk.cc/item/5f19114814195aa594fb54d5.png" alt="使用vim编辑器，编辑文件" title="使用vim编辑器，编辑文件" loading="lazy"></a><br>
+5.具体配置文件是这样的（vim编辑器不会用的可以自行百度）<br>
+<a href="https://pic.downk.cc/item/5f19131d14195aa594fd2466.jpg" title="配置文件"><img src="https://pic.downk.cc/item/5f19131d14195aa594fd2466.jpg" alt="配置文件" title="配置文件" loading="lazy"></a><br>
+5.5配置好之后键入如下命令行，是图片中的那样就是启动成功了。<br>
+<code>aria2c --enable-rpc --rpc-listen-all</code><br>
+<a href="https://pic.downk.cc/item/5f194c9114195aa594296efe.png" title="启动成功"><img src="https://pic.downk.cc/item/5f194c9114195aa594296efe.png" alt="启动成功" title="启动成功" loading="lazy"></a></p>
+<p><strong>接下载再次新打开一个窗口</strong></p>
+<p>6.git一下web的下载配置</p>
+<pre><code>git clone https://github.com/ziahamza/webui-aria2.git
+</code></pre>
+<p>7.cd到对应目录<code>cd webui-aria2</code><br>
+8.启动web界面<code>node node-server.js</code><br>
+<a href="https://pic.downk.cc/item/5f1917ca14195aa5940179af.png" title="启动"><img src="https://pic.downk.cc/item/5f1917ca14195aa5940179af.png" alt="启动" title="启动" loading="lazy"></a><br>
+9.在浏览器输入你的ip:8080  并且打开设置&gt;连接设置进行设置。。。。（这话有点绕口啊~）<br>
+<a href="https://pic.downk.cc/item/5f19187214195aa594023958.png" title="填写密码"><img src="https://pic.downk.cc/item/5f19187214195aa594023958.png" alt="填写密码" title="填写密码" loading="lazy"></a><br>
+出现如下字样表示连接成功<br>
+<a href="https://pic.downk.cc/item/5f1918d214195aa59402a772.png" title="连接成功"><img src="https://pic.downk.cc/item/5f1918d214195aa59402a772.png" alt="连接成功" title="连接成功" loading="lazy"></a><br>
+10.进行下载<br>
+<a href="https://pic.downk.cc/item/5f1918fe14195aa59402d86b.png" title="下载"><img src="https://pic.downk.cc/item/5f1918fe14195aa59402d86b.png" alt="下载" title="下载" loading="lazy"></a></p>
+<p>至于为什么要设置密码的说，我也不知道为什么，我只知道不设置密码的话，一直报错，我也很无奈的。</p>
 
        </div>
        <div class="post-footer">
         <div class="meta">
          <div class="info">
           <i class="fa fa-sun-o"></i>
-          <span class="date">2020-06-07</span>
+          <span class="date">2020-08-19</span>
           <i class="fa fa-tag"></i>
           
           <a class="tag" href="https://wonder-zhang.github.io/HnnDbkxKC/" title="web">web </a>
+          
+          <a class="tag" href="https://wonder-zhang.github.io/MlPEoUGcv/" title="linux">linux </a>
           
          </div>
         </div>
@@ -138,16 +151,14 @@ https://raw.githubusercontent.com/ssrsub/ssr/master/v2ray</p>
         <a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
        </div>
        <div class="twitter">
-        <a class="fa fa-twitter" href="http://twitter.com/home?status=,https://wonder-zhang.github.io/jie-dian-ding-yue/,;"></a>
+        <a class="fa fa-twitter" href="http://twitter.com/home?status=,https://wonder-zhang.github.io/sFdvMpOKS/,;"></a>
        </div>
       </div>
       <div class="pagination">
        <ul class="clearfix">
 
-        <li class="pre pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/centos7-chang-yong-ming-ling-ji-he/" title="CentOS7 常用命令集合">上一篇</a></li>
-         
         
-        <li class="next pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/ce-shi/" title=" 我的第一篇GitHub博客">下一篇</a></li>
+        <li class="next pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/Khx_QbT1T/" title=" wsl安装图形界面——体验有脸有面的图形界面">下一篇</a></li>
         
        </ul>
       </div>
