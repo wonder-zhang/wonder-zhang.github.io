@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+     <meta charset="utf-8" />
+  <title>嘿！看看这仨wiondows的包管理组件吧，用惯linux的你保证爱不释手 | wonder&#39;s blog</title>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+   <script src="https://cdn.staticfile.org/highlight.js/9.15.9/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+ </head>
+ <body>
+     <div class="sidebar animated fadeInDown">
+   <div class="logo-title">
+    <div class="title">
+     <img src="https://wonder-zhang.github.io/images/avatar.png?v=1599825791119" style="width:127px;" />
+
+     <h3 title=""><a href="/">wonder</a></h3>
+
+     <div class="description">
+      <p>Stay Hungry. Stay Foolish</p>
+     </div>
+    </div>
+   </div>
+   <ul class="social-links">
+
+
+    <li><a href="https://wonder-zhang.github.io/atom.xml"><i class="fa fa-rss"></i></a></li>
+ 
+    
+
+    
+
+    
+
+    <li><a href="https://github.com/wonder-zhang"><i class="fa fa-github"></i></a></li>
+ 
+    
+
+    
+
+    
+
+    
+
+    <li><a href="https://weibo.com/936659044"><i class="fa fa-weibo"></i></a></li>
+ 
+    
+
+    
+
+    
+
+   </ul>
+   <div class="footer">
+    <div class="by_farbox">
+   Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
+ <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+    </div>
+    
+
+    </div>
+   </div>
+  </div>
+  <div class="main">
+     <div class="page-top animated fadeInDown">
+    <div class="nav">
+    
+     <li><a  href="/">首页</a></li>
+
+     <li><a  href="/archives">归档</a></li>
+
+     <li><a  href="/tags">标签</a></li>
+
+    </div>
+    <div class="information">
+     <div class="back_btn">
+      <li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li>
+     </div>
+    </div>
+   </div>
+   <div class="autopagerize_page_element">
+    <div class="content">
+     <div class="post-page">
+      <div class="post animated fadeInDown">
+       <div class="post-title">
+        <h3><a>嘿！看看这仨wiondows的包管理组件吧，用惯linux的你保证爱不释手</a></h3>
+       </div>
+       <div class="post-content">
+        <p>包管理的设计初衷是为了方便开发者管理和搭建开发环境。用包管理工具能够快速的安装开发工具、开发依赖，从而免去复杂的路径、环境变量等信息的配置。</p>
+<h2 id="winget">winget</h2>
+<p>如果你想启动Windows软件包管理器的话。运行新的“winget”命令就行，语言设置中文，一行winget保证你看的明明白白。</p>
+<p>如果获取要安装的任何应用程序的最新版本。你只需运行“winget install PowerToys”即可安装它，而无需访问Github、第三方网站或Microsoft Store。</p>
+<p>Windows软件包管理器具有自己的软件package feed，由微软创建和维护。用户还可以将新应用添加到程序package feed中，甚至可以从第三方存储库下载应用。</p>
+<p>输入带有应用程序名称的上述命令后，Windows软件包管理器将只下载并安装程序，而无需你进行任何进一步的交互。</p>
+<pre><code>Windows软件包管理器当前支持以下命令：
+
+install –它允许你安装应用程序。
+
+show –显示有关应用程序的信息
+
+source-这将允许你管理应用程序的可用来源。
+
+search–你可以使用它来查找应用程序的基本信息。
+</code></pre>
+<p>如果你有兴趣，可以加入<a href="https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR-NSOqDz219PqoOqk5qxQEZUNFkzQVcxMkJXWEFCUkE4WThQWUJMVlA1Ty4u" title="Windows Insider计划">Windows Insider计划</a>并通过Microsoft Store获得包管理器预览版。</p>
+<p>或者，你可以从[此处](Extension Can't Connect to NeatDownloadManager Application.You Can : 1- Check why NeatDownloadManager is not Running.2- or Hold down Delete-Key and click on your Download link.3- or Disable NeatDownloadManager Extension temporarily. &quot;此处&quot;)手动下载软件包，然后按照以下步骤操作：</p>
+<p>启用开发人员模式（转到设置&gt; Windows更新&gt;开发人员并将其打开。</p>
+<p>双击Windows程序包管理器的应用程序包。</p>
+<p>安装后，打开PowerShell。</p>
+<p><strong>在PowerShell中，键入“winget”以开始使用包管理器。</strong><br>
+<img src="https://pic.downk.cc/item/5f4a6f22160a154a67205bdb.png" alt="" loading="lazy"></p>
+<h2 id="scoop">Scoop</h2>
+<p>Scoop 等一系列包管理器的诞生，第一大便利就是省去了上述繁琐的「搜索 - 下载 - 安装」的步骤，让我们能够通过「一行代码」急速安装。</p>
+<p><strong>scoop 的安装配置</strong><br>
+安装 Scoop 很简单，不过你需要先确定一些基础环境是否符合安装要求：</p>
+<p><strong>Windows 版本不低于 Windows 7<br>
+Windows 中的 PowerShell 版本不低于 PowerShell 3<br>
+你能 正常、快速 的访问 GitHub 并下载上面的资源<br>
+你的 Windows 用户名为英文（Windows 用户环境变量中路径值不支持中文字符）</strong></p>
+<p>之后，打开 PowerShell：</p>
+<p>在 PowerShell 中输入下面内容，保证允许本地脚本的执行：</p>
+<p><code>set-executionpolicy remotesigned -scope currentuser</code><br>
+然后执行下面的命令安装 Scoop：</p>
+<p><code>iex (new-object net.webclient).downloadstring('https://get.scoop.sh')</code></p>
+<p>静待脚本执行完成就可以了，安装成功后，让我们尝试一下：</p>
+<p><code>scoop help</code></p>
+<p><strong>Scoop 基础语法</strong></p>
+<p>「scoop + 动作 + 对象」的语法。其中「对象」是可省略的</p>
+<p>search搜索软件名<br>
+install安装软件<br>
+update更新软件<br>
+status查看软件状态<br>
+uninstall卸载软件<br>
+info查看软件详情<br>
+home打开软件主页</p>
+<p>举几个栗子，比如：</p>
+<p>搜索一下有没有 Firefox 浏览器：<code>scoop search firefox</code></p>
+<p>想要安装 aria2 下载器（我下载过 aria2，所以截图和你的显示可能不太一样）：<code>scoop install aria2</code></p>
+<p>想要看看 Typora 的主页：<code>scoop home typora</code></p>
+<p><strong>Scoop 把软件安装在哪儿？</strong></p>
+<p>Scoop 和 Homebrew 对软件包安装位置有着相同的处理哲学：「下载、安装在用户文件夹下」。具体来讲：</p>
+<p>Scoop 在你的用户根目录（一般是 C:\Users\用户名）下创建了一个名为 scoop 的文件夹，并默认将软件下载安装到这个文件夹下<br>
+Scoop 将软件安装到一个相对隔离的环境下（Each program you install is isolated and independent），从而保证环境的统一和路径不被污染</p>
+<p><strong>scoop 文件夹下的 apps 存放有安装的所有应用。值得一提的是：scoop 是通过 shim 来软链接一些应用，这样的设计让应用之间不会互相干扰，十分方便。</strong></p>
+<h2 id="chocolatey">Chocolatey</h2>
+<p>打开cmd使用管理员权限执行如下命令：</p>
+<pre><code>@powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))&quot; &amp;&amp; SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
+</code></pre>
+<p>打开powell，使用管理员权限执行命令：</p>
+<pre><code>iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
+</code></pre>
+<p>当然了你也可以根据<a href="https://chocolatey.org" title="官网">官网</a>进行<a href="https://chocolatey.org/install" title="安装">安装</a></p>
+<p><strong>使用chocolatey</strong>（一切基于管理员权限，否则会失败报错）</p>
+<p>安装包<br>
+<code>choco install &lt;package&gt;</code><br>
+卸载包<br>
+<code>choco uninstall &lt;package&gt;</code><br>
+更新包<br>
+<code>choco upgrade &lt;package&gt;</code></p>
+<pre><code>// 安装包
+choco install &lt;package&gt;
+// 如果使用 -version 可以指定版本
+
+// 查看安装的包
+choco list -l
+choco list -local-only
+
+// 包的更新，包括chocolatey本身
+choco upgrade &lt;packagename&gt;
+
+// 包的卸载
+choco uninstall
+
+// 包的搜索（我更喜欢去官网的Packages页上搜）
+choco search
+</code></pre>
+<p>当然，如果你不更改他的安装目录的话，他自然会安装在默认的目录下面</p>
+<p>官方文档中虽然有给出--install-directory=value这个参数来修改安装路径，但是这个是要注册（付费）后才能使用的。如果不愿意交钱的话，就只能换个思路。既然是安装在默认路径的，那么我们反其道而行之，修改默认安装路径就行了。</p>
+<p>默认的安装路径在注册表里进行修改。</p>
+<p>直接在开始菜单的搜索框中输入“regedit”，打开注册表。<br>
+展开注册表到下面的分支<code>[HKEY＿LOCAL＿MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion]</code>，在右侧窗口中找到名为“ProgramFilesDir”的字符串，双击把数值“<code>C:\Program Files</code>”修改为你想要的路径，确定退出后即可。（Python似乎默认就是安装在C盘下的，即便这么改也没用）</p>
+<p>文章来源：<br>
+少数派：https://sspai.com/post/52496<br>
+it之家：https://www.ithome.com/0/488/126.htm</p>
+
+       </div>
+       <div class="post-footer">
+        <div class="meta">
+         <div class="info">
+          <i class="fa fa-sun-o"></i>
+          <span class="date">2020-09-11</span>
+          <i class="fa fa-tag"></i>
+          
+          <a class="tag" href="https://wonder-zhang.github.io/flx7wIeEx/" title="windows">windows </a>
+          
+          <a class="tag" href="https://wonder-zhang.github.io/HnnDbkxKC/" title="web">web </a>
+          
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="share">
+       <div class="evernote">
+        <a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a>
+       </div>
+       <div class="weibo">
+        <a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+       </div>
+       <div class="twitter">
+        <a class="fa fa-twitter" href="http://twitter.com/home?status=,https://wonder-zhang.github.io/VW9fCw-4N/,;"></a>
+       </div>
+      </div>
+      <div class="pagination">
+       <ul class="clearfix">
+
+        
+        <li class="next pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/9RUCkrb7I/" title=" Windows Terminal美化界面，优雅的办公带来超高的效率">下一篇</a></li>
+        
+       </ul>
+      </div>
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '0a75e243e68be28523b4',
+    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
+    repo: 'wonder-zhang.github.io',
+    owner: 'wonder-zhang',
+    admin: ['wonder-zhang'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+          
+        
+     </div>
+    </div>
+   </div>
+  </div>
+  <script src="https://wonder-zhang.github.io/media/scripts/jquery.js"></script>
+  <script src="https://wonder-zhang.github.io/media/scripts/jquery-migrate-1.2.1.min.js"></script>
+  <script src="https://wonder-zhang.github.io/media/scripts/jquery.appear.js"></script>
+
+
+ </body>
+</html>
