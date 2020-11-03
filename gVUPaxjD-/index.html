@@ -43,7 +43,6 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
-    
 </head>
 <body>
 
@@ -93,132 +92,75 @@
     </nav>
 </div>
 <div id="content" class="container">
-    <div class="row">
-        <div class="col-sm-100 col-lg-9">
-            <div class="shadow-sm post-detail">
-                <article class="post i-card">
-                    <h2 class="post-title">
-                        节点订阅
-                    </h2>
-                    <div class="post-info">
-                        <time class="post-time">2020-06-07</time>
-                        
-                            <a href="https://wonder-zhang.github.io/HnnDbkxKC/" class="post-tag i-tag
-                            i-tag-other_1">
-                                #web
-                            </a>
-                        
-                    </div>
-                    
-                    <div class="post-content">
-                        <h4 id="ssr">ssr</h4>
-<ol>
-<li></li>
-</ol>
-<p>https://raw.githubusercontent.com/ssrsub/ssr/master/ssrsub<br>
-2.<br>
-https://yzzz.ml/freessr/<br>
-3.<br>
-https://raw.githubusercontent.com/AmazingDM/sub/master/ssrshare.com<br>
-4.<br>
-https://haobang.yangwang.workers.dev/<br>
-5.<br>
-http://www.yangwang.tk/<br>
-6.<br>
-https://shadow-socks-share.herokuapp.com/subscribe</p>
-<h4 id="v2ray">v2ray</h4>
-<p>1.二爷：<br>
-https://jiang.netlify.com/<br>
-2.油脸博士:<br>
-https://youlianboshi.netlify.com/<br>
-3.kitsunebi：<br>
-https://raw.githubusercontent.com/eycorsican/rule-sets/master/kitsunebi_sub<br>
-4.ssrsub<br>
-https://raw.githubusercontent.com/ssrsub/ssr/master/v2ray</p>
-<h4 id="proxy代理">proxy代理</h4>
-<p>http://www.live-socks.net/</p>
-
-                    </div>
-                </article>
-            </div>
-            <div class="row">
-                <div class="next-post col-6">
-                    
-                        <div class="next">上一篇</div>
-                        <a href="https://wonder-zhang.github.io/centos7-chang-yong-ming-ling-ji-he/">
-                            <h3 class="post-title">
-                                CentOS7 常用命令集合
-                            </h3>
-                        </a>
-                    
-                </div>
-                <div class="next-post col-6">
-                    
-                        <div class="next">下一篇</div>
-                        <a href="https://wonder-zhang.github.io/ce-shi/">
-                            <h3 class="post-title">
-                                我的第一篇GitHub博客
-                            </h3>
-                        </a>
-                    
-                </div>
-            </div>
+        <div class="row">
+            <div class="col-sm-100 col-lg-9 index-post-list">
+                
+<article class="post-item row">
+    
+    <div class="post-desc col-sm-12 ">
+        <h2 class="post-title">
+            <a href="https://wonder-zhang.github.io/FDNih6xhq/">
+                比勤奋学习更重要的是学习力
+            </a>
+        </h2>
+        <div class="post-info">
+            <time class="post-time">2020-11-03</time>
+            
+                <a href="https://wonder-zhang.github.io/gVUPaxjD-/" class="post-tag i-tag
+                                i-tag-error">
+                    #学习
+                </a>
+            
+                <a href="https://wonder-zhang.github.io/-8gQxkgd2/" class="post-tag i-tag
+                                i-tag-error">
+                    #左岸
+                </a>
             
         </div>
-        <div class="d-none d-lg-block col-lg-3">
-            
-                <div class="toc-card i-card shadow-sm sticky-top">
-    <div class="toc-title i-card-title">目录</div>
-    <div class="toc-content">
-        <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#ssr">ssr</a></li>
-<li><a href="#v2ray">v2ray</a></li>
-<li><a href="#proxy%E4%BB%A3%E7%90%86">proxy代理</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
+        <div class="post-summary">
+            <div class="post-summary-description">
+                
+                    从来没有一个时代，像今天这样需要不断地、随时随地、快速高效地学习。那种依靠在学校时学到的知识就可以应付一切的时代，已经一去不复返了。
+哈佛商学院的柯比教授认为，以传统的方法去学习，是一个迅速减值的过程；而以学习力去获取知识，则是不断增值的过...
+                
+            </div>
+            <a class="btn-readMore" href="https://wonder-zhang.github.io/FDNih6xhq/">Read More ~</a>
+        </div>
     </div>
-    <script>
-        function locateCatelogList() {
-            /*获取文章目录集合,可通过:header过滤器*/
-            var alis = $('.post-content :header');
-            /*获取侧边栏目录列表集合**/
-            var sidebar_alis = $('.markdownIt-TOC a');
-            /*获取滚动条到顶部的距离*/
-            var scroll_height = $(window).scrollTop();
-            for (var i = 0; i < alis.length; i++) {
-                /*获取锚点集合中的元素分别到顶点的距离*/
-                var a_height = $(alis[i]).offset().top-150;
-                if (a_height < scroll_height) {
-                    /*高亮显示*/
-                    sidebar_alis.removeClass('on');
-                    $(sidebar_alis[i]).addClass('on');
-                }
-            }
-        }
+    
+</article>
 
-        $(function () {
-            /*绑定滚动事件 */
-            $(window).bind('scroll', locateCatelogList);
-        });
-    </script>
+
+            </div>
+            <div class="col-lg-3">
+                
+<div class="id_card i-card">
+    <div class="id_card-avatar"
+         style="background-image: url(https://wonder-zhang.github.io/images/avatar.png?v=1604394479756)">
+    </div>
+    <h1 class="id_card-title">
+        wonder&#39;s blog
+    </h1>
+    <h2 class="id_card-description">
+        Stay Hungry. Stay Foolish
+    </h2>
+    <ul class="id_card-site-info row">
+        <li class="col-6"><a href="https://wonder-zhang.github.io/archives">文章</a></li>
+        <li class="col-6"><a href="https://wonder-zhang.github.io/tags">标签</a></li>
+        <li class="col-6"><a href="https://wonder-zhang.github.io/archives">74</a></li>
+        <li class="col-6"><a href="https://wonder-zhang.github.io/tags">11</a></li>
+    </ul>
+    <div class="id_card-sns">
+         
+        
+    </div>
 </div>
-
-            
+                
+                
+                
+            </div>
         </div>
-    </div>
-    <div class="site-footer">
+        <div class="site-footer">
     Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
  <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
     <i class="ri-rss-line"></i> RSS
@@ -246,7 +188,5 @@ https://raw.githubusercontent.com/ssrsub/ssr/master/v2ray</p>
 
 
 </div>
-
-
 </body>
 </html>
