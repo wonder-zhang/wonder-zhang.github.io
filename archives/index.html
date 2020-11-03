@@ -1,1678 +1,600 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/live2d.css">
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
-    <meta name="description" content="Stay Hungry. Stay Foolish" />
-    <title>wonder's blog</title>
-</head>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>wonder&#39;s blog</title>
+<link rel="shortcut icon" href="https://wonder-zhang.github.io/favicon.ico?v=1604373550487">
+<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+<link href="" rel="stylesheet">
+<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/prism-.css">
 <style>
-    @media screen and (max-width: 1300px) {
-        .archives-content ul li>span {
-            display: none;
-        }
+    @font-face {
+        font-weight: normal;
+        font-style: normal;
+        font-family: 'charganolton';
+        src: url('https://wonder-zhang.github.io/media/fonts/Charganolton.ttf');
+    }
+    @font-face {
+        font-weight: normal;
+        font-style: normal;
+        font-family: 'JetBrainsMono';
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.eot');
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.eot?#iefix') format('embedded-opentype'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.woff2') format('woff2'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.woff') format('woff'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.ttf') format('truetype');
+    }
 
-        .archives-content ul {
-            padding: 0px;
-        }
+    @font-face {
+        font-weight: bold;
+        font-style: normal;
+        font-family: 'JetBrainsMono';
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.eot');
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.eot?#iefix') format('embedded-opentype'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.woff2') format('woff2'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.woff') format('woff'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.ttf') format('truetype');
     }
 </style>
+<link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
 
-<body>
-    <!-- 响应式布局，针对PC端内容显示 -->
-    <div id="content">
-        <div class="nav-large">
-            <div class="row">
-                <div class="side"><head>
-    <meta name="description" content="Stay Hungry. Stay Foolish" />
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
 </head>
-
-
 <body>
+
+<div class="header">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="https://wonder-zhang.github.io">
+                <img src="https://wonder-zhang.github.io/images/avatar.png?v=1604373550487" width="30" height="30"
+                     class="d-inline-block align-top"
+                     alt="">
+                wonder&#39;s blog
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/"
+                                
+                                >首页</a>
+                            </li>
+                        
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/archives"
+                                
+                                >归档</a>
+                            </li>
+                        
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/tags"
+                                
+                                >标签</a>
+                            </li>
+                        
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<div id="content" class="container">
     
 
+<div class="archives-container main-container">
+    <ul class="timeline">
+        
+            <li>
+                <h3 class="year">
+                    2020
+                </h3>
+                <ul class="year-wrapper">
+                    
+                        
+                            <li>
+                                <span class="date">2020-11-02</span>
+                                <a class="title" href="https://wonder-zhang.github.io/zMFNxGCPG/">
+                                    <span>微信：再见了，聊天记录！</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-11-02</span>
+                                <a class="title" href="https://wonder-zhang.github.io/OtA_7G3uT/">
+                                    <span>不敢竞选学生干部，不敢追女生……别让自卑毁了你</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-11-01</span>
+                                <a class="title" href="https://wonder-zhang.github.io/SJwU1RMut/">
+                                    <span>“不要高估你和任何人的关系”</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-10-28</span>
+                                <a class="title" href="https://wonder-zhang.github.io/j8YvrvqDe/">
+                                    <span>不轻易评价一个人，是一种高级修养</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-10-28</span>
+                                <a class="title" href="https://wonder-zhang.github.io/S-OYrRCAc/">
+                                    <span>不迁怒，是一个人的基本修养</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-10-28</span>
+                                <a class="title" href="https://wonder-zhang.github.io/AHl8i13qD/">
+                                    <span>懂得管理情绪的人，更容易拥有好运气</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-10-28</span>
+                                <a class="title" href="https://wonder-zhang.github.io/Am5fpTCsv/">
+                                    <span>懂得尊重，是一个人最有温度的名片</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-10-28</span>
+                                <a class="title" href="https://wonder-zhang.github.io/WPzoRWqLN/">
+                                    <span>“我29岁，没有朋友了。”</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-10-28</span>
+                                <a class="title" href="https://wonder-zhang.github.io/ccvsMYR2S/">
+                                    <span>真正成熟，是从失去开始的</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-10-28</span>
+                                <a class="title" href="https://wonder-zhang.github.io/YlN6jbOlr/">
+                                    <span>天天找我聊天，你是不是喜欢我？</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-10-01</span>
+                                <a class="title" href="https://wonder-zhang.github.io/4QICUytO_/">
+                                    <span>你的实力才是你最强的底气</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-09-11</span>
+                                <a class="title" href="https://wonder-zhang.github.io/ETrhivSBM/">
+                                    <span>在朋友圈，我目睹了一个女孩的消失……</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-09-11</span>
+                                <a class="title" href="https://wonder-zhang.github.io/VW9fCw-4N/">
+                                    <span>嘿！看看这仨wiondows的包管理组件吧，用惯linux的你保证爱不释手</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-09-11</span>
+                                <a class="title" href="https://wonder-zhang.github.io/9RUCkrb7I/">
+                                    <span>Windows Terminal美化界面，优雅的办公带来超高的效率</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-09-11</span>
+                                <a class="title" href="https://wonder-zhang.github.io/ULDDl31VQ/">
+                                    <span>时间，是治愈一切的良药</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-09-11</span>
+                                <a class="title" href="https://wonder-zhang.github.io/nK8eLf6no/">
+                                    <span>让负面情绪产生最高的价值？</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-09-11</span>
+                                <a class="title" href="https://wonder-zhang.github.io/AptUznBf6/">
+                                    <span>与情绪为伴，你被情绪淹没了吗</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-09-11</span>
+                                <a class="title" href="https://wonder-zhang.github.io/vnGAzasiG/">
+                                    <span>网红照很美，但你没教养的样子真丑</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-09-11</span>
+                                <a class="title" href="https://wonder-zhang.github.io/JehiVeexM/">
+                                    <span>记录</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-09-11</span>
+                                <a class="title" href="https://wonder-zhang.github.io/QaE_00t19/">
+                                    <span>用力生活的你，真的很酷！</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-09-11</span>
+                                <a class="title" href="https://wonder-zhang.github.io/9-9rs4iUn/">
+                                    <span>一个人能低调到什么程度？</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-09-01</span>
+                                <a class="title" href="https://wonder-zhang.github.io/zpwLvLoui/">
+                                    <span>大学里最应该做的100件有意义的事！</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-09-01</span>
+                                <a class="title" href="https://wonder-zhang.github.io/1Bn1tmKTd/">
+                                    <span>提升自己生活品质的8件事情！</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-09-01</span>
+                                <a class="title" href="https://wonder-zhang.github.io/PL2458i3a/">
+                                    <span>做一个“生性凉薄”的人，到底有多爽</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-08-23</span>
+                                <a class="title" href="https://wonder-zhang.github.io/n4bKQuF9g/">
+                                    <span>termux安装网站实录</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-08-19</span>
+                                <a class="title" href="https://wonder-zhang.github.io/sFdvMpOKS/">
+                                    <span>aria2安装实录，利用termux实现高速下载</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-08-13</span>
+                                <a class="title" href="https://wonder-zhang.github.io/Khx_QbT1T/">
+                                    <span>wsl安装图形界面——体验有脸有面的图形界面</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-08-07</span>
+                                <a class="title" href="https://wonder-zhang.github.io/uoJLplXal/">
+                                    <span>没有追责，“张玉环案”依旧会发生！</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-08-02</span>
+                                <a class="title" href="https://wonder-zhang.github.io/xC1He9Jay/">
+                                    <span>伪自律，正在麻痹你的人生</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-07-23</span>
+                                <a class="title" href="https://wonder-zhang.github.io/NMUt3sPYb/">
+                                    <span>网红“家暴妆”火了，但我真的欣赏不来</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-07-23</span>
+                                <a class="title" href="https://wonder-zhang.github.io/IilKziw0v/">
+                                    <span>做一个操作系统有多难？</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-07-22</span>
+                                <a class="title" href="https://wonder-zhang.github.io/_4_MYPDyr/">
+                                    <span>中年以后，“三观”比五官更重要</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-07-17</span>
+                                <a class="title" href="https://wonder-zhang.github.io/WcP96vYB_/">
+                                    <span>抬杠，是我见过情商最低的行为</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-07-16</span>
+                                <a class="title" href="https://wonder-zhang.github.io/mGE3ge6JI/">
+                                    <span>承认吧，你不是“佛系”，是懒！</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-07-15</span>
+                                <a class="title" href="https://wonder-zhang.github.io/loxyoX8Gn/">
+                                    <span>你为什么执意想去改变另外一个人呢？</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-07-14</span>
+                                <a class="title" href="https://wonder-zhang.github.io/Dcn-IN-fr/">
+                                    <span>常见端口渗透笔录</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-07-14</span>
+                                <a class="title" href="https://wonder-zhang.github.io/FNn3N6XQI/">
+                                    <span>“你没文化的样子，真掉价”：一场疫情，炸出了多少精神穷人</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-07-11</span>
+                                <a class="title" href="https://wonder-zhang.github.io/-mg31HBnu/">
+                                    <span>自建网易云音乐破版权服务器</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-07-11</span>
+                                <a class="title" href="https://wonder-zhang.github.io/56LBmQv-5/">
+                                    <span>日常笔记，用picgo搭建图床</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-07-09</span>
+                                <a class="title" href="https://wonder-zhang.github.io/1xyUcrkV3/">
+                                    <span>纳兰词——美到极致，唱尽悲欢</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-07-09</span>
+                                <a class="title" href="https://wonder-zhang.github.io/pJZY13XM8/">
+                                    <span>被孤立了应该怎么办？</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-07-09</span>
+                                <a class="title" href="https://wonder-zhang.github.io/po1l6111A/">
+                                    <span>真的有一见钟情吗？</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-07-03</span>
+                                <a class="title" href="https://wonder-zhang.github.io/0XlA53KrG/">
+                                    <span>去欺骗生活</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-06-27</span>
+                                <a class="title" href="https://wonder-zhang.github.io/sYYHlwDxJ/">
+                                    <span>遇见一个好人</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-06-27</span>
+                                <a class="title" href="https://wonder-zhang.github.io/bE69FseBr/">
+                                    <span>如何成为一个坚守原则的人？</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-06-27</span>
+                                <a class="title" href="https://wonder-zhang.github.io/vDZWV-_Fh/">
+                                    <span>有哪些句子曾经激励过你？</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-06-22</span>
+                                <a class="title" href="https://wonder-zhang.github.io/nT_5pB_Dm/">
+                                    <span>无题</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-06-22</span>
+                                <a class="title" href="https://wonder-zhang.github.io/647ro2qFH/">
+                                    <span>借助宝塔使用nginx搭建webdav</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-06-20</span>
+                                <a class="title" href="https://wonder-zhang.github.io/fLL3Pgy4M/">
+                                    <span>你余生的故事</span>
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <span class="date">2020-06-20</span>
+                                <a class="title" href="https://wonder-zhang.github.io/ibTztyIFE/">
+                                    <span>那242个被改写的人生，还是认了吧？</span>
+                                </a>
+                            </li>
+                        
+                    
+                </ul>
 
-
+            </li>
+        
+    </ul>
+</div>
     
-</body>
-<script>
-    //-------------------------------------------------搜索
-    // 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素
-    var searchInput = document.querySelector('.search-input');
-    var searchResults = document.querySelector('.search-results');
-
-    // 申明保存文章的标题、链接、内容的数组变量
-    var searchValue = '',
-        arrItems = [],
-        arrLinks = [],
-        arrTitles = [],
-        arrResults = [],
-        indexItem = [],
-        itemLength = 0;
-    var tmpDiv = document.createElement('div');
-    tmpDiv.className = 'result-item';
-
-    // ajax 的兼容写法
-    var xhr = new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            xml = xhr.responseXML;
-            arrItems = xml.getElementsByTagName('entry');
-            itemLength = arrItems.length;
-            // 遍历并保存所有文章对应的标题、链接、内容到对应的数组中
-            // 同时过滤掉 HTML 标签
-            for (i = 0; i < itemLength; i++) {
-                var link = arrItems[i].getElementsByTagName('link')[0];
-                arrLinks[i] = link.getAttribute("href");
-                arrTitles[i] = arrItems[i].getElementsByTagName('title')[0].
-                childNodes[0].nodeValue.replace(/<.*?>/g, '');
-            }
-        }
-    }
-
-    // 开始获取根目录下 feed.xml 文件内的数据
-    xhr.open('get', '/atom.xml', true);
-    xhr.send();
-
-
-
-    // 输入框内容变化后就开始匹配，可以不用点按钮
-    // 经测试，onkeydown, onchange 等方法效果不太理想，
-    // 存在输入延迟等问题，最后发现触发 input 事件最理想，
-    // 并且可以处理中文输入法拼写的变化
-    searchInput.oninput = function () {
-        setTimeout(searchConfirm, 0);
-    }
-    searchInput.onfocus = function () {
-        searchResults.style.display = 'block';
-    }
-
-    function searchConfirm() {
-        if (searchInput.value == '') {
-            searchResults.style.display = 'none';
-        } else if (searchInput.value.search(/^\s+$/) >= 0) {
-            // 检测输入值全是空白的情况
-            searchInit();
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '请输入有效内容...';
-            searchResults.appendChild(itemDiv);
-        } else {
-            // 合法输入值的情况
-            searchInit();
-            searchValue = searchInput.value;
-            // 在标题、内容中查找
-            searchMatching(arrTitles, searchValue);
-        }
-    }
-
-    // 每次搜索完成后的初始化
-    function searchInit() {
-        arrResults = [];
-        indexItem = [];
-        searchResults.innerHTML = '';
-        searchResults.style.display = 'block';
-    }
-
-    function searchMatching(arr1, input) {
-        // 忽略输入大小写
-        input = new RegExp(input, 'i');
-        // 在所有文章标题、内容中匹配查询值
-        for (i = 0; i < itemLength; i++) {
-            if (arr1[i].search(input) !== -1) {
-                var arr = arr1;
-                indexItem.push(i); // 保存匹配值的索引
-                var indexContent = arr[i].search(input);
-                // 此时 input 为 RegExp 格式 /input/i，转换为原 input 字符串长度
-                var l = input.toString().length - 3;
-                var step = 10;
-
-                // 将匹配到内容的地方进行黄色标记，并包括周围一定数量的文本
-                arrResults.push(arr[i].slice(indexContent - step, indexContent));
-            }
-        }
-
-        // 输出总共匹配到的数目
-        var totalDiv = tmpDiv.cloneNode(true);
-        totalDiv.innerHTML = '<b>总匹配：' + indexItem.length + ' 项<hr></b>';
-        searchResults.appendChild(totalDiv);
-
-        // 未匹配到内容的情况
-        if (indexItem.length == 0) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '未匹配到内容...';
-            searchResults.appendChild(itemDiv);
-        }
-
-        // 将所有匹配内容进行组合
-        for (i = 0; i < arrResults.length; i++) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerHTML = '<b>[' + arrTitles[indexItem[i]] +
-                ']</b><p>' + arrResults[i] + "</p><hr />";
-            itemDiv.setAttribute('onclick', 'changeHref(arrLinks[indexItem[' + i + ']])');
-            searchResults.appendChild(itemDiv);
-        }
-    }
-
-    function changeHref(href) {
-        location.href = href;
-    }
-
-    function showqq() {
-        var qq = document.getElementById("qq").innerHTML;
-        if (qq != '')
-            alert("博主的QQ联系方式为：" + qq);
-        else
-            alert("博主暂未设置QQ联系方式");
-    }
-</script></div>
-                
-                <div id="main" class="col-xs-12 col-sm-7" style="width:50%;margin-top:50px;left:27%">
-                    <body">
-    <div class="archives-content">
+    <div class="pagination-container">
         
         
-        <div class="archives-year">2020</div>
-        <ul>
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/zMFNxGCPG/" class="post">
-                    <div class="archives-title">微信：再见了，聊天记录！</div>
-                    <div class="archives-time">2020-11-02</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-02 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/OtA_7G3uT/" class="post">
-                    <div class="archives-title">不敢竞选学生干部，不敢追女生……别让自卑毁了你</div>
-                    <div class="archives-time">2020-11-02</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-02 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/SJwU1RMut/" class="post">
-                    <div class="archives-title">“不要高估你和任何人的关系”</div>
-                    <div class="archives-time">2020-11-01</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-01 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/j8YvrvqDe/" class="post">
-                    <div class="archives-title">不轻易评价一个人，是一种高级修养</div>
-                    <div class="archives-time">2020-10-28</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-28 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/S-OYrRCAc/" class="post">
-                    <div class="archives-title">不迁怒，是一个人的基本修养</div>
-                    <div class="archives-time">2020-10-28</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-28 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/AHl8i13qD/" class="post">
-                    <div class="archives-title">懂得管理情绪的人，更容易拥有好运气</div>
-                    <div class="archives-time">2020-10-28</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-28 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/Am5fpTCsv/" class="post">
-                    <div class="archives-title">懂得尊重，是一个人最有温度的名片</div>
-                    <div class="archives-time">2020-10-28</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-28 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/WPzoRWqLN/" class="post">
-                    <div class="archives-title">“我29岁，没有朋友了。”</div>
-                    <div class="archives-time">2020-10-28</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-28 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/ccvsMYR2S/" class="post">
-                    <div class="archives-title">真正成熟，是从失去开始的</div>
-                    <div class="archives-time">2020-10-28</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-28 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/YlN6jbOlr/" class="post">
-                    <div class="archives-title">天天找我聊天，你是不是喜欢我？</div>
-                    <div class="archives-time">2020-10-28</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-28 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/4QICUytO_/" class="post">
-                    <div class="archives-title">你的实力才是你最强的底气</div>
-                    <div class="archives-time">2020-10-01</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-01 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/ETrhivSBM/" class="post">
-                    <div class="archives-title">在朋友圈，我目睹了一个女孩的消失……</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/VW9fCw-4N/" class="post">
-                    <div class="archives-title">嘿！看看这仨wiondows的包管理组件吧，用惯linux的你保证爱不释手</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/9RUCkrb7I/" class="post">
-                    <div class="archives-title">Windows Terminal美化界面，优雅的办公带来超高的效率</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/ULDDl31VQ/" class="post">
-                    <div class="archives-title">时间，是治愈一切的良药</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/nK8eLf6no/" class="post">
-                    <div class="archives-title">让负面情绪产生最高的价值？</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/AptUznBf6/" class="post">
-                    <div class="archives-title">与情绪为伴，你被情绪淹没了吗</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/vnGAzasiG/" class="post">
-                    <div class="archives-title">网红照很美，但你没教养的样子真丑</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/JehiVeexM/" class="post">
-                    <div class="archives-title">记录</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/QaE_00t19/" class="post">
-                    <div class="archives-title">用力生活的你，真的很酷！</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/9-9rs4iUn/" class="post">
-                    <div class="archives-title">一个人能低调到什么程度？</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/zpwLvLoui/" class="post">
-                    <div class="archives-title">大学里最应该做的100件有意义的事！</div>
-                    <div class="archives-time">2020-09-01</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-01 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/1Bn1tmKTd/" class="post">
-                    <div class="archives-title">提升自己生活品质的8件事情！</div>
-                    <div class="archives-time">2020-09-01</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-01 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/PL2458i3a/" class="post">
-                    <div class="archives-title">做一个“生性凉薄”的人，到底有多爽</div>
-                    <div class="archives-time">2020-09-01</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-01 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/n4bKQuF9g/" class="post">
-                    <div class="archives-title">termux安装网站实录</div>
-                    <div class="archives-time">2020-08-23</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-08-23 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/sFdvMpOKS/" class="post">
-                    <div class="archives-title">aria2安装实录，利用termux实现高速下载</div>
-                    <div class="archives-time">2020-08-19</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-08-19 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/Khx_QbT1T/" class="post">
-                    <div class="archives-title">wsl安装图形界面——体验有脸有面的图形界面</div>
-                    <div class="archives-time">2020-08-13</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-08-13 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/uoJLplXal/" class="post">
-                    <div class="archives-title">没有追责，“张玉环案”依旧会发生！</div>
-                    <div class="archives-time">2020-08-07</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-08-07 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/xC1He9Jay/" class="post">
-                    <div class="archives-title">伪自律，正在麻痹你的人生</div>
-                    <div class="archives-time">2020-08-02</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-08-02 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/NMUt3sPYb/" class="post">
-                    <div class="archives-title">网红“家暴妆”火了，但我真的欣赏不来</div>
-                    <div class="archives-time">2020-07-23</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-23 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/IilKziw0v/" class="post">
-                    <div class="archives-title">做一个操作系统有多难？</div>
-                    <div class="archives-time">2020-07-23</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-23 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/_4_MYPDyr/" class="post">
-                    <div class="archives-title">中年以后，“三观”比五官更重要</div>
-                    <div class="archives-time">2020-07-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-22 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/WcP96vYB_/" class="post">
-                    <div class="archives-title">抬杠，是我见过情商最低的行为</div>
-                    <div class="archives-time">2020-07-17</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-17 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/mGE3ge6JI/" class="post">
-                    <div class="archives-title">承认吧，你不是“佛系”，是懒！</div>
-                    <div class="archives-time">2020-07-16</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-16 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/loxyoX8Gn/" class="post">
-                    <div class="archives-title">你为什么执意想去改变另外一个人呢？</div>
-                    <div class="archives-time">2020-07-15</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-15 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/Dcn-IN-fr/" class="post">
-                    <div class="archives-title">常见端口渗透笔录</div>
-                    <div class="archives-time">2020-07-14</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-14 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/FNn3N6XQI/" class="post">
-                    <div class="archives-title">“你没文化的样子，真掉价”：一场疫情，炸出了多少精神穷人</div>
-                    <div class="archives-time">2020-07-14</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-14 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/-mg31HBnu/" class="post">
-                    <div class="archives-title">自建网易云音乐破版权服务器</div>
-                    <div class="archives-time">2020-07-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/56LBmQv-5/" class="post">
-                    <div class="archives-title">日常笔记，用picgo搭建图床</div>
-                    <div class="archives-time">2020-07-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/1xyUcrkV3/" class="post">
-                    <div class="archives-title">纳兰词——美到极致，唱尽悲欢</div>
-                    <div class="archives-time">2020-07-09</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-09 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/pJZY13XM8/" class="post">
-                    <div class="archives-title">被孤立了应该怎么办？</div>
-                    <div class="archives-time">2020-07-09</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-09 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/po1l6111A/" class="post">
-                    <div class="archives-title">真的有一见钟情吗？</div>
-                    <div class="archives-time">2020-07-09</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-09 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/0XlA53KrG/" class="post">
-                    <div class="archives-title">去欺骗生活</div>
-                    <div class="archives-time">2020-07-03</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-03 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/sYYHlwDxJ/" class="post">
-                    <div class="archives-title">遇见一个好人</div>
-                    <div class="archives-time">2020-06-27</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-06-27 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/bE69FseBr/" class="post">
-                    <div class="archives-title">如何成为一个坚守原则的人？</div>
-                    <div class="archives-time">2020-06-27</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-06-27 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/vDZWV-_Fh/" class="post">
-                    <div class="archives-title">有哪些句子曾经激励过你？</div>
-                    <div class="archives-time">2020-06-27</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-06-27 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/nT_5pB_Dm/" class="post">
-                    <div class="archives-title">无题</div>
-                    <div class="archives-time">2020-06-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-06-22 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/647ro2qFH/" class="post">
-                    <div class="archives-title">借助宝塔使用nginx搭建webdav</div>
-                    <div class="archives-time">2020-06-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-06-22 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/fLL3Pgy4M/" class="post">
-                    <div class="archives-title">你余生的故事</div>
-                    <div class="archives-time">2020-06-20</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-06-20 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/ibTztyIFE/" class="post">
-                    <div class="archives-title">那242个被改写的人生，还是认了吧？</div>
-                    <div class="archives-time">2020-06-20</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-06-20 -->
-            </li>
-            
-            
-        </ul>
+            <a href="https://wonder-zhang.github.io/archives/page/2" class="btn btn-outline-primary">下一页</a>
         
     </div>
-</body">
-                    <div style="background:white">
-                        <div class="pagi">
-    <ul>
-        
-        <li><a style="width:100px">&nbsp;</a></li>
-        
-                <li><a id="page1">1</a></li>
-                <li><a id="page2" class="active">2</a></li>
-                <li><a id="page3">3</a></li>
-                
-        <li><a href="https://wonder-zhang.github.io/archives/page/2" style="width:100px" id="next">下一页</a></li>
-        
-            </ul>
+
+    <div class="site-footer">
+    Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
+ <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a> | Theme <a href="//github.com/violetfreesia/gridea-theme-Violet" target="_blank">Violet</a>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
-<div id="pagination-prev" style="display:none"> 
+    <script src="https://wonder-zhang.github.io/media/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
-<div id="pagination-next" style="display:none"> https://wonder-zhang.github.io/archives/page/2</div>
-
-
-<script>
-    var prevstr = document.getElementById("pagination-prev").innerHTML;
-    var nextstr = document.getElementById("pagination-next").innerHTML;
-    var page1 = document.getElementById("page1");
-    var page2 = document.getElementById("page2");
-    var page3 = document.getElementById("page3");
-    page1.innerHTML = '-';
-    page2.innerHTML = '1';
-    page3.innerHTML = '-';
-    if (prevstr.length > 5) {
-        if (prevstr.indexOf("page/") != -1) {
-            var prevnum = parseInt(prevstr.split("page/")[1]);
-            page1.innerHTML = prevnum;
-            page2.innerHTML = prevnum + 1;
-        } else {
-            page1.innerHTML = 1;
-            page2.innerHTML = 2;
-        }
-    }
-    if (nextstr.indexOf("page/") != -1) {
-        var nextnum = parseInt(nextstr.split("page/")[1]);
-        page3.innerHTML = nextnum;
-        page2.innerHTML = nextnum - 1;
-    }
-</script>
-                        <div style="padding-bottom:10%"></div>
-                    </div>
-                </div>
-                
-                <div class="col-xs-6 col-sm-2"></div>
-            </div>
-        </div>
-        <div id="bg">
-        </div>
-        <div id="bgchoice" style="display: none">
-            </div>
-            
-            <div id="bgurl" style="display:none"></div>
-               
-    </div>
-
-    <!-- 响应式布局，针对手机端内容显示 -->
-    <div class="nav-small">
-        <head>
-  <!-- 引入Bootstrap核心样式文件 -->
-  <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-</head>
-
-<body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-          data-target="#barmenu" aria-expanded="false" id="barbutton">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="https://wonder-zhang.github.io">wonder&#39;s blog&nbsp;&nbsp;|</a>
-      </div>
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="barmenu">
-        <ul class="nav navbar-nav">
-          
-          
-          <li>
-            <a href="/">
-              首页
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/archives">
-              归档
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/tags">
-              标签
-            </a>
-          </li>
-          
-          
-          
-          
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
-
-
-  <!-- 引入jQuery核心js文件 -->
-  <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script>
-  var btstate = false;
-  var bt = $("#barbutton");
-  var bm = $("#barmenu");
-  bt.click(function(){
-    dropdown();
-  })
-  function dropdown(){
-    console.log(btstate);
-    //下拉
-    if(btstate==false){
-      bt.removeClass("collapsed");
-      bt.attr("aria-expanded","true");
-      bm.attr("aria-expanded","true")
-      bm.fadeIn(700);
-      btstate = true;
-    }
-    else{
-      bt.addClass("collapsed");
-      bt.attr("aria-expanded","false");
-      bm.removeClass("in");
-      bm.hide();
-      bm.attr("aria-expanded","false");
-      btstate = false;
-    }
-  }
-  </script> 
 </body>
-            <div style="margin-top:60px"></div>
-            <body">
-    <div class="archives-content">
-        
-        
-        <div class="archives-year">2020</div>
-        <ul>
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/zMFNxGCPG/" class="post">
-                    <div class="archives-title">微信：再见了，聊天记录！</div>
-                    <div class="archives-time">2020-11-02</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-02 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/OtA_7G3uT/" class="post">
-                    <div class="archives-title">不敢竞选学生干部，不敢追女生……别让自卑毁了你</div>
-                    <div class="archives-time">2020-11-02</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-02 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/SJwU1RMut/" class="post">
-                    <div class="archives-title">“不要高估你和任何人的关系”</div>
-                    <div class="archives-time">2020-11-01</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-01 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/j8YvrvqDe/" class="post">
-                    <div class="archives-title">不轻易评价一个人，是一种高级修养</div>
-                    <div class="archives-time">2020-10-28</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-28 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/S-OYrRCAc/" class="post">
-                    <div class="archives-title">不迁怒，是一个人的基本修养</div>
-                    <div class="archives-time">2020-10-28</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-28 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/AHl8i13qD/" class="post">
-                    <div class="archives-title">懂得管理情绪的人，更容易拥有好运气</div>
-                    <div class="archives-time">2020-10-28</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-28 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/Am5fpTCsv/" class="post">
-                    <div class="archives-title">懂得尊重，是一个人最有温度的名片</div>
-                    <div class="archives-time">2020-10-28</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-28 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/WPzoRWqLN/" class="post">
-                    <div class="archives-title">“我29岁，没有朋友了。”</div>
-                    <div class="archives-time">2020-10-28</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-28 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/ccvsMYR2S/" class="post">
-                    <div class="archives-title">真正成熟，是从失去开始的</div>
-                    <div class="archives-time">2020-10-28</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-28 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/YlN6jbOlr/" class="post">
-                    <div class="archives-title">天天找我聊天，你是不是喜欢我？</div>
-                    <div class="archives-time">2020-10-28</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-28 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/4QICUytO_/" class="post">
-                    <div class="archives-title">你的实力才是你最强的底气</div>
-                    <div class="archives-time">2020-10-01</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-10-01 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/ETrhivSBM/" class="post">
-                    <div class="archives-title">在朋友圈，我目睹了一个女孩的消失……</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/VW9fCw-4N/" class="post">
-                    <div class="archives-title">嘿！看看这仨wiondows的包管理组件吧，用惯linux的你保证爱不释手</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/9RUCkrb7I/" class="post">
-                    <div class="archives-title">Windows Terminal美化界面，优雅的办公带来超高的效率</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/ULDDl31VQ/" class="post">
-                    <div class="archives-title">时间，是治愈一切的良药</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/nK8eLf6no/" class="post">
-                    <div class="archives-title">让负面情绪产生最高的价值？</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/AptUznBf6/" class="post">
-                    <div class="archives-title">与情绪为伴，你被情绪淹没了吗</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/vnGAzasiG/" class="post">
-                    <div class="archives-title">网红照很美，但你没教养的样子真丑</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/JehiVeexM/" class="post">
-                    <div class="archives-title">记录</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/QaE_00t19/" class="post">
-                    <div class="archives-title">用力生活的你，真的很酷！</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/9-9rs4iUn/" class="post">
-                    <div class="archives-title">一个人能低调到什么程度？</div>
-                    <div class="archives-time">2020-09-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/zpwLvLoui/" class="post">
-                    <div class="archives-title">大学里最应该做的100件有意义的事！</div>
-                    <div class="archives-time">2020-09-01</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-01 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/1Bn1tmKTd/" class="post">
-                    <div class="archives-title">提升自己生活品质的8件事情！</div>
-                    <div class="archives-time">2020-09-01</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-01 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/PL2458i3a/" class="post">
-                    <div class="archives-title">做一个“生性凉薄”的人，到底有多爽</div>
-                    <div class="archives-time">2020-09-01</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-09-01 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/n4bKQuF9g/" class="post">
-                    <div class="archives-title">termux安装网站实录</div>
-                    <div class="archives-time">2020-08-23</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-08-23 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/sFdvMpOKS/" class="post">
-                    <div class="archives-title">aria2安装实录，利用termux实现高速下载</div>
-                    <div class="archives-time">2020-08-19</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-08-19 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/Khx_QbT1T/" class="post">
-                    <div class="archives-title">wsl安装图形界面——体验有脸有面的图形界面</div>
-                    <div class="archives-time">2020-08-13</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-08-13 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/uoJLplXal/" class="post">
-                    <div class="archives-title">没有追责，“张玉环案”依旧会发生！</div>
-                    <div class="archives-time">2020-08-07</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-08-07 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/xC1He9Jay/" class="post">
-                    <div class="archives-title">伪自律，正在麻痹你的人生</div>
-                    <div class="archives-time">2020-08-02</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-08-02 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/NMUt3sPYb/" class="post">
-                    <div class="archives-title">网红“家暴妆”火了，但我真的欣赏不来</div>
-                    <div class="archives-time">2020-07-23</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-23 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/IilKziw0v/" class="post">
-                    <div class="archives-title">做一个操作系统有多难？</div>
-                    <div class="archives-time">2020-07-23</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-23 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/_4_MYPDyr/" class="post">
-                    <div class="archives-title">中年以后，“三观”比五官更重要</div>
-                    <div class="archives-time">2020-07-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-22 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/WcP96vYB_/" class="post">
-                    <div class="archives-title">抬杠，是我见过情商最低的行为</div>
-                    <div class="archives-time">2020-07-17</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-17 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/mGE3ge6JI/" class="post">
-                    <div class="archives-title">承认吧，你不是“佛系”，是懒！</div>
-                    <div class="archives-time">2020-07-16</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-16 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/loxyoX8Gn/" class="post">
-                    <div class="archives-title">你为什么执意想去改变另外一个人呢？</div>
-                    <div class="archives-time">2020-07-15</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-15 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/Dcn-IN-fr/" class="post">
-                    <div class="archives-title">常见端口渗透笔录</div>
-                    <div class="archives-time">2020-07-14</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-14 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/FNn3N6XQI/" class="post">
-                    <div class="archives-title">“你没文化的样子，真掉价”：一场疫情，炸出了多少精神穷人</div>
-                    <div class="archives-time">2020-07-14</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-14 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/-mg31HBnu/" class="post">
-                    <div class="archives-title">自建网易云音乐破版权服务器</div>
-                    <div class="archives-time">2020-07-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/56LBmQv-5/" class="post">
-                    <div class="archives-title">日常笔记，用picgo搭建图床</div>
-                    <div class="archives-time">2020-07-11</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-11 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/1xyUcrkV3/" class="post">
-                    <div class="archives-title">纳兰词——美到极致，唱尽悲欢</div>
-                    <div class="archives-time">2020-07-09</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-09 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/pJZY13XM8/" class="post">
-                    <div class="archives-title">被孤立了应该怎么办？</div>
-                    <div class="archives-time">2020-07-09</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-09 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/po1l6111A/" class="post">
-                    <div class="archives-title">真的有一见钟情吗？</div>
-                    <div class="archives-time">2020-07-09</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-09 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/0XlA53KrG/" class="post">
-                    <div class="archives-title">去欺骗生活</div>
-                    <div class="archives-time">2020-07-03</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-07-03 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/sYYHlwDxJ/" class="post">
-                    <div class="archives-title">遇见一个好人</div>
-                    <div class="archives-time">2020-06-27</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-06-27 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/bE69FseBr/" class="post">
-                    <div class="archives-title">如何成为一个坚守原则的人？</div>
-                    <div class="archives-time">2020-06-27</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-06-27 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/vDZWV-_Fh/" class="post">
-                    <div class="archives-title">有哪些句子曾经激励过你？</div>
-                    <div class="archives-time">2020-06-27</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-06-27 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/nT_5pB_Dm/" class="post">
-                    <div class="archives-title">无题</div>
-                    <div class="archives-time">2020-06-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-06-22 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/647ro2qFH/" class="post">
-                    <div class="archives-title">借助宝塔使用nginx搭建webdav</div>
-                    <div class="archives-time">2020-06-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-06-22 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/fLL3Pgy4M/" class="post">
-                    <div class="archives-title">你余生的故事</div>
-                    <div class="archives-time">2020-06-20</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-06-20 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wonder-zhang.github.io/ibTztyIFE/" class="post">
-                    <div class="archives-title">那242个被改写的人生，还是认了吧？</div>
-                    <div class="archives-time">2020-06-20</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-06-20 -->
-            </li>
-            
-            
-        </ul>
-        
-    </div>
-</body">
-            <div class="pagination-container">
-                
-                <a href="#" class="mobile-prevpage"></a>
-                
-                
-                <a href="https://wonder-zhang.github.io/archives/page/2" class="mobile-nextpage">下一页</a>
-                
-            </div>
-            <div style="margin-bottom:60px">&nbsp;</div>
-        </div>
-        <div id="landlord">
-            <div class="message" style="opacity:0"></div>
-            <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
-        </div>
-        <div id="domainname" style="display:none">https://wonder-zhang.github.io</div>
-</body>
-
 </html>
-
-
-<script>
-        var bgchoice=$('#bgchoice').html();
-        var bg = $('#bg');
-        var bgurl = document.getElementById("bgurl").innerHTML;
-        if(bgchoice=='default')
-            for (var i = 0; i < 3; i++)
-                bgurl = bgurl.replace("\\", "/");
-        bg.css("background", "url('" + bgurl + "')");
-</script>

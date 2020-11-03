@@ -1,234 +1,122 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="今天用termux尝试安装aria2实现一些文件的高速下载。
-好吧现在开始为了方便我直接用的电脑ssh连接
-ssh连接电脑
-1.安装openssh
-pkg install openssh
-2.开始ssh服务
-sshd
-
-3.电脑连接，在这里..." />
-    <meta name="keywords" content="web,linux" />
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
-    
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/dracula.min.css">
-              
-    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
-    <script src="https://wonder-zhang.github.io/media/js/clipboard.min.js"></script>
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/live2d.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
-    <!-- 数学公式 -->
-    
-    <title>wonder's blog</title>
-    
-    <style>
-        .markdownIt-TOC {
-            padding-left: 2px;
-            width: 100%;
-        }
-        .markdownIt-TOC li{
-            padding-left: 2%;
-        }
-    </style>
-    
-</head>
-
-<body>
-    <!-- 响应式布局，针对PC端内容显示 -->
-    <div id="content">
-        <div class="nav-large">
-            <div class="row">
-                <div class="side"><head>
-    <meta name="description" content="Stay Hungry. Stay Foolish" />
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-</head>
-
-
-<body>
-    
-
-
-
-    
-</body>
-<script>
-    //-------------------------------------------------搜索
-    // 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素
-    var searchInput = document.querySelector('.search-input');
-    var searchResults = document.querySelector('.search-results');
-
-    // 申明保存文章的标题、链接、内容的数组变量
-    var searchValue = '',
-        arrItems = [],
-        arrLinks = [],
-        arrTitles = [],
-        arrResults = [],
-        indexItem = [],
-        itemLength = 0;
-    var tmpDiv = document.createElement('div');
-    tmpDiv.className = 'result-item';
-
-    // ajax 的兼容写法
-    var xhr = new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            xml = xhr.responseXML;
-            arrItems = xml.getElementsByTagName('entry');
-            itemLength = arrItems.length;
-            // 遍历并保存所有文章对应的标题、链接、内容到对应的数组中
-            // 同时过滤掉 HTML 标签
-            for (i = 0; i < itemLength; i++) {
-                var link = arrItems[i].getElementsByTagName('link')[0];
-                arrLinks[i] = link.getAttribute("href");
-                arrTitles[i] = arrItems[i].getElementsByTagName('title')[0].
-                childNodes[0].nodeValue.replace(/<.*?>/g, '');
-            }
-        }
-    }
-
-    // 开始获取根目录下 feed.xml 文件内的数据
-    xhr.open('get', '/atom.xml', true);
-    xhr.send();
-
-
-
-    // 输入框内容变化后就开始匹配，可以不用点按钮
-    // 经测试，onkeydown, onchange 等方法效果不太理想，
-    // 存在输入延迟等问题，最后发现触发 input 事件最理想，
-    // 并且可以处理中文输入法拼写的变化
-    searchInput.oninput = function () {
-        setTimeout(searchConfirm, 0);
-    }
-    searchInput.onfocus = function () {
-        searchResults.style.display = 'block';
-    }
-
-    function searchConfirm() {
-        if (searchInput.value == '') {
-            searchResults.style.display = 'none';
-        } else if (searchInput.value.search(/^\s+$/) >= 0) {
-            // 检测输入值全是空白的情况
-            searchInit();
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '请输入有效内容...';
-            searchResults.appendChild(itemDiv);
-        } else {
-            // 合法输入值的情况
-            searchInit();
-            searchValue = searchInput.value;
-            // 在标题、内容中查找
-            searchMatching(arrTitles, searchValue);
-        }
-    }
-
-    // 每次搜索完成后的初始化
-    function searchInit() {
-        arrResults = [];
-        indexItem = [];
-        searchResults.innerHTML = '';
-        searchResults.style.display = 'block';
-    }
-
-    function searchMatching(arr1, input) {
-        // 忽略输入大小写
-        input = new RegExp(input, 'i');
-        // 在所有文章标题、内容中匹配查询值
-        for (i = 0; i < itemLength; i++) {
-            if (arr1[i].search(input) !== -1) {
-                var arr = arr1;
-                indexItem.push(i); // 保存匹配值的索引
-                var indexContent = arr[i].search(input);
-                // 此时 input 为 RegExp 格式 /input/i，转换为原 input 字符串长度
-                var l = input.toString().length - 3;
-                var step = 10;
-
-                // 将匹配到内容的地方进行黄色标记，并包括周围一定数量的文本
-                arrResults.push(arr[i].slice(indexContent - step, indexContent));
-            }
-        }
-
-        // 输出总共匹配到的数目
-        var totalDiv = tmpDiv.cloneNode(true);
-        totalDiv.innerHTML = '<b>总匹配：' + indexItem.length + ' 项<hr></b>';
-        searchResults.appendChild(totalDiv);
-
-        // 未匹配到内容的情况
-        if (indexItem.length == 0) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '未匹配到内容...';
-            searchResults.appendChild(itemDiv);
-        }
-
-        // 将所有匹配内容进行组合
-        for (i = 0; i < arrResults.length; i++) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerHTML = '<b>[' + arrTitles[indexItem[i]] +
-                ']</b><p>' + arrResults[i] + "</p><hr />";
-            itemDiv.setAttribute('onclick', 'changeHref(arrLinks[indexItem[' + i + ']])');
-            searchResults.appendChild(itemDiv);
-        }
-    }
-
-    function changeHref(href) {
-        location.href = href;
-    }
-
-    function showqq() {
-        var qq = document.getElementById("qq").innerHTML;
-        if (qq != '')
-            alert("博主的QQ联系方式为：" + qq);
-        else
-            alert("博主暂未设置QQ联系方式");
-    }
-</script></div>
-    
-    <div id="main" class="col-xs-12 col-sm-7" style="width:50%;margin-top:50px;left:27%">
-        <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>wonder&#39;s blog</title>
+<link rel="shortcut icon" href="https://wonder-zhang.github.io/favicon.ico?v=1604373550487">
+<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+<link href="" rel="stylesheet">
+<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/prism-.css">
 <style>
+    @font-face {
+        font-weight: normal;
+        font-style: normal;
+        font-family: 'charganolton';
+        src: url('https://wonder-zhang.github.io/media/fonts/Charganolton.ttf');
+    }
+    @font-face {
+        font-weight: normal;
+        font-style: normal;
+        font-family: 'JetBrainsMono';
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.eot');
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.eot?#iefix') format('embedded-opentype'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.woff2') format('woff2'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.woff') format('woff'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.ttf') format('truetype');
+    }
 
+    @font-face {
+        font-weight: bold;
+        font-style: normal;
+        font-family: 'JetBrainsMono';
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.eot');
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.eot?#iefix') format('embedded-opentype'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.woff2') format('woff2'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.woff') format('woff'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.ttf') format('truetype');
+    }
 </style>
+<link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
 
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    
+</head>
 <body>
-    <div class="allcontent" id="postdetail">
-        <div class="postshow">
-            
-            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
-                
-                <img src="" class="postimage">
-                
-            </div>
-            <div class="postinfo-detail">
-                <div class="postdate"><i class="fa fa-calendar"></i>2020-08-19</div>
-            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 2 min read</div>
-            <div class="posttag">
-                
-                <a href="https://wonder-zhang.github.io/HnnDbkxKC/" class="postlink">
-                    <i class="fa fa-tag"></i> web
-                </a>
-                
-                <a href="https://wonder-zhang.github.io/MlPEoUGcv/" class="postlink">
-                    <i class="fa fa-tag"></i> linux
-                </a>
-                
+
+<div class="header">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="https://wonder-zhang.github.io">
+                <img src="https://wonder-zhang.github.io/images/avatar.png?v=1604373550487" width="30" height="30"
+                     class="d-inline-block align-top"
+                     alt="">
+                wonder&#39;s blog
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/"
+                                
+                                >首页</a>
+                            </li>
+                        
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/archives"
+                                
+                                >归档</a>
+                            </li>
+                        
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/tags"
+                                
+                                >标签</a>
+                            </li>
+                        
+                    
+                </ul>
             </div>
         </div>
-        
-        <div id="texttitle" style="text-align: center">
-            <h2>aria2安装实录，利用termux实现高速下载</h2>
-            <!-- id 将作为查询条件 -->
-            <div id="pl" style="display:none">https://wonder-zhang.github.io/sFdvMpOKS/</div>
-            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
-            <span id="hotnum" class="leancloud_visitors" data-flag-title="aria2安装实录，利用termux实现高速下载">
-                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
-            </span>
-        </div>
-        <div class="text ">
-            <p>今天用termux尝试安装aria2实现一些文件的高速下载。<br>
+    </nav>
+</div>
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-sm-100 col-lg-9">
+            <div class="shadow-sm post-detail">
+                <article class="post i-card">
+                    <h2 class="post-title">
+                        aria2安装实录，利用termux实现高速下载
+                    </h2>
+                    <div class="post-info">
+                        <time class="post-time">2020-08-19</time>
+                        
+                            <a href="https://wonder-zhang.github.io/HnnDbkxKC/" class="post-tag i-tag
+                            i-tag-warning">
+                                #web
+                            </a>
+                        
+                            <a href="https://wonder-zhang.github.io/MlPEoUGcv/" class="post-tag i-tag
+                            i-tag-primary">
+                                #linux
+                            </a>
+                        
+                    </div>
+                    
+                    <div class="post-content">
+                        <p>今天用termux尝试安装aria2实现一些文件的高速下载。<br>
 好吧现在开始为了方便我直接用的电脑ssh连接</p>
 <h2 id="ssh连接电脑">ssh连接电脑</h2>
 <p>1.安装openssh<br>
@@ -266,98 +154,39 @@ sshd
 <a href="https://pic.downk.cc/item/5f1918fe14195aa59402d86b.png" title="下载"><img src="https://pic.downk.cc/item/5f1918fe14195aa59402d86b.png" alt="下载" title="下载" loading="lazy"></a></p>
 <p>至于为什么要设置密码的说，我也不知道为什么，我只知道不设置密码的话，一直报错，我也很无奈的。</p>
 
-        </div>
-        
-        <div class="prev-post">
-            上一篇
-            <a href="https://wonder-zhang.github.io/n4bKQuF9g/">
-                termux安装网站实录
-            </a>
-        </div>
-        
-        
-        <div class="next-post">
-            下一篇
-            <a href="https://wonder-zhang.github.io/Khx_QbT1T/">
-                wsl安装图形界面——体验有脸有面的图形界面
-            </a>
-        </div>
-        
-    </div>
-    </div>
-</body>
-<script>
-    var t_img; // 定时�?
-    var isLoad = true; // 控制变量
-    isImgLoad(function () {
-        // 加载完成
-        $('.postdetailimg').css("display", "block");
-    });
-    // 判断图片加载的函�?
-    function isImgLoad(callback) {
-        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
-        // 查找所有封面图，迭代�?�理
-        $('.postdetailimg').each(function () {
-            // 找到�?0就将isLoad设为false，并退出each
-            if (this.height === 0) {
-                isLoad = false;
-                return false;
-            }
-        });
-        // 为true，没有发现为0的。加载完�?
-        if (isLoad) {
-            clearTimeout(t_img); // 清除定时�?
-            // 回调函数
-            callback();
-            // 为false，因为找到了没有加载完成的图，将调用定时器递归
-        } else {
-            isLoad = true;
-            t_img = setTimeout(function () {
-                isImgLoad(callback); // 递归�?�?
-            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
-        }
-    }
-
-    //文章阅读热度
-    var pl = $("#pl").html();
-    var rootaddr = $("#rootaddr").html();
-    pl = pl.replace(rootaddr, "");
-    $("#hotnum").attr('id', pl);
-</script>
-        <div name="comment" style="background: white">
-            <div class="commentcontainer">
-                
-                
-                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-<div id="gitalk-container"></div>
-
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: '0a75e243e68be28523b4',
-    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
-    repo: 'wonder-zhang.github.io',
-    owner: 'wonder-zhang',
-    admin: ['wonder-zhang'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-                
-                
-                
+                    </div>
+                </article>
             </div>
+            <div class="row">
+                <div class="next-post col-6">
+                    
+                        <div class="next">上一篇</div>
+                        <a href="https://wonder-zhang.github.io/n4bKQuF9g/">
+                            <h3 class="post-title">
+                                termux安装网站实录
+                            </h3>
+                        </a>
+                    
+                </div>
+                <div class="next-post col-6">
+                    
+                        <div class="next">下一篇</div>
+                        <a href="https://wonder-zhang.github.io/Khx_QbT1T/">
+                            <h3 class="post-title">
+                                wsl安装图形界面——体验有脸有面的图形界面
+                            </h3>
+                        </a>
+                    
+                </div>
+            </div>
+            
         </div>
-    </div>
-     
-                <div class="toc-container">
-                    <ul class="markdownIt-TOC">
+        <div class="d-none d-lg-block col-lg-3">
+            
+                <div class="toc-card i-card shadow-sm sticky-top">
+    <div class="toc-title i-card-title">目录</div>
+    <div class="toc-content">
+        <ul class="markdownIt-TOC">
 <li>
 <ul>
 <li><a href="#ssh%E8%BF%9E%E6%8E%A5%E7%94%B5%E8%84%91">ssh连接电脑</a></li>
@@ -367,337 +196,64 @@ sshd
 </ul>
 
     </div>
-    </div>
-    </div>
-    <div class="toggleContainer">
-        <div class="toggle">
-            <i class="fas fa-angle-double-up"></i>
-        </div>
-    </div>
-    <div id="bg">
-    </div>
-    <div id="bgchoice" style="display: none"></div>
-    
-    <div id="bgurl" style="display:none"></div>
-       
-    </div>
-    <!-- 响应式布局，针对手机端内容显示 -->
-    <div class="nav-small">
-        <head>
-  <!-- 引入Bootstrap核心样式文件 -->
-  <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-</head>
-
-<body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-          data-target="#barmenu" aria-expanded="false" id="barbutton">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="https://wonder-zhang.github.io">wonder&#39;s blog&nbsp;&nbsp;|</a>
-      </div>
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="barmenu">
-        <ul class="nav navbar-nav">
-          
-          
-          <li>
-            <a href="/">
-              首页
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/archives">
-              归档
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/tags">
-              标签
-            </a>
-          </li>
-          
-          
-          
-          
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
-
-
-  <!-- 引入jQuery核心js文件 -->
-  <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script>
-  var btstate = false;
-  var bt = $("#barbutton");
-  var bm = $("#barmenu");
-  bt.click(function(){
-    dropdown();
-  })
-  function dropdown(){
-    console.log(btstate);
-    //下拉
-    if(btstate==false){
-      bt.removeClass("collapsed");
-      bt.attr("aria-expanded","true");
-      bm.attr("aria-expanded","true")
-      bm.fadeIn(700);
-      btstate = true;
-    }
-    else{
-      bt.addClass("collapsed");
-      bt.attr("aria-expanded","false");
-      bm.removeClass("in");
-      bm.hide();
-      bm.attr("aria-expanded","false");
-      btstate = false;
-    }
-  }
-  </script> 
-</body>
-    <div style="margin-top:30px"></div>
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
-<style>
-
-</style>
-
-<body>
-    <div class="allcontent" id="postdetail">
-        <div class="postshow">
-            
-            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
-                
-                <img src="" class="postimage">
-                
-            </div>
-            <div class="postinfo-detail">
-                <div class="postdate"><i class="fa fa-calendar"></i>2020-08-19</div>
-            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 2 min read</div>
-            <div class="posttag">
-                
-                <a href="https://wonder-zhang.github.io/HnnDbkxKC/" class="postlink">
-                    <i class="fa fa-tag"></i> web
-                </a>
-                
-                <a href="https://wonder-zhang.github.io/MlPEoUGcv/" class="postlink">
-                    <i class="fa fa-tag"></i> linux
-                </a>
-                
-            </div>
-        </div>
-        
-        <div id="texttitle" style="text-align: center">
-            <h2>aria2安装实录，利用termux实现高速下载</h2>
-            <!-- id 将作为查询条件 -->
-            <div id="pl" style="display:none">https://wonder-zhang.github.io/sFdvMpOKS/</div>
-            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
-            <span id="hotnum" class="leancloud_visitors" data-flag-title="aria2安装实录，利用termux实现高速下载">
-                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
-            </span>
-        </div>
-        <div class="text ">
-            <p>今天用termux尝试安装aria2实现一些文件的高速下载。<br>
-好吧现在开始为了方便我直接用的电脑ssh连接</p>
-<h2 id="ssh连接电脑">ssh连接电脑</h2>
-<p>1.安装openssh<br>
-<code>pkg install openssh</code><br>
-2.开始ssh服务<br>
-<code>sshd</code><br>
-<a href="https://pic.downk.cc/item/5f190f7414195aa594f9d8de.jpg" title="连接"><img src="https://pic.downk.cc/item/5f190f7414195aa594f9d8de.jpg" alt="连接" title="连接" loading="lazy"></a><br>
-3.电脑连接，在这里我用的xshell，termux用的是8022端口<br>
-<a href="https://pic.downk.cc/item/5f190fd614195aa594fa0f20.png" title="电脑连接"><img src="https://pic.downk.cc/item/5f190fd614195aa594fa0f20.png" alt="电脑连接" title="电脑连接" loading="lazy"></a></p>
-<h2 id="现在开始正课">现在开始正课</h2>
-<p>1.升级软件包<code>pkg upgrade</code><br>
-2.然后安装aria2的文件<br>
-<code>pkg install aria2</code><br>
-3.使用la命令找到aria2的配置文件，因为是默认不显示的<br>
-<a href="https://pic.downk.cc/item/5f19107414195aa594fa92d4.png" title="配置文件在这里"><img src="https://pic.downk.cc/item/5f19107414195aa594fa92d4.png" alt="配置文件在这里" title="配置文件在这里" loading="lazy"></a><br>
-4.进入.config里面的aria2目录,并对配置文件进行编辑,省略掉vim aria2 这一行命令，我手快敲错了<br>
-<a href="https://pic.downk.cc/item/5f19114814195aa594fb54d5.png" title="使用vim编辑器，编辑文件"><img src="https://pic.downk.cc/item/5f19114814195aa594fb54d5.png" alt="使用vim编辑器，编辑文件" title="使用vim编辑器，编辑文件" loading="lazy"></a><br>
-5.具体配置文件是这样的（vim编辑器不会用的可以自行百度）<br>
-<a href="https://pic.downk.cc/item/5f19131d14195aa594fd2466.jpg" title="配置文件"><img src="https://pic.downk.cc/item/5f19131d14195aa594fd2466.jpg" alt="配置文件" title="配置文件" loading="lazy"></a><br>
-5.5配置好之后键入如下命令行，是图片中的那样就是启动成功了。<br>
-<code>aria2c --enable-rpc --rpc-listen-all</code><br>
-<a href="https://pic.downk.cc/item/5f194c9114195aa594296efe.png" title="启动成功"><img src="https://pic.downk.cc/item/5f194c9114195aa594296efe.png" alt="启动成功" title="启动成功" loading="lazy"></a></p>
-<p><strong>接下载再次新打开一个窗口</strong></p>
-<p>6.git一下web的下载配置</p>
-<pre><code>git clone https://github.com/ziahamza/webui-aria2.git
-</code></pre>
-<p>7.cd到对应目录<code>cd webui-aria2</code><br>
-8.启动web界面<code>node node-server.js</code><br>
-<a href="https://pic.downk.cc/item/5f1917ca14195aa5940179af.png" title="启动"><img src="https://pic.downk.cc/item/5f1917ca14195aa5940179af.png" alt="启动" title="启动" loading="lazy"></a><br>
-9.在浏览器输入你的ip:8080  并且打开设置&gt;连接设置进行设置。。。。（这话有点绕口啊~）<br>
-<a href="https://pic.downk.cc/item/5f19187214195aa594023958.png" title="填写密码"><img src="https://pic.downk.cc/item/5f19187214195aa594023958.png" alt="填写密码" title="填写密码" loading="lazy"></a><br>
-出现如下字样表示连接成功<br>
-<a href="https://pic.downk.cc/item/5f1918d214195aa59402a772.png" title="连接成功"><img src="https://pic.downk.cc/item/5f1918d214195aa59402a772.png" alt="连接成功" title="连接成功" loading="lazy"></a><br>
-10.进行下载<br>
-<a href="https://pic.downk.cc/item/5f1918fe14195aa59402d86b.png" title="下载"><img src="https://pic.downk.cc/item/5f1918fe14195aa59402d86b.png" alt="下载" title="下载" loading="lazy"></a></p>
-<p>至于为什么要设置密码的说，我也不知道为什么，我只知道不设置密码的话，一直报错，我也很无奈的。</p>
-
-        </div>
-        
-        <div class="prev-post">
-            上一篇
-            <a href="https://wonder-zhang.github.io/n4bKQuF9g/">
-                termux安装网站实录
-            </a>
-        </div>
-        
-        
-        <div class="next-post">
-            下一篇
-            <a href="https://wonder-zhang.github.io/Khx_QbT1T/">
-                wsl安装图形界面——体验有脸有面的图形界面
-            </a>
-        </div>
-        
-    </div>
-    </div>
-</body>
-<script>
-    var t_img; // 定时�?
-    var isLoad = true; // 控制变量
-    isImgLoad(function () {
-        // 加载完成
-        $('.postdetailimg').css("display", "block");
-    });
-    // 判断图片加载的函�?
-    function isImgLoad(callback) {
-        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
-        // 查找所有封面图，迭代�?�理
-        $('.postdetailimg').each(function () {
-            // 找到�?0就将isLoad设为false，并退出each
-            if (this.height === 0) {
-                isLoad = false;
-                return false;
-            }
-        });
-        // 为true，没有发现为0的。加载完�?
-        if (isLoad) {
-            clearTimeout(t_img); // 清除定时�?
-            // 回调函数
-            callback();
-            // 为false，因为找到了没有加载完成的图，将调用定时器递归
-        } else {
-            isLoad = true;
-            t_img = setTimeout(function () {
-                isImgLoad(callback); // 递归�?�?
-            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
-        }
-    }
-
-    //文章阅读热度
-    var pl = $("#pl").html();
-    var rootaddr = $("#rootaddr").html();
-    pl = pl.replace(rootaddr, "");
-    $("#hotnum").attr('id', pl);
-</script>
-    <div name="comment" style="background: white;margin-top:100px">
-        <div class="commentcontainer">
-            
-            
-            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-<div id="gitalk-container"></div>
-
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: '0a75e243e68be28523b4',
-    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
-    repo: 'wonder-zhang.github.io',
-    owner: 'wonder-zhang',
-    admin: ['wonder-zhang'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-            
-            
-            
-        </div>
-    </div>
-    </div>
-    <div id="landlord">
-        <div class="message" style="opacity:0"></div>
-        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
-    </div>
-    <div id="codeCopyText" style="display: none"></div>
-    <div id="domainname" style="display:none">https://wonder-zhang.github.io</div>
-    </body>
-    <script src="https://wonder-zhang.github.io/media/js/post.js"></script>
     <script>
-        //寻找所有code标签，加复制按钮鸭！(行内代码除外)
-        var codes = document.getElementsByTagName('code');
-        if (codes.length) {
-            for (var i = 0; i < codes.length; i++) {
-                //高度/行高=文本行数
-                // var rowNum=Math.round(codes[i].height()/parseFloat(codes[i].css('line-height')));
-                // console.log("当前有"+rowNum+"行");
-                var code_id = "code_id_" + i;
-                codes[i].setAttribute("id", code_id);
-                var ci = "#" + code_id;
-                var codedot = $(ci);
-                var rowNum = Math.round(codedot.height() / parseFloat(codedot.css('line-height')));
-                if (rowNum <= 1) continue;
-                var btn = document.createElement("button");
-                btn.setAttribute("class", "copybt");
-                btn.setAttribute("data-clipboard-target", "#" + code_id);
-                btn.innerHTML = '复制代码';
-                codes[i].parentNode.insertBefore(btn, codes[i]);
+        function locateCatelogList() {
+            /*获取文章目录集合,可通过:header过滤器*/
+            var alis = $('.post-content :header');
+            /*获取侧边栏目录列表集合**/
+            var sidebar_alis = $('.markdownIt-TOC a');
+            /*获取滚动条到顶部的距离*/
+            var scroll_height = $(window).scrollTop();
+            for (var i = 0; i < alis.length; i++) {
+                /*获取锚点集合中的元素分别到顶点的距离*/
+                var a_height = $(alis[i]).offset().top-150;
+                if (a_height < scroll_height) {
+                    /*高亮显示*/
+                    sidebar_alis.removeClass('on');
+                    $(sidebar_alis[i]).addClass('on');
+                }
             }
-        };
-        var cop = new ClipboardJS('.copybt');
-        var codeCopyText = $("#codeCopyText").html();
-        cop.on('success', function (e) {
-            alert(codeCopyText);
-            e.clearSelection();
-        });
-        cop.on('error', function (e) {
-            alert("矮油，复制失败了...手动复制吧勇士！");
-            e.clearSelection();
+        }
+
+        $(function () {
+            /*绑定滚动事件 */
+            $(window).bind('scroll', locateCatelogList);
         });
     </script>
-    
-<script>
-$(function () {
-    $('.toggleContainer').click(function(){$('html,body').animate({scrollTop: '0px'}, 800);});
-	$(window).scroll(function() {
-        var st = $(window).scrollTop();
-        if(st > 30){
-            $(".toggleContainer").fadeIn(400);
-        }else{
-            $(".toggleContainer").fadeOut(100);
-        }
-	});
-});
-</script>
+</div>
 
-<script>
-        var bgchoice=$('#bgchoice').html();
-        var bg = $('#bg');
-        var bgurl = document.getElementById("bgurl").innerHTML;
-        if(bgchoice=='default')
-            for (var i = 0; i < 3; i++)
-                bgurl = bgurl.replace("\\", "/");
-        bg.css("background", "url('" + bgurl + "')");
-</script>
+            
+        </div>
+    </div>
+    <div class="site-footer">
+    Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
+ <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a> | Theme <a href="//github.com/violetfreesia/gridea-theme-Violet" target="_blank">Violet</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://wonder-zhang.github.io/media/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</body>
+</html>

@@ -1,570 +1,117 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="常用命令文件与目录操作
-cd /home 进入 ‘/home’ 目录
-cd .. 返回上一级目录
-cd ../.. 返回上两级目录
-cd – 返回上次所在目录
-cp file1 file2 将file1复制为file2
-cp -a dir1..." />
-    <meta name="keywords" content="linux" />
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
-    
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/dracula.min.css">
-              
-    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
-    <script src="https://wonder-zhang.github.io/media/js/clipboard.min.js"></script>
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/live2d.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
-    <!-- 数学公式 -->
-    
-    <title>wonder's blog</title>
-    
-    <style>
-        .markdownIt-TOC {
-            padding-left: 2px;
-            width: 100%;
-        }
-        .markdownIt-TOC li{
-            padding-left: 2%;
-        }
-    </style>
-    
-</head>
-
-<body>
-    <!-- 响应式布局，针对PC端内容显示 -->
-    <div id="content">
-        <div class="nav-large">
-            <div class="row">
-                <div class="side"><head>
-    <meta name="description" content="Stay Hungry. Stay Foolish" />
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-</head>
-
-
-<body>
-    
-
-
-
-    
-</body>
-<script>
-    //-------------------------------------------------搜索
-    // 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素
-    var searchInput = document.querySelector('.search-input');
-    var searchResults = document.querySelector('.search-results');
-
-    // 申明保存文章的标题、链接、内容的数组变量
-    var searchValue = '',
-        arrItems = [],
-        arrLinks = [],
-        arrTitles = [],
-        arrResults = [],
-        indexItem = [],
-        itemLength = 0;
-    var tmpDiv = document.createElement('div');
-    tmpDiv.className = 'result-item';
-
-    // ajax 的兼容写法
-    var xhr = new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            xml = xhr.responseXML;
-            arrItems = xml.getElementsByTagName('entry');
-            itemLength = arrItems.length;
-            // 遍历并保存所有文章对应的标题、链接、内容到对应的数组中
-            // 同时过滤掉 HTML 标签
-            for (i = 0; i < itemLength; i++) {
-                var link = arrItems[i].getElementsByTagName('link')[0];
-                arrLinks[i] = link.getAttribute("href");
-                arrTitles[i] = arrItems[i].getElementsByTagName('title')[0].
-                childNodes[0].nodeValue.replace(/<.*?>/g, '');
-            }
-        }
-    }
-
-    // 开始获取根目录下 feed.xml 文件内的数据
-    xhr.open('get', '/atom.xml', true);
-    xhr.send();
-
-
-
-    // 输入框内容变化后就开始匹配，可以不用点按钮
-    // 经测试，onkeydown, onchange 等方法效果不太理想，
-    // 存在输入延迟等问题，最后发现触发 input 事件最理想，
-    // 并且可以处理中文输入法拼写的变化
-    searchInput.oninput = function () {
-        setTimeout(searchConfirm, 0);
-    }
-    searchInput.onfocus = function () {
-        searchResults.style.display = 'block';
-    }
-
-    function searchConfirm() {
-        if (searchInput.value == '') {
-            searchResults.style.display = 'none';
-        } else if (searchInput.value.search(/^\s+$/) >= 0) {
-            // 检测输入值全是空白的情况
-            searchInit();
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '请输入有效内容...';
-            searchResults.appendChild(itemDiv);
-        } else {
-            // 合法输入值的情况
-            searchInit();
-            searchValue = searchInput.value;
-            // 在标题、内容中查找
-            searchMatching(arrTitles, searchValue);
-        }
-    }
-
-    // 每次搜索完成后的初始化
-    function searchInit() {
-        arrResults = [];
-        indexItem = [];
-        searchResults.innerHTML = '';
-        searchResults.style.display = 'block';
-    }
-
-    function searchMatching(arr1, input) {
-        // 忽略输入大小写
-        input = new RegExp(input, 'i');
-        // 在所有文章标题、内容中匹配查询值
-        for (i = 0; i < itemLength; i++) {
-            if (arr1[i].search(input) !== -1) {
-                var arr = arr1;
-                indexItem.push(i); // 保存匹配值的索引
-                var indexContent = arr[i].search(input);
-                // 此时 input 为 RegExp 格式 /input/i，转换为原 input 字符串长度
-                var l = input.toString().length - 3;
-                var step = 10;
-
-                // 将匹配到内容的地方进行黄色标记，并包括周围一定数量的文本
-                arrResults.push(arr[i].slice(indexContent - step, indexContent));
-            }
-        }
-
-        // 输出总共匹配到的数目
-        var totalDiv = tmpDiv.cloneNode(true);
-        totalDiv.innerHTML = '<b>总匹配：' + indexItem.length + ' 项<hr></b>';
-        searchResults.appendChild(totalDiv);
-
-        // 未匹配到内容的情况
-        if (indexItem.length == 0) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '未匹配到内容...';
-            searchResults.appendChild(itemDiv);
-        }
-
-        // 将所有匹配内容进行组合
-        for (i = 0; i < arrResults.length; i++) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerHTML = '<b>[' + arrTitles[indexItem[i]] +
-                ']</b><p>' + arrResults[i] + "</p><hr />";
-            itemDiv.setAttribute('onclick', 'changeHref(arrLinks[indexItem[' + i + ']])');
-            searchResults.appendChild(itemDiv);
-        }
-    }
-
-    function changeHref(href) {
-        location.href = href;
-    }
-
-    function showqq() {
-        var qq = document.getElementById("qq").innerHTML;
-        if (qq != '')
-            alert("博主的QQ联系方式为：" + qq);
-        else
-            alert("博主暂未设置QQ联系方式");
-    }
-</script></div>
-    
-    <div id="main" class="col-xs-12 col-sm-7" style="width:50%;margin-top:50px;left:27%">
-        <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>wonder&#39;s blog</title>
+<link rel="shortcut icon" href="https://wonder-zhang.github.io/favicon.ico?v=1604373550487">
+<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+<link href="" rel="stylesheet">
+<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/prism-.css">
 <style>
-
-</style>
-
-<body>
-    <div class="allcontent" id="postdetail">
-        <div class="postshow">
-            
-            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
-                
-                <img src="" class="postimage">
-                
-            </div>
-            <div class="postinfo-detail">
-                <div class="postdate"><i class="fa fa-calendar"></i>2020-06-07</div>
-            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 7 min read</div>
-            <div class="posttag">
-                
-                <a href="https://wonder-zhang.github.io/MlPEoUGcv/" class="postlink">
-                    <i class="fa fa-tag"></i> linux
-                </a>
-                
-            </div>
-        </div>
-        
-        <div id="texttitle" style="text-align: center">
-            <h2>CentOS7 常用命令集合</h2>
-            <!-- id 将作为查询条件 -->
-            <div id="pl" style="display:none">https://wonder-zhang.github.io/centos7-chang-yong-ming-ling-ji-he/</div>
-            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
-            <span id="hotnum" class="leancloud_visitors" data-flag-title="CentOS7 常用命令集合">
-                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
-            </span>
-        </div>
-        <div class="text ">
-            <p><strong>常用命令文件与目录操作</strong></p>
-<p>cd /home 进入 ‘/home’ 目录<br>
-cd .. 返回上一级目录<br>
-cd ../.. 返回上两级目录<br>
-cd – 返回上次所在目录<br>
-cp file1 file2 将file1复制为file2<br>
-cp -a dir1 dir2 复制一个目录<br>
-cp -a /tmp/dir1 . 复制一个目录到当前工作目录（.代表当前目录）<br>
-ls 查看目录中的文件<br>
-ls -a 显示隐藏文件<br>
-ls -l 显示详细信息<br>
-ls -lrt 按时间显示文件（l表示详细列表，r表示反向排序，t表示按时间排序）<br>
-pwd 显示工作路径<br>
-mkdir dir1 创建 ‘dir1’ 目录<br>
-mkdir dir1 dir2 同时创建两个目录<br>
-mkdir -p /tmp/dir1/dir2 创建一个目录树<br>
-mv dir1 dir2 移动/重命名一个目录<br>
-rm -f file1 删除 ‘file1’<br>
-rm -rf dir1 删除 ‘dir1’ 目录及其子目录内容查看文件内容</p>
-<p>cat file1 从第一个字节开始正向查看文件的内容<br>
-head -2 file1 查看一个文件的前两行<br>
-more file1 查看一个长文件的内容<br>
-tac file1 从最后一行开始反向查看一个文件的内容<br>
-tail -3 file1 查看一个文件的最后三行<br>
-vi file 打开并浏览文件</p>
-<p><strong>文本内容处理</strong></p>
-<p>grep str /tmp/test 在文件 ‘/tmp/test’ 中查找 “str”<br>
-grep ^str /tmp/test 在文件 ‘/tmp/test’ 中查找以 “str” 开始的行<br>
-grep [0-9] /tmp/test 查找 ‘/tmp/test’ 文件中所有包含数字的行<br>
-grep str -r /tmp/* 在目录 ‘/tmp’ 及其子目录中查找 “str” diff file1 file2 找出两个文件的不同处<br>
-sdiff file1 file2 以对比的方式显示两个文件的不同<br>
-vi file操作</p>
-<p>i 进入编辑文本模式<br>
-Esc 退出编辑文本模式<br>
-:w 保存当前修改<br>
-:q 不保存退出vi<br>
-:wq 保存当前修改并退出vi查询操作</p>
-<p>find / -name file1 从 ‘/’ 开始进入根文件系统查找文件和目录<br>
-find / -user user1 查找属于用户 ‘user1’ 的文件和目录<br>
-find /home/user1 -name .bin 在目录 ‘/ home/user1’ 中查找以 ‘.bin’ 结尾的文件<br>
-find /usr/bin -type f -atime +100 查找在过去100天内未被使用过的执行文件<br>
-find /usr/bin -type f -mtime -10 查找在10天内被创建或者修改过的文件<br>
-locate .ps 寻找以 ‘.ps’ 结尾的文件，先运行 ‘updatedb’ 命令<br>
-find -name ‘*.[ch]’ | xargs grep -E ‘expr’ 在当前目录及其子目录所有.c和.h文件中查找 ‘expr’<br>
-find -type f -print0 | xargs -r0 grep -F ‘expr’ 在当前目录及其子目录的常规文件中查找 ‘expr’<br>
-find -maxdepth 1 -type f | xargs grep -F ‘expr’ 在当前目录中查找 ‘expr’压缩、解压</p>
-<p>bzip2 file1 压缩 file1<br>
-bunzip2 file1.bz2 解压 file1.bz2<br>
-gzip file1 压缩 file1<br>
-gzip -9 file1 最大程度压缩 file1<br>
-gunzip file1.gz 解压 file1.gz<br>
-tar -cvf archive.tar file1 把file1打包成 archive.tar（-c: 建立压缩档案；-v: 显示所有过程；-f: 使用档案名字，是必须的，是最后一个参数）<br>
-tar -cvf archive.tar file1 dir1 把 file1，dir1 打包成 archive.tar<br>
-tar -tf archive.tar 显示一个包中的内容<br>
-tar -xvf archive.tar 释放一个包<br>
-tar -xvf archive.tar -C /tmp 把压缩包释放到 /tmp目录下<br>
-zip file1.zip file1 创建一个zip格式的压缩包<br>
-zip -r file1.zip file1 dir1 把文件和目录压缩成一个zip格式的压缩包<br>
-unzip file1.zip 解压一个zip格式的压缩包到当前目录<br>
-unzip test.zip -d /tmp/ 解压一个zip格式的压缩包到 /tmp 目录yum安装器</p>
-<p>yum -y install [package] 下载并安装一个rpm包<br>
-yum localinstall [package.rpm] 安装一个rpm包，使用你自己的软件仓库解决所有依赖关系<br>
-yum -y update 更新当前系统中安装的所有rpm包<br>
-yum update [package] 更新一个rpm包<br>
-yum remove [package] 删除一个rpm包<br>
-yum list 列出当前系统中安装的所有包<br>
-yum search [package] 在rpm仓库中搜寻软件包<br>
-yum clean [package] 清除缓存目录（/var/cache/yum）下的软件包<br>
-yum clean headers 删除所有头文件<br>
-yum clean all 删除所有缓存的包和头文件网络相关</p>
-<p>ifconfig eth0 显示一个以太网卡的配置<br>
-ifconfig eth0 192.168.1.1 netmask 255.255.255.0 配置网卡的IP地址<br>
-ifdown eth0 禁用 ‘eth0’ 网络设备<br>
-ifup eth0 启用 ‘eth0’ 网络设备<br>
-iwconfig eth1 显示一个无线网卡的配置<br>
-iwlist scan 显示无线网络<br>
-ip addr show 显示网卡的IP地址系统相关</p>
-<p>su – 切换到root权限（与su有区别）<br>
-shutdown -h now 关机<br>
-shutdown -r now 重启<br>
-top 罗列使用CPU资源最多的linux任务 （输入q退出）<br>
-pstree 以树状图显示程序<br>
-man ping 查看参考手册（例如ping 命令）<br>
-passwd 修改密码<br>
-df -h 显示磁盘的使用情况<br>
-cal -3 显示前一个月，当前月以及下一个月的月历<br>
-cal 10 1988 显示指定月，年的月历<br>
-date –date ‘1970-01-01 UTC 1427888888 seconds’ 把一相对于1970-01-01 00:00的秒数转换成时间XSheel 5相关操作窗体快捷键</p>
-<p>Ctrl + u 删除光标之前到行首的字符<br>
-Ctrl + k 删除光标之前到行尾的字符<br>
-Ctrl + c 取消当前行输入的命令，相当于Ctrl + Break<br>
-Ctrl + a 光标移动到行首（ahead of line），相当于通常的Home键<br>
-Ctrl + e 光标移动到行尾（end of line）<br>
-Ctrl + f 光标向前（forward）移动一个字符位置<br>
-Ctrl + b 光标往回（backward）移动一个字符位置<br>
-Ctrl + l 清屏，相当于执行clear命令<br>
-Ctrl + r 显示:号提示，根据用户输入查找相关历史命令（reverse-i-search）<br>
-Ctrl + w 删除从光标位置前到当前所处单词（word）的开头<br>
-Ctrl + t 交换光标位置前的两个字符<br>
-Ctrl + y 粘贴最后一次被删除的单词<br>
-Ctrl + Alt + d 显示桌面<br>
-Alt + b 光标往回（backward）移动到前一个单词<br>
-Alt + d 删除从光标位置到当前所处单词的末尾<br>
-Alt + F2 运行<br>
-Alt + F4 关闭当前窗口<br>
-Alt + F9 最小化当前窗口<br>
-Alt + F10 最大化当前窗口<br>
-Alt + Tab 切换窗口<br>
-Alt + 左键 移动窗口（或在最下面的任务栏滚动鼠标滑轮）</p>
-
-        </div>
-        
-        <div class="prev-post">
-            上一篇
-            <a href="https://wonder-zhang.github.io/jiazhi/">
-                她那时候还太年轻，不知道所有命运赠送的礼物，早已在暗中标好了价格。
-            </a>
-        </div>
-        
-        
-        <div class="next-post">
-            下一篇
-            <a href="https://wonder-zhang.github.io/jie-dian-ding-yue/">
-                节点订阅
-            </a>
-        </div>
-        
-    </div>
-    </div>
-</body>
-<script>
-    var t_img; // 定时�?
-    var isLoad = true; // 控制变量
-    isImgLoad(function () {
-        // 加载完成
-        $('.postdetailimg').css("display", "block");
-    });
-    // 判断图片加载的函�?
-    function isImgLoad(callback) {
-        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
-        // 查找所有封面图，迭代�?�理
-        $('.postdetailimg').each(function () {
-            // 找到�?0就将isLoad设为false，并退出each
-            if (this.height === 0) {
-                isLoad = false;
-                return false;
-            }
-        });
-        // 为true，没有发现为0的。加载完�?
-        if (isLoad) {
-            clearTimeout(t_img); // 清除定时�?
-            // 回调函数
-            callback();
-            // 为false，因为找到了没有加载完成的图，将调用定时器递归
-        } else {
-            isLoad = true;
-            t_img = setTimeout(function () {
-                isImgLoad(callback); // 递归�?�?
-            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
-        }
+    @font-face {
+        font-weight: normal;
+        font-style: normal;
+        font-family: 'charganolton';
+        src: url('https://wonder-zhang.github.io/media/fonts/Charganolton.ttf');
+    }
+    @font-face {
+        font-weight: normal;
+        font-style: normal;
+        font-family: 'JetBrainsMono';
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.eot');
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.eot?#iefix') format('embedded-opentype'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.woff2') format('woff2'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.woff') format('woff'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.ttf') format('truetype');
     }
 
-    //文章阅读热度
-    var pl = $("#pl").html();
-    var rootaddr = $("#rootaddr").html();
-    pl = pl.replace(rootaddr, "");
-    $("#hotnum").attr('id', pl);
-</script>
-        <div name="comment" style="background: white">
-            <div class="commentcontainer">
-                
-                
-                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    @font-face {
+        font-weight: bold;
+        font-style: normal;
+        font-family: 'JetBrainsMono';
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.eot');
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.eot?#iefix') format('embedded-opentype'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.woff2') format('woff2'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.woff') format('woff'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.ttf') format('truetype');
+    }
+</style>
+<link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
 
-<div id="gitalk-container"></div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    
+</head>
+<body>
 
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: '0a75e243e68be28523b4',
-    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
-    repo: 'wonder-zhang.github.io',
-    owner: 'wonder-zhang',
-    admin: ['wonder-zhang'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-                
-                
-                
-            </div>
-        </div>
-    </div>
-     
-                <div class="toc-container">
+<div class="header">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="https://wonder-zhang.github.io">
+                <img src="https://wonder-zhang.github.io/images/avatar.png?v=1604373550487" width="30" height="30"
+                     class="d-inline-block align-top"
+                     alt="">
+                wonder&#39;s blog
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
                     
-    </div>
-    </div>
-    </div>
-    <div class="toggleContainer">
-        <div class="toggle">
-            <i class="fas fa-angle-double-up"></i>
-        </div>
-    </div>
-    <div id="bg">
-    </div>
-    <div id="bgchoice" style="display: none"></div>
-    
-    <div id="bgurl" style="display:none"></div>
-       
-    </div>
-    <!-- 响应式布局，针对手机端内容显示 -->
-    <div class="nav-small">
-        <head>
-  <!-- 引入Bootstrap核心样式文件 -->
-  <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-</head>
-
-<body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-          data-target="#barmenu" aria-expanded="false" id="barbutton">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="https://wonder-zhang.github.io">wonder&#39;s blog&nbsp;&nbsp;|</a>
-      </div>
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="barmenu">
-        <ul class="nav navbar-nav">
-          
-          
-          <li>
-            <a href="/">
-              首页
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/archives">
-              归档
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/tags">
-              标签
-            </a>
-          </li>
-          
-          
-          
-          
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
-
-
-  <!-- 引入jQuery核心js文件 -->
-  <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script>
-  var btstate = false;
-  var bt = $("#barbutton");
-  var bm = $("#barmenu");
-  bt.click(function(){
-    dropdown();
-  })
-  function dropdown(){
-    console.log(btstate);
-    //下拉
-    if(btstate==false){
-      bt.removeClass("collapsed");
-      bt.attr("aria-expanded","true");
-      bm.attr("aria-expanded","true")
-      bm.fadeIn(700);
-      btstate = true;
-    }
-    else{
-      bt.addClass("collapsed");
-      bt.attr("aria-expanded","false");
-      bm.removeClass("in");
-      bm.hide();
-      bm.attr("aria-expanded","false");
-      btstate = false;
-    }
-  }
-  </script> 
-</body>
-    <div style="margin-top:30px"></div>
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
-<style>
-
-</style>
-
-<body>
-    <div class="allcontent" id="postdetail">
-        <div class="postshow">
-            
-            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
-                
-                <img src="" class="postimage">
-                
-            </div>
-            <div class="postinfo-detail">
-                <div class="postdate"><i class="fa fa-calendar"></i>2020-06-07</div>
-            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 7 min read</div>
-            <div class="posttag">
-                
-                <a href="https://wonder-zhang.github.io/MlPEoUGcv/" class="postlink">
-                    <i class="fa fa-tag"></i> linux
-                </a>
-                
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/"
+                                
+                                >首页</a>
+                            </li>
+                        
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/archives"
+                                
+                                >归档</a>
+                            </li>
+                        
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/tags"
+                                
+                                >标签</a>
+                            </li>
+                        
+                    
+                </ul>
             </div>
         </div>
-        
-        <div id="texttitle" style="text-align: center">
-            <h2>CentOS7 常用命令集合</h2>
-            <!-- id 将作为查询条件 -->
-            <div id="pl" style="display:none">https://wonder-zhang.github.io/centos7-chang-yong-ming-ling-ji-he/</div>
-            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
-            <span id="hotnum" class="leancloud_visitors" data-flag-title="CentOS7 常用命令集合">
-                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
-            </span>
-        </div>
-        <div class="text ">
-            <p><strong>常用命令文件与目录操作</strong></p>
+    </nav>
+</div>
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-sm-100 col-lg-9">
+            <div class="shadow-sm post-detail">
+                <article class="post i-card">
+                    <h2 class="post-title">
+                        CentOS7 常用命令集合
+                    </h2>
+                    <div class="post-info">
+                        <time class="post-time">2020-06-07</time>
+                        
+                            <a href="https://wonder-zhang.github.io/MlPEoUGcv/" class="post-tag i-tag
+                            i-tag-">
+                                #linux
+                            </a>
+                        
+                    </div>
+                    
+                    <div class="post-content">
+                        <p><strong>常用命令文件与目录操作</strong></p>
 <p>cd /home 进入 ‘/home’ 目录<br>
 cd .. 返回上一级目录<br>
 cd ../.. 返回上两级目录<br>
@@ -674,156 +221,98 @@ Alt + F10 最大化当前窗口<br>
 Alt + Tab 切换窗口<br>
 Alt + 左键 移动窗口（或在最下面的任务栏滚动鼠标滑轮）</p>
 
-        </div>
-        
-        <div class="prev-post">
-            上一篇
-            <a href="https://wonder-zhang.github.io/jiazhi/">
-                她那时候还太年轻，不知道所有命运赠送的礼物，早已在暗中标好了价格。
-            </a>
-        </div>
-        
-        
-        <div class="next-post">
-            下一篇
-            <a href="https://wonder-zhang.github.io/jie-dian-ding-yue/">
-                节点订阅
-            </a>
-        </div>
-        
-    </div>
-    </div>
-</body>
-<script>
-    var t_img; // 定时�?
-    var isLoad = true; // 控制变量
-    isImgLoad(function () {
-        // 加载完成
-        $('.postdetailimg').css("display", "block");
-    });
-    // 判断图片加载的函�?
-    function isImgLoad(callback) {
-        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
-        // 查找所有封面图，迭代�?�理
-        $('.postdetailimg').each(function () {
-            // 找到�?0就将isLoad设为false，并退出each
-            if (this.height === 0) {
-                isLoad = false;
-                return false;
-            }
-        });
-        // 为true，没有发现为0的。加载完�?
-        if (isLoad) {
-            clearTimeout(t_img); // 清除定时�?
-            // 回调函数
-            callback();
-            // 为false，因为找到了没有加载完成的图，将调用定时器递归
-        } else {
-            isLoad = true;
-            t_img = setTimeout(function () {
-                isImgLoad(callback); // 递归�?�?
-            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
-        }
-    }
-
-    //文章阅读热度
-    var pl = $("#pl").html();
-    var rootaddr = $("#rootaddr").html();
-    pl = pl.replace(rootaddr, "");
-    $("#hotnum").attr('id', pl);
-</script>
-    <div name="comment" style="background: white;margin-top:100px">
-        <div class="commentcontainer">
-            
-            
-            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-<div id="gitalk-container"></div>
-
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: '0a75e243e68be28523b4',
-    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
-    repo: 'wonder-zhang.github.io',
-    owner: 'wonder-zhang',
-    admin: ['wonder-zhang'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-            
-            
+                    </div>
+                </article>
+            </div>
+            <div class="row">
+                <div class="next-post col-6">
+                    
+                        <div class="next">上一篇</div>
+                        <a href="https://wonder-zhang.github.io/jiazhi/">
+                            <h3 class="post-title">
+                                她那时候还太年轻，不知道所有命运赠送的礼物，早已在暗中标好了价格。
+                            </h3>
+                        </a>
+                    
+                </div>
+                <div class="next-post col-6">
+                    
+                        <div class="next">下一篇</div>
+                        <a href="https://wonder-zhang.github.io/jie-dian-ding-yue/">
+                            <h3 class="post-title">
+                                节点订阅
+                            </h3>
+                        </a>
+                    
+                </div>
+            </div>
             
         </div>
+        <div class="d-none d-lg-block col-lg-3">
+            
+                <div class="toc-card i-card shadow-sm sticky-top">
+    <div class="toc-title i-card-title">目录</div>
+    <div class="toc-content">
+        
     </div>
-    </div>
-    <div id="landlord">
-        <div class="message" style="opacity:0"></div>
-        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
-    </div>
-    <div id="codeCopyText" style="display: none"></div>
-    <div id="domainname" style="display:none">https://wonder-zhang.github.io</div>
-    </body>
-    <script src="https://wonder-zhang.github.io/media/js/post.js"></script>
     <script>
-        //寻找所有code标签，加复制按钮鸭！(行内代码除外)
-        var codes = document.getElementsByTagName('code');
-        if (codes.length) {
-            for (var i = 0; i < codes.length; i++) {
-                //高度/行高=文本行数
-                // var rowNum=Math.round(codes[i].height()/parseFloat(codes[i].css('line-height')));
-                // console.log("当前有"+rowNum+"行");
-                var code_id = "code_id_" + i;
-                codes[i].setAttribute("id", code_id);
-                var ci = "#" + code_id;
-                var codedot = $(ci);
-                var rowNum = Math.round(codedot.height() / parseFloat(codedot.css('line-height')));
-                if (rowNum <= 1) continue;
-                var btn = document.createElement("button");
-                btn.setAttribute("class", "copybt");
-                btn.setAttribute("data-clipboard-target", "#" + code_id);
-                btn.innerHTML = '复制代码';
-                codes[i].parentNode.insertBefore(btn, codes[i]);
+        function locateCatelogList() {
+            /*获取文章目录集合,可通过:header过滤器*/
+            var alis = $('.post-content :header');
+            /*获取侧边栏目录列表集合**/
+            var sidebar_alis = $('.markdownIt-TOC a');
+            /*获取滚动条到顶部的距离*/
+            var scroll_height = $(window).scrollTop();
+            for (var i = 0; i < alis.length; i++) {
+                /*获取锚点集合中的元素分别到顶点的距离*/
+                var a_height = $(alis[i]).offset().top-150;
+                if (a_height < scroll_height) {
+                    /*高亮显示*/
+                    sidebar_alis.removeClass('on');
+                    $(sidebar_alis[i]).addClass('on');
+                }
             }
-        };
-        var cop = new ClipboardJS('.copybt');
-        var codeCopyText = $("#codeCopyText").html();
-        cop.on('success', function (e) {
-            alert(codeCopyText);
-            e.clearSelection();
-        });
-        cop.on('error', function (e) {
-            alert("矮油，复制失败了...手动复制吧勇士！");
-            e.clearSelection();
+        }
+
+        $(function () {
+            /*绑定滚动事件 */
+            $(window).bind('scroll', locateCatelogList);
         });
     </script>
-    
-<script>
-$(function () {
-    $('.toggleContainer').click(function(){$('html,body').animate({scrollTop: '0px'}, 800);});
-	$(window).scroll(function() {
-        var st = $(window).scrollTop();
-        if(st > 30){
-            $(".toggleContainer").fadeIn(400);
-        }else{
-            $(".toggleContainer").fadeOut(100);
-        }
-	});
-});
-</script>
+</div>
 
-<script>
-        var bgchoice=$('#bgchoice').html();
-        var bg = $('#bg');
-        var bgurl = document.getElementById("bgurl").innerHTML;
-        if(bgchoice=='default')
-            for (var i = 0; i < 3; i++)
-                bgurl = bgurl.replace("\\", "/");
-        bg.css("background", "url('" + bgurl + "')");
-</script>
+            
+        </div>
+    </div>
+    <div class="site-footer">
+    Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
+ <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a> | Theme <a href="//github.com/violetfreesia/gridea-theme-Violet" target="_blank">Violet</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://wonder-zhang.github.io/media/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</body>
+</html>

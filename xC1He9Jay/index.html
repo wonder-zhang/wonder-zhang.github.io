@@ -1,528 +1,122 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="文/梁爽
-1
-读者告诉我，为了早起，他参加了一个早起群。每个人进群之前，先交一笔费用。
-然后每天在规定时间内打卡，到了月底，没有坚持打卡的人的钱被没收，拿去奖励坚持打卡的人。
-他不想自己交的钱打水漂，硬着头皮早起打卡，一天都精神欠佳，后来定..." />
-    <meta name="keywords" content="思想聚焦,阅读" />
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
-    
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/dracula.min.css">
-              
-    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
-    <script src="https://wonder-zhang.github.io/media/js/clipboard.min.js"></script>
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/live2d.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
-    <!-- 数学公式 -->
-    
-    <title>wonder's blog</title>
-    
-    <style>
-        .markdownIt-TOC {
-            padding-left: 2px;
-            width: 100%;
-        }
-        .markdownIt-TOC li{
-            padding-left: 2%;
-        }
-    </style>
-    
-</head>
-
-<body>
-    <!-- 响应式布局，针对PC端内容显示 -->
-    <div id="content">
-        <div class="nav-large">
-            <div class="row">
-                <div class="side"><head>
-    <meta name="description" content="Stay Hungry. Stay Foolish" />
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-</head>
-
-
-<body>
-    
-
-
-
-    
-</body>
-<script>
-    //-------------------------------------------------搜索
-    // 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素
-    var searchInput = document.querySelector('.search-input');
-    var searchResults = document.querySelector('.search-results');
-
-    // 申明保存文章的标题、链接、内容的数组变量
-    var searchValue = '',
-        arrItems = [],
-        arrLinks = [],
-        arrTitles = [],
-        arrResults = [],
-        indexItem = [],
-        itemLength = 0;
-    var tmpDiv = document.createElement('div');
-    tmpDiv.className = 'result-item';
-
-    // ajax 的兼容写法
-    var xhr = new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            xml = xhr.responseXML;
-            arrItems = xml.getElementsByTagName('entry');
-            itemLength = arrItems.length;
-            // 遍历并保存所有文章对应的标题、链接、内容到对应的数组中
-            // 同时过滤掉 HTML 标签
-            for (i = 0; i < itemLength; i++) {
-                var link = arrItems[i].getElementsByTagName('link')[0];
-                arrLinks[i] = link.getAttribute("href");
-                arrTitles[i] = arrItems[i].getElementsByTagName('title')[0].
-                childNodes[0].nodeValue.replace(/<.*?>/g, '');
-            }
-        }
-    }
-
-    // 开始获取根目录下 feed.xml 文件内的数据
-    xhr.open('get', '/atom.xml', true);
-    xhr.send();
-
-
-
-    // 输入框内容变化后就开始匹配，可以不用点按钮
-    // 经测试，onkeydown, onchange 等方法效果不太理想，
-    // 存在输入延迟等问题，最后发现触发 input 事件最理想，
-    // 并且可以处理中文输入法拼写的变化
-    searchInput.oninput = function () {
-        setTimeout(searchConfirm, 0);
-    }
-    searchInput.onfocus = function () {
-        searchResults.style.display = 'block';
-    }
-
-    function searchConfirm() {
-        if (searchInput.value == '') {
-            searchResults.style.display = 'none';
-        } else if (searchInput.value.search(/^\s+$/) >= 0) {
-            // 检测输入值全是空白的情况
-            searchInit();
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '请输入有效内容...';
-            searchResults.appendChild(itemDiv);
-        } else {
-            // 合法输入值的情况
-            searchInit();
-            searchValue = searchInput.value;
-            // 在标题、内容中查找
-            searchMatching(arrTitles, searchValue);
-        }
-    }
-
-    // 每次搜索完成后的初始化
-    function searchInit() {
-        arrResults = [];
-        indexItem = [];
-        searchResults.innerHTML = '';
-        searchResults.style.display = 'block';
-    }
-
-    function searchMatching(arr1, input) {
-        // 忽略输入大小写
-        input = new RegExp(input, 'i');
-        // 在所有文章标题、内容中匹配查询值
-        for (i = 0; i < itemLength; i++) {
-            if (arr1[i].search(input) !== -1) {
-                var arr = arr1;
-                indexItem.push(i); // 保存匹配值的索引
-                var indexContent = arr[i].search(input);
-                // 此时 input 为 RegExp 格式 /input/i，转换为原 input 字符串长度
-                var l = input.toString().length - 3;
-                var step = 10;
-
-                // 将匹配到内容的地方进行黄色标记，并包括周围一定数量的文本
-                arrResults.push(arr[i].slice(indexContent - step, indexContent));
-            }
-        }
-
-        // 输出总共匹配到的数目
-        var totalDiv = tmpDiv.cloneNode(true);
-        totalDiv.innerHTML = '<b>总匹配：' + indexItem.length + ' 项<hr></b>';
-        searchResults.appendChild(totalDiv);
-
-        // 未匹配到内容的情况
-        if (indexItem.length == 0) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '未匹配到内容...';
-            searchResults.appendChild(itemDiv);
-        }
-
-        // 将所有匹配内容进行组合
-        for (i = 0; i < arrResults.length; i++) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerHTML = '<b>[' + arrTitles[indexItem[i]] +
-                ']</b><p>' + arrResults[i] + "</p><hr />";
-            itemDiv.setAttribute('onclick', 'changeHref(arrLinks[indexItem[' + i + ']])');
-            searchResults.appendChild(itemDiv);
-        }
-    }
-
-    function changeHref(href) {
-        location.href = href;
-    }
-
-    function showqq() {
-        var qq = document.getElementById("qq").innerHTML;
-        if (qq != '')
-            alert("博主的QQ联系方式为：" + qq);
-        else
-            alert("博主暂未设置QQ联系方式");
-    }
-</script></div>
-    
-    <div id="main" class="col-xs-12 col-sm-7" style="width:50%;margin-top:50px;left:27%">
-        <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>wonder&#39;s blog</title>
+<link rel="shortcut icon" href="https://wonder-zhang.github.io/favicon.ico?v=1604373550487">
+<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+<link href="" rel="stylesheet">
+<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/prism-.css">
 <style>
-
-</style>
-
-<body>
-    <div class="allcontent" id="postdetail">
-        <div class="postshow">
-            
-            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
-                
-                <img src="" class="postimage">
-                
-            </div>
-            <div class="postinfo-detail">
-                <div class="postdate"><i class="fa fa-calendar"></i>2020-08-02</div>
-            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 8 min read</div>
-            <div class="posttag">
-                
-                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-                    <i class="fa fa-tag"></i> 思想聚焦
-                </a>
-                
-                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-                    <i class="fa fa-tag"></i> 阅读
-                </a>
-                
-            </div>
-        </div>
-        
-        <div id="texttitle" style="text-align: center">
-            <h2>伪自律，正在麻痹你的人生</h2>
-            <!-- id 将作为查询条件 -->
-            <div id="pl" style="display:none">https://wonder-zhang.github.io/xC1He9Jay/</div>
-            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
-            <span id="hotnum" class="leancloud_visitors" data-flag-title="伪自律，正在麻痹你的人生">
-                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
-            </span>
-        </div>
-        <div class="text ">
-            <p>文/梁爽</p>
-<p>1</p>
-<p>读者告诉我，为了早起，他参加了一个早起群。每个人进群之前，先交一笔费用。<br>
-然后每天在规定时间内打卡，到了月底，没有坚持打卡的人的钱被没收，拿去奖励坚持打卡的人。</p>
-<p>他不想自己交的钱打水漂，硬着头皮早起打卡，一天都精神欠佳，后来定好闹钟，打完卡后又继续睡。</p>
-<p>我觉得这种打卡式自律是种伪自律，把“早起顺便打卡”本末倒置成“早起只为打卡”，打卡证明你早起过，但无法证明你好好利用早起时光。</p>
-<p>现在，很多人开始自律，但不少人的自律属于“伪自律”，像是：<br>
-摆拍式自律：健身房一身运动装束却妆发整齐的女子，一下骑在动感单车上单手自拍，一下调整好手机后定时自拍，一下让路过的人帮她拍照；</p>
-<p>跟风式自律：今天跟着健身博主练马甲线，明天跟着体态博主练天鹅颈，后天跟着手账博主做手账，兴趣来去匆匆，浅尝辄止，三分钟热度；</p>
-<p>自残式自律：有朋友业余报考职业资格考试，考前临时抱佛脚，夜里挑灯夜战，要么用冰水洗脸，要么去没暖气的阳台站着，还没考就病倒。</p>
-<p>注重形式的“打卡式自律”；自欺欺人的“摆拍式自律”；虎头蛇尾的“跟风式自律”以及消耗身体的“自残式自律”……在我看来都是“伪自律”。</p>
-<p>所谓“伪自律”，就是做不到为了清晰明确的目标而持之以恒，过分追求形式感和仪式感，用表面上的自律，来回避绩效的追问。</p>
-<p>“伪自律”，从好的方面来说，可能是自律的初始阶段；从坏的方面来说，可能把你困在低效率的自律里。</p>
-<p>2</p>
-<p>黄执中在《小学问》中说，很多人在改变自己时，会陷入“do，have，be”的行为模式误区。</p>
-<p>Do：做什么事情，have：得到什么东西，be：成为什么人。</p>
-<p>比如问某人为什么要减肥，他说他想瘦下来（do），有个马甲线(have)，然后成为一个有自信的人(be)。</p>
-<p>这种模式在心理学上不成立，因为就算一时之间改变了行为，拥有了想要的状态，但本身没改变，可能只是从没自信的胖子，变成没自信的瘦子而已。</p>
-<p>黄执中建议尝试“be，do，have”模式。</p>
-<p>开始就想着成为一个有自信的人（be），想象自信的人更可能做什么(do)，拥有的状态(have)自然就改变了。</p>
-<p>3</p>
-<p>在目标（be）、行动（do）和收获（have）这3个环节，映射出这些迹象，小心你的自律只是“伪自律”。</p>
-<p>在目标（be）层面：以为是自律，实际是他律</p>
-<p>我的大学女同学，曾把手臂上的皮肤高高拎起，哀嚎那是她暴饮暴食、忽胖忽瘦的代价。</p>
-<p>她大学谈的男友每次说她胖，她就不吃主食，花式运动；放假回家后爸妈心疼她太瘦，她在补偿心理和自怜情绪下报复性狂吃，戏称“身体发福，受之父母”。</p>
-<p>前年聚会，有人问身材颇好的她是不是又突击减肥。</p>
-<p>她回顾在学校减肥、回老家增肥的大学时光，在男友眼中胖，在爸妈眼中瘦，对身材的度量衡源于外界。</p>
-<p>工作后，有次体检查出三高，震惊自己20多岁的年龄有40岁的指标，抵抗力弱，内分泌紊乱，她清晰迫切地追求健康。</p>
-<p>后来饮食、运动、睡眠和心情多管齐下后，她体质越来越好，顺便养成易瘦体质。</p>
-<p>她曾经的间接性自律是伪自律，那是接收到别人评价后做出的应激反应，更接近他律。</p>
-<p>自律的参照物是自己，比过去进步就很优秀，建立在真实主观意愿，凝聚自我价值取向和审美倾向的自律，续航力更持久；</p>
-<p>而他律的发球权是外界，流行变来变去，众口难调，你无法让别人满意，把自己的人生，活成待别人批改的试卷是很痛苦的。</p>
-<p>做事三分钟热度，说明你对目标也只有三分热情。</p>
-<p>你从来没有顶层思考过，内心到底想成为什么样的人。</p>
-<p>在行动（do）层面：为了自律而自律</p>
-<p>有人问我，“早起对我来说并不难，难的是起来那么早，不知道该干什么。”</p>
-<p>以我的经验，早起是实现自我愿望的手段之一而已。</p>
-<p>读书时代，为了学习好一点而早起；初入职场，为了尽快上手而早起；现在，为了工作和写作两开花而早起。</p>
-<p>我不会为了死磕早起而早起，在身体累乏的时候，为了工作和写作的状态良好，让自己多睡一下，也不会有内疚感。</p>
-<p>因为我知道，如果我睡眠不足，工作和写作的状态都会很差。</p>
-<p>我观察过长期早起的人，大多是为了喜欢的事情早起2小时，没有一个是为了早起而早起。</p>
-<p>为了自律而自律，我猜想有2种可能：一种是偏执到忘了自律的初衷；一种是假装自律能产生安心感。</p>
-<p>世道变了，以前热衷装不努力，明明通宵备考，非要说自己根本没看书；现在流行装努力，明明根本没锻炼，偏要专门摆拍出一副努力的样子。</p>
-<p>在收获（have）层面：你的自律，缺乏效率</p>
-<p>我身边一位有两个孩子的女同事，人过40却身材紧实，有天我问她管理之道。</p>
-<p>她答，每天1万步。我反驳说自己每天也走1万步以上。</p>
-<p>她说她看到我午饭后在楼下走路，边走边看手机。她说她回家后出门倒垃圾时，换上运动鞋，在小区里快走。</p>
-<p>她对照相关文章，如何把每天一万步发挥出最大功效，然后学着把手臂甩到极致，步频介于快跑起来但没跑起来之间，不听歌，不想事，注意力放在呼吸和心率上，走到身上微汗、脸颊微红时回家。</p>
-<p>同样是走1万步，她练习了心肺和大臂，而我只在机械地计步，她全神贯注，我一心多用，效果大不同。</p>
-<p>她给我一个启示，不必抓住每一分钟去自律，而是要抓住自律的每一分钟。</p>
-<p>读书时代有抄板书抄得异常整洁，但老师提问一问三不知的同学；身边有常在朋友圈晒书，但问他内容却讲不出来的朋友。</p>
-<p>我见过很多牛人看完一本书后，复杂的概念用自己的话复述一遍，或运用于生活，或在网上输出，有内化和思考的轨迹在里面。</p>
-<p>自律应该引入绩效管理的概念，查阅科学方法，摸索精力曲线，多次微调后找到最适合自己的方式，然后争取事半功倍的效果。</p>
-<p>4</p>
-<p>写这篇“伪自律”，我绝没有趾高气扬批判谁的含义，只是想戳破自律里面的水分和泡沫。</p>
-<p>我觉得自己也有“伪自律”的成分，我会要求自己阶段性地停下来，反省这三个方面：<br>
-在目标方面，我现在的目标是回应自己的期待，还是为了满足别人的期待；</p>
-<p>在行为方面，我现在的行为是回应自己的目标，还是为了缓解自己的焦虑；</p>
-<p>在收获方面，我现在的收获和付出是否成正比，未达预期该如何有效改进。</p>
-<p>多少人在“自律能让人开挂，自律能给人自由”这样的口号下，开始了风风火火的自律之旅。</p>
-<p>可是，<strong>自律能让人开挂，伪自律不能；自律能给人自由，伪自律不能。</strong></p>
-
-        </div>
-        
-        <div class="prev-post">
-            上一篇
-            <a href="https://wonder-zhang.github.io/uoJLplXal/">
-                没有追责，“张玉环案”依旧会发生！
-            </a>
-        </div>
-        
-        
-        <div class="next-post">
-            下一篇
-            <a href="https://wonder-zhang.github.io/NMUt3sPYb/">
-                网红“家暴妆”火了，但我真的欣赏不来
-            </a>
-        </div>
-        
-    </div>
-    </div>
-</body>
-<script>
-    var t_img; // 定时�?
-    var isLoad = true; // 控制变量
-    isImgLoad(function () {
-        // 加载完成
-        $('.postdetailimg').css("display", "block");
-    });
-    // 判断图片加载的函�?
-    function isImgLoad(callback) {
-        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
-        // 查找所有封面图，迭代�?�理
-        $('.postdetailimg').each(function () {
-            // 找到�?0就将isLoad设为false，并退出each
-            if (this.height === 0) {
-                isLoad = false;
-                return false;
-            }
-        });
-        // 为true，没有发现为0的。加载完�?
-        if (isLoad) {
-            clearTimeout(t_img); // 清除定时�?
-            // 回调函数
-            callback();
-            // 为false，因为找到了没有加载完成的图，将调用定时器递归
-        } else {
-            isLoad = true;
-            t_img = setTimeout(function () {
-                isImgLoad(callback); // 递归�?�?
-            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
-        }
+    @font-face {
+        font-weight: normal;
+        font-style: normal;
+        font-family: 'charganolton';
+        src: url('https://wonder-zhang.github.io/media/fonts/Charganolton.ttf');
+    }
+    @font-face {
+        font-weight: normal;
+        font-style: normal;
+        font-family: 'JetBrainsMono';
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.eot');
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.eot?#iefix') format('embedded-opentype'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.woff2') format('woff2'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.woff') format('woff'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.ttf') format('truetype');
     }
 
-    //文章阅读热度
-    var pl = $("#pl").html();
-    var rootaddr = $("#rootaddr").html();
-    pl = pl.replace(rootaddr, "");
-    $("#hotnum").attr('id', pl);
-</script>
-        <div name="comment" style="background: white">
-            <div class="commentcontainer">
-                
-                
-                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    @font-face {
+        font-weight: bold;
+        font-style: normal;
+        font-family: 'JetBrainsMono';
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.eot');
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.eot?#iefix') format('embedded-opentype'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.woff2') format('woff2'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.woff') format('woff'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.ttf') format('truetype');
+    }
+</style>
+<link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
 
-<div id="gitalk-container"></div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    
+</head>
+<body>
 
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: '0a75e243e68be28523b4',
-    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
-    repo: 'wonder-zhang.github.io',
-    owner: 'wonder-zhang',
-    admin: ['wonder-zhang'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-                
-                
-                
-            </div>
-        </div>
-    </div>
-     
-                <div class="toc-container">
+<div class="header">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="https://wonder-zhang.github.io">
+                <img src="https://wonder-zhang.github.io/images/avatar.png?v=1604373550487" width="30" height="30"
+                     class="d-inline-block align-top"
+                     alt="">
+                wonder&#39;s blog
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
                     
-    </div>
-    </div>
-    </div>
-    <div class="toggleContainer">
-        <div class="toggle">
-            <i class="fas fa-angle-double-up"></i>
-        </div>
-    </div>
-    <div id="bg">
-    </div>
-    <div id="bgchoice" style="display: none"></div>
-    
-    <div id="bgurl" style="display:none"></div>
-       
-    </div>
-    <!-- 响应式布局，针对手机端内容显示 -->
-    <div class="nav-small">
-        <head>
-  <!-- 引入Bootstrap核心样式文件 -->
-  <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-</head>
-
-<body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-          data-target="#barmenu" aria-expanded="false" id="barbutton">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="https://wonder-zhang.github.io">wonder&#39;s blog&nbsp;&nbsp;|</a>
-      </div>
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="barmenu">
-        <ul class="nav navbar-nav">
-          
-          
-          <li>
-            <a href="/">
-              首页
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/archives">
-              归档
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/tags">
-              标签
-            </a>
-          </li>
-          
-          
-          
-          
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
-
-
-  <!-- 引入jQuery核心js文件 -->
-  <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script>
-  var btstate = false;
-  var bt = $("#barbutton");
-  var bm = $("#barmenu");
-  bt.click(function(){
-    dropdown();
-  })
-  function dropdown(){
-    console.log(btstate);
-    //下拉
-    if(btstate==false){
-      bt.removeClass("collapsed");
-      bt.attr("aria-expanded","true");
-      bm.attr("aria-expanded","true")
-      bm.fadeIn(700);
-      btstate = true;
-    }
-    else{
-      bt.addClass("collapsed");
-      bt.attr("aria-expanded","false");
-      bm.removeClass("in");
-      bm.hide();
-      bm.attr("aria-expanded","false");
-      btstate = false;
-    }
-  }
-  </script> 
-</body>
-    <div style="margin-top:30px"></div>
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
-<style>
-
-</style>
-
-<body>
-    <div class="allcontent" id="postdetail">
-        <div class="postshow">
-            
-            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
-                
-                <img src="" class="postimage">
-                
-            </div>
-            <div class="postinfo-detail">
-                <div class="postdate"><i class="fa fa-calendar"></i>2020-08-02</div>
-            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 8 min read</div>
-            <div class="posttag">
-                
-                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-                    <i class="fa fa-tag"></i> 思想聚焦
-                </a>
-                
-                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-                    <i class="fa fa-tag"></i> 阅读
-                </a>
-                
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/"
+                                
+                                >首页</a>
+                            </li>
+                        
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/archives"
+                                
+                                >归档</a>
+                            </li>
+                        
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/tags"
+                                
+                                >标签</a>
+                            </li>
+                        
+                    
+                </ul>
             </div>
         </div>
-        
-        <div id="texttitle" style="text-align: center">
-            <h2>伪自律，正在麻痹你的人生</h2>
-            <!-- id 将作为查询条件 -->
-            <div id="pl" style="display:none">https://wonder-zhang.github.io/xC1He9Jay/</div>
-            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
-            <span id="hotnum" class="leancloud_visitors" data-flag-title="伪自律，正在麻痹你的人生">
-                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
-            </span>
-        </div>
-        <div class="text ">
-            <p>文/梁爽</p>
+    </nav>
+</div>
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-sm-100 col-lg-9">
+            <div class="shadow-sm post-detail">
+                <article class="post i-card">
+                    <h2 class="post-title">
+                        伪自律，正在麻痹你的人生
+                    </h2>
+                    <div class="post-info">
+                        <time class="post-time">2020-08-02</time>
+                        
+                            <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="post-tag i-tag
+                            i-tag-banana">
+                                #思想聚焦
+                            </a>
+                        
+                            <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="post-tag i-tag
+                            i-tag-info">
+                                #阅读
+                            </a>
+                        
+                    </div>
+                    
+                    <div class="post-content">
+                        <p>文/梁爽</p>
 <p>1</p>
 <p>读者告诉我，为了早起，他参加了一个早起群。每个人进群之前，先交一笔费用。<br>
 然后每天在规定时间内打卡，到了月底，没有坚持打卡的人的钱被没收，拿去奖励坚持打卡的人。</p>
@@ -584,156 +178,98 @@
 <p>多少人在“自律能让人开挂，自律能给人自由”这样的口号下，开始了风风火火的自律之旅。</p>
 <p>可是，<strong>自律能让人开挂，伪自律不能；自律能给人自由，伪自律不能。</strong></p>
 
-        </div>
-        
-        <div class="prev-post">
-            上一篇
-            <a href="https://wonder-zhang.github.io/uoJLplXal/">
-                没有追责，“张玉环案”依旧会发生！
-            </a>
-        </div>
-        
-        
-        <div class="next-post">
-            下一篇
-            <a href="https://wonder-zhang.github.io/NMUt3sPYb/">
-                网红“家暴妆”火了，但我真的欣赏不来
-            </a>
-        </div>
-        
-    </div>
-    </div>
-</body>
-<script>
-    var t_img; // 定时�?
-    var isLoad = true; // 控制变量
-    isImgLoad(function () {
-        // 加载完成
-        $('.postdetailimg').css("display", "block");
-    });
-    // 判断图片加载的函�?
-    function isImgLoad(callback) {
-        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
-        // 查找所有封面图，迭代�?�理
-        $('.postdetailimg').each(function () {
-            // 找到�?0就将isLoad设为false，并退出each
-            if (this.height === 0) {
-                isLoad = false;
-                return false;
-            }
-        });
-        // 为true，没有发现为0的。加载完�?
-        if (isLoad) {
-            clearTimeout(t_img); // 清除定时�?
-            // 回调函数
-            callback();
-            // 为false，因为找到了没有加载完成的图，将调用定时器递归
-        } else {
-            isLoad = true;
-            t_img = setTimeout(function () {
-                isImgLoad(callback); // 递归�?�?
-            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
-        }
-    }
-
-    //文章阅读热度
-    var pl = $("#pl").html();
-    var rootaddr = $("#rootaddr").html();
-    pl = pl.replace(rootaddr, "");
-    $("#hotnum").attr('id', pl);
-</script>
-    <div name="comment" style="background: white;margin-top:100px">
-        <div class="commentcontainer">
-            
-            
-            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-<div id="gitalk-container"></div>
-
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: '0a75e243e68be28523b4',
-    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
-    repo: 'wonder-zhang.github.io',
-    owner: 'wonder-zhang',
-    admin: ['wonder-zhang'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-            
-            
+                    </div>
+                </article>
+            </div>
+            <div class="row">
+                <div class="next-post col-6">
+                    
+                        <div class="next">上一篇</div>
+                        <a href="https://wonder-zhang.github.io/uoJLplXal/">
+                            <h3 class="post-title">
+                                没有追责，“张玉环案”依旧会发生！
+                            </h3>
+                        </a>
+                    
+                </div>
+                <div class="next-post col-6">
+                    
+                        <div class="next">下一篇</div>
+                        <a href="https://wonder-zhang.github.io/NMUt3sPYb/">
+                            <h3 class="post-title">
+                                网红“家暴妆”火了，但我真的欣赏不来
+                            </h3>
+                        </a>
+                    
+                </div>
+            </div>
             
         </div>
+        <div class="d-none d-lg-block col-lg-3">
+            
+                <div class="toc-card i-card shadow-sm sticky-top">
+    <div class="toc-title i-card-title">目录</div>
+    <div class="toc-content">
+        
     </div>
-    </div>
-    <div id="landlord">
-        <div class="message" style="opacity:0"></div>
-        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
-    </div>
-    <div id="codeCopyText" style="display: none"></div>
-    <div id="domainname" style="display:none">https://wonder-zhang.github.io</div>
-    </body>
-    <script src="https://wonder-zhang.github.io/media/js/post.js"></script>
     <script>
-        //寻找所有code标签，加复制按钮鸭！(行内代码除外)
-        var codes = document.getElementsByTagName('code');
-        if (codes.length) {
-            for (var i = 0; i < codes.length; i++) {
-                //高度/行高=文本行数
-                // var rowNum=Math.round(codes[i].height()/parseFloat(codes[i].css('line-height')));
-                // console.log("当前有"+rowNum+"行");
-                var code_id = "code_id_" + i;
-                codes[i].setAttribute("id", code_id);
-                var ci = "#" + code_id;
-                var codedot = $(ci);
-                var rowNum = Math.round(codedot.height() / parseFloat(codedot.css('line-height')));
-                if (rowNum <= 1) continue;
-                var btn = document.createElement("button");
-                btn.setAttribute("class", "copybt");
-                btn.setAttribute("data-clipboard-target", "#" + code_id);
-                btn.innerHTML = '复制代码';
-                codes[i].parentNode.insertBefore(btn, codes[i]);
+        function locateCatelogList() {
+            /*获取文章目录集合,可通过:header过滤器*/
+            var alis = $('.post-content :header');
+            /*获取侧边栏目录列表集合**/
+            var sidebar_alis = $('.markdownIt-TOC a');
+            /*获取滚动条到顶部的距离*/
+            var scroll_height = $(window).scrollTop();
+            for (var i = 0; i < alis.length; i++) {
+                /*获取锚点集合中的元素分别到顶点的距离*/
+                var a_height = $(alis[i]).offset().top-150;
+                if (a_height < scroll_height) {
+                    /*高亮显示*/
+                    sidebar_alis.removeClass('on');
+                    $(sidebar_alis[i]).addClass('on');
+                }
             }
-        };
-        var cop = new ClipboardJS('.copybt');
-        var codeCopyText = $("#codeCopyText").html();
-        cop.on('success', function (e) {
-            alert(codeCopyText);
-            e.clearSelection();
-        });
-        cop.on('error', function (e) {
-            alert("矮油，复制失败了...手动复制吧勇士！");
-            e.clearSelection();
+        }
+
+        $(function () {
+            /*绑定滚动事件 */
+            $(window).bind('scroll', locateCatelogList);
         });
     </script>
-    
-<script>
-$(function () {
-    $('.toggleContainer').click(function(){$('html,body').animate({scrollTop: '0px'}, 800);});
-	$(window).scroll(function() {
-        var st = $(window).scrollTop();
-        if(st > 30){
-            $(".toggleContainer").fadeIn(400);
-        }else{
-            $(".toggleContainer").fadeOut(100);
-        }
-	});
-});
-</script>
+</div>
 
-<script>
-        var bgchoice=$('#bgchoice').html();
-        var bg = $('#bg');
-        var bgurl = document.getElementById("bgurl").innerHTML;
-        if(bgchoice=='default')
-            for (var i = 0; i < 3; i++)
-                bgurl = bgurl.replace("\\", "/");
-        bg.css("background", "url('" + bgurl + "')");
-</script>
+            
+        </div>
+    </div>
+    <div class="site-footer">
+    Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
+ <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a> | Theme <a href="//github.com/violetfreesia/gridea-theme-Violet" target="_blank">Violet</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://wonder-zhang.github.io/media/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</body>
+</html>

@@ -1,565 +1,122 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="文/洞见Autumn
-你必须精力饱满，才能经得住世事刁难。
-人到中年，人生半坡。
-华发潜生，皱褶暗长，不再有鲜妍的容颜；
-精力渐衰，思虑繁多，生活只有负重前行。
-然而褪去了青涩，打磨了莽撞，中年何尝不是人生最好的年纪。
-经过时间的洗礼，智慧..." />
-    <meta name="keywords" content="思想聚焦,摘抄" />
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
-    
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/dracula.min.css">
-              
-    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
-    <script src="https://wonder-zhang.github.io/media/js/clipboard.min.js"></script>
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/live2d.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
-    <!-- 数学公式 -->
-    
-    <title>wonder's blog</title>
-    
-    <style>
-        .markdownIt-TOC {
-            padding-left: 2px;
-            width: 100%;
-        }
-        .markdownIt-TOC li{
-            padding-left: 2%;
-        }
-    </style>
-    
-</head>
-
-<body>
-    <!-- 响应式布局，针对PC端内容显示 -->
-    <div id="content">
-        <div class="nav-large">
-            <div class="row">
-                <div class="side"><head>
-    <meta name="description" content="Stay Hungry. Stay Foolish" />
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-</head>
-
-
-<body>
-    
-
-
-
-    
-</body>
-<script>
-    //-------------------------------------------------搜索
-    // 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素
-    var searchInput = document.querySelector('.search-input');
-    var searchResults = document.querySelector('.search-results');
-
-    // 申明保存文章的标题、链接、内容的数组变量
-    var searchValue = '',
-        arrItems = [],
-        arrLinks = [],
-        arrTitles = [],
-        arrResults = [],
-        indexItem = [],
-        itemLength = 0;
-    var tmpDiv = document.createElement('div');
-    tmpDiv.className = 'result-item';
-
-    // ajax 的兼容写法
-    var xhr = new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            xml = xhr.responseXML;
-            arrItems = xml.getElementsByTagName('entry');
-            itemLength = arrItems.length;
-            // 遍历并保存所有文章对应的标题、链接、内容到对应的数组中
-            // 同时过滤掉 HTML 标签
-            for (i = 0; i < itemLength; i++) {
-                var link = arrItems[i].getElementsByTagName('link')[0];
-                arrLinks[i] = link.getAttribute("href");
-                arrTitles[i] = arrItems[i].getElementsByTagName('title')[0].
-                childNodes[0].nodeValue.replace(/<.*?>/g, '');
-            }
-        }
-    }
-
-    // 开始获取根目录下 feed.xml 文件内的数据
-    xhr.open('get', '/atom.xml', true);
-    xhr.send();
-
-
-
-    // 输入框内容变化后就开始匹配，可以不用点按钮
-    // 经测试，onkeydown, onchange 等方法效果不太理想，
-    // 存在输入延迟等问题，最后发现触发 input 事件最理想，
-    // 并且可以处理中文输入法拼写的变化
-    searchInput.oninput = function () {
-        setTimeout(searchConfirm, 0);
-    }
-    searchInput.onfocus = function () {
-        searchResults.style.display = 'block';
-    }
-
-    function searchConfirm() {
-        if (searchInput.value == '') {
-            searchResults.style.display = 'none';
-        } else if (searchInput.value.search(/^\s+$/) >= 0) {
-            // 检测输入值全是空白的情况
-            searchInit();
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '请输入有效内容...';
-            searchResults.appendChild(itemDiv);
-        } else {
-            // 合法输入值的情况
-            searchInit();
-            searchValue = searchInput.value;
-            // 在标题、内容中查找
-            searchMatching(arrTitles, searchValue);
-        }
-    }
-
-    // 每次搜索完成后的初始化
-    function searchInit() {
-        arrResults = [];
-        indexItem = [];
-        searchResults.innerHTML = '';
-        searchResults.style.display = 'block';
-    }
-
-    function searchMatching(arr1, input) {
-        // 忽略输入大小写
-        input = new RegExp(input, 'i');
-        // 在所有文章标题、内容中匹配查询值
-        for (i = 0; i < itemLength; i++) {
-            if (arr1[i].search(input) !== -1) {
-                var arr = arr1;
-                indexItem.push(i); // 保存匹配值的索引
-                var indexContent = arr[i].search(input);
-                // 此时 input 为 RegExp 格式 /input/i，转换为原 input 字符串长度
-                var l = input.toString().length - 3;
-                var step = 10;
-
-                // 将匹配到内容的地方进行黄色标记，并包括周围一定数量的文本
-                arrResults.push(arr[i].slice(indexContent - step, indexContent));
-            }
-        }
-
-        // 输出总共匹配到的数目
-        var totalDiv = tmpDiv.cloneNode(true);
-        totalDiv.innerHTML = '<b>总匹配：' + indexItem.length + ' 项<hr></b>';
-        searchResults.appendChild(totalDiv);
-
-        // 未匹配到内容的情况
-        if (indexItem.length == 0) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '未匹配到内容...';
-            searchResults.appendChild(itemDiv);
-        }
-
-        // 将所有匹配内容进行组合
-        for (i = 0; i < arrResults.length; i++) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerHTML = '<b>[' + arrTitles[indexItem[i]] +
-                ']</b><p>' + arrResults[i] + "</p><hr />";
-            itemDiv.setAttribute('onclick', 'changeHref(arrLinks[indexItem[' + i + ']])');
-            searchResults.appendChild(itemDiv);
-        }
-    }
-
-    function changeHref(href) {
-        location.href = href;
-    }
-
-    function showqq() {
-        var qq = document.getElementById("qq").innerHTML;
-        if (qq != '')
-            alert("博主的QQ联系方式为：" + qq);
-        else
-            alert("博主暂未设置QQ联系方式");
-    }
-</script></div>
-    
-    <div id="main" class="col-xs-12 col-sm-7" style="width:50%;margin-top:50px;left:27%">
-        <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>wonder&#39;s blog</title>
+<link rel="shortcut icon" href="https://wonder-zhang.github.io/favicon.ico?v=1604373550487">
+<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+<link href="" rel="stylesheet">
+<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/prism-.css">
 <style>
-
-</style>
-
-<body>
-    <div class="allcontent" id="postdetail">
-        <div class="postshow">
-            
-            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
-                
-                <img src="" class="postimage">
-                
-            </div>
-            <div class="postinfo-detail">
-                <div class="postdate"><i class="fa fa-calendar"></i>2020-07-22</div>
-            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 8 min read</div>
-            <div class="posttag">
-                
-                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-                    <i class="fa fa-tag"></i> 思想聚焦
-                </a>
-                
-                <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="postlink">
-                    <i class="fa fa-tag"></i> 摘抄
-                </a>
-                
-            </div>
-        </div>
-        
-        <div id="texttitle" style="text-align: center">
-            <h2>中年以后，“三观”比五官更重要</h2>
-            <!-- id 将作为查询条件 -->
-            <div id="pl" style="display:none">https://wonder-zhang.github.io/_4_MYPDyr/</div>
-            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
-            <span id="hotnum" class="leancloud_visitors" data-flag-title="中年以后，“三观”比五官更重要">
-                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
-            </span>
-        </div>
-        <div class="text ">
-            <p>文/洞见Autumn</p>
-<p><strong>你必须精力饱满，才能经得住世事刁难。</strong></p>
-<p>人到中年，人生半坡。</p>
-<p>华发潜生，皱褶暗长，不再有鲜妍的容颜；</p>
-<p>精力渐衰，思虑繁多，生活只有负重前行。</p>
-<p>然而褪去了青涩，打磨了莽撞，中年何尝不是人生最好的年纪。</p>
-<p>经过时间的洗礼，智慧而清醒，成熟而稳重；见过许多人，行过许多路，逐渐明白了生活的本质。</p>
-<p>中年以后，“三观”比五官更重要。</p>
-<p>除了世界观、人生观、价值观，我还总结了以下这“三观”，分享给朋友们。</p>
-<p>1</p>
-<p>年龄观：心若不老，岁月无伤</p>
-<p>导演王潮歌有篇著名的演讲，每次听来都感触颇深。</p>
-<p>“12年是一个轮回，到了36岁，家庭、工作、生活都趋于稳定，人也截然分成两种：</p>
-<p>一种是重复着36岁；另一种就是开始寻找新的人生。</p>
-<p>绝大部分人死于36岁，不是肉体的死，是倦怠、焦虑、沉默，对于生活没有热望。”</p>
-<p>人生的下半程，越走越多的是年纪，越来越少的是勇气。</p>
-<p>太多人用年龄“框”住了自己，不敢尝试新鲜事物，逐渐丧失生活热情。</p>
-<p>觉得人到了某个年纪，就只能俯首称臣，混吃等死，再也没法儿从生活的大山下翻身。</p>
-<p>而有些人，却从未被年龄限制对生活的想象力，把日子过得一直热气腾腾。</p>
-<p>艺术大师黄永玉，被称为“现实版的周伯通”。</p>
-<p>50岁学驾照，70岁出国游学，80岁拍封面，90多岁了，还开着辆霸气的红色法拉利去飙车。</p>
-<p>在别人看来早该颐养天年的年纪，他却一路突破，越玩越嗨。</p>
-<p>90岁那年，黄老爷子还画了一副自画像，乐呵呵地称自己为“90后”。</p>
-<p>很喜欢窦文涛的一句话：</p>
-<p>“老不是一个年龄问题，也不是一个生理问题，而是一个认知问题。”</p>
-<p>时光使面容起皱，但人只要心怀热忱，就永远年轻。</p>
-<p>49岁北漂，80岁登上国际时装周的王德顺大爷说：“真好，我才80岁，如今我仍在不断追求自我。”</p>
-<p>76岁学画画，93岁登上《时代周刊》的摩西奶奶也有句名言：“人生永远没有太晚的开始。”</p>
-<p>真正高级的年龄观，是无论多少岁，都对生活充满热情，对事物保持好奇，永远不乏从头开始勇气。</p>
-<p>电影《重返二十岁》里，70岁的奶奶沈丽君，机缘巧合下恢复了20岁的容貌。</p>
-<p>想起一生颠沛流离，含辛茹苦，她决定重新做一回自已。</p>
-<p>玩乐队、谈恋爱、追梦，她在“偷”来的20岁里，活出了自己不敢想象的模样。</p>
-<p>人生不是电影，时光无法倒流。</p>
-<p>但这不妨碍我们活好每一个当下，不断为生命注入惊喜。</p>
-<p>《杀鹌鹑的少女》中写道：</p>
-<p>“不管我们几岁，只要信仰年轻，就依旧年轻；人老了不是最惨的，心老才是下坡路的开始。”</p>
-<p>所谓青年、中年、老年，都不过是种概念，过好自己的生活，才是正解。</p>
-<p>心若年轻，每一天都是黄金时代，每一刻都能摇曳生姿。</p>
-<p>2</p>
-<p>健康观：人生过半，学会认怂</p>
-<p>《圆桌派》有期节目，谈到了“年龄”的话题。</p>
-<p>有位嘉宾的一番话，让我深有感触：</p>
-<p>“人年纪一旦上来，身体已经明显感受到了变化。</p>
-<p>你会开始羡慕年轻人的精力，有时候也不得不向年龄低头。”</p>
-<p>人到中年，身体上的种种力不从心，身边人的来去无常，无一不在提醒我们：生命是一张有去无回的单程票，到了人生后半场，你我拼的都是健康。</p>
-<p>有网友分享过自己的一段经历。</p>
-<p>入行十多年，他一直是公司里最拼的那拨人，为了项目，加班熬夜简直是家常便饭。</p>
-<p>有一回，连续通宵一周后，他突然两眼一懵，晕倒在自家浴室。</p>
-<p>幸亏抢救及时，他才侥幸从鬼门关捡回一条命。</p>
-<p>醒来以后，看到哭成泪人的母亲和满眼通红的父亲，一阵愧疚涌上他的心头。</p>
-<p>从医院回来，他给自己立下了凌晨前必须睡觉的规矩，还翻出落灰的健身卡，报了个私教班。</p>
-<p>以前喜欢的浓油赤酱鲜少出现在餐桌上，朋友的酒局也是能推就推。</p>
-<p>人生过半，最好的保健品就是“认怂”。</p>
-<p>学会“认怂”，不是懦弱，只是明白了再多的名利成就，都比不过好好活着。</p>
-<p>知乎上有个问题：有哪种投资稳赚不赔？</p>
-<p>有个回答获赞颇高：</p>
-<p>“<strong>第一，养一个好身体；</strong></p>
-<p><strong>第二，真的要养一个好身体，它是你最大的本钱；</strong></p>
-<p><strong>第三，有机会再干点别的吧。</strong>”</p>
-<p>一个好身体，可以让你的家庭不必因为一场疾病而陷入窘境，让你能够长久地陪在家人身侧，让我们任何时候都能拥有和困难抗衡的底气。</p>
-<p>就像那句话说的：“你必须精力饱满，才能经得住世事刁难。”</p>
-<p>人生下半场，保持身体无病，心中无忧，是永恒的课题。</p>
-<p>一日三餐，定时定量；少油少盐，少烟少酒；早睡早起，适度运动。</p>
-<p>生命并不总是来来往往，在每一个平常的日子里，要学会善待自己。</p>
-<p>3</p>
-<p>生活观：物质至简，内心丰盈</p>
-<p>《简而美地活》中写过一段话：</p>
-<p>“想要的东西越多，心就越不容易满足。即便你最后如愿得到了所有，心情也会倍感压抑。</p>
-<p>本该为你带来快乐的东西，反而成了压力的源头，在你的心头蒙上了一层阴霾。”</p>
-<p>人生过半，经历了几多嘈杂，被欲望捆绑了数场，方才懂得：</p>
-<p>人这一生最好的状态，莫过于朴素与简单。</p>
-<p>读林清玄的故事，曾为他笔下的那句“人间有味是清欢”深深动容。</p>
-<p>年轻时的他，在台湾文坛声名斐然，30岁之前获得了台湾文学界几乎所有的奖项。</p>
-<p>整日周旋于与报纸、记者，与灯光和掌声相伴的生活，虽然风光，但不快乐。</p>
-<p>在事业走向巅峰之际，他毅然辞去所有工作，到山上闭关清修，中断了和外界的所有联系。</p>
-<p>“清欢是生命的减法，在我们舍弃了世俗的追逐和欲望的捆绑，回到最单纯的欢喜，是生命里最有滋味的情境。”</p>
-<p>山中的生活虽然清苦，他却自得其乐。</p>
-<p>远离了世俗的觥筹交错，他反而达到了新的创作高峰。</p>
-<p>很喜欢一句话：</p>
-<p>“生命应该是个删繁就简的过程，任世事摇曳，心始终如莲，安静绽放。”</p>
-<p>试着丢掉那些囤积如山的物品，舍弃形形色色的欲望，剔除圈子里那些无关紧要的人。</p>
-<p>培养一些无关功利的爱好，学习一些早就想试水的技能：</p>
-<p>去旅行，用脚步丈量世界，用相机收藏美好；</p>
-<p>去读书，在书中品味人生百态，和作者碰撞思想；</p>
-<p>去思考，在独处中学会跟自己的灵魂对话。</p>
-<p>大曾老师写过一首打油诗，读来发人深省：</p>
-<p>“生命到头终作古，繁华归尘身归土。多少追名逐利客，一世经营又何苦。”</p>
-<p>生活的真谛，终究不在物质几许，而在内心的厚度。</p>
-<p>活在这纷纷扰扰人世间，删繁就简，才轻松自在；灵魂丰盈，才舒适安然。</p>
-<p>正所谓，越走越长的是道路，越走越明的是智慧。</p>
-<p>拥有高级的年龄观，敢尝试，敢热爱，任它时日驰去，心中毫无岁月；</p>
-<p>养成正确的健康观，学会认怂，养身养心，更好地与生命的无常相抵；</p>
-<p>守住极简的生活观，在清净的生活中感悟生命本真，丰盈自己的内心。</p>
-<p>余生不长，把视线收回到自身，倾听内心的声音，养成良好的“三观”。</p>
-<p>如此，方能身心欢喜，内外皆安。</p>
-<p>与朋友们共勉。</p>
-
-        </div>
-        
-        <div class="prev-post">
-            上一篇
-            <a href="https://wonder-zhang.github.io/IilKziw0v/">
-                做一个操作系统有多难？
-            </a>
-        </div>
-        
-        
-        <div class="next-post">
-            下一篇
-            <a href="https://wonder-zhang.github.io/WcP96vYB_/">
-                抬杠，是我见过情商最低的行为
-            </a>
-        </div>
-        
-    </div>
-    </div>
-</body>
-<script>
-    var t_img; // 定时�?
-    var isLoad = true; // 控制变量
-    isImgLoad(function () {
-        // 加载完成
-        $('.postdetailimg').css("display", "block");
-    });
-    // 判断图片加载的函�?
-    function isImgLoad(callback) {
-        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
-        // 查找所有封面图，迭代�?�理
-        $('.postdetailimg').each(function () {
-            // 找到�?0就将isLoad设为false，并退出each
-            if (this.height === 0) {
-                isLoad = false;
-                return false;
-            }
-        });
-        // 为true，没有发现为0的。加载完�?
-        if (isLoad) {
-            clearTimeout(t_img); // 清除定时�?
-            // 回调函数
-            callback();
-            // 为false，因为找到了没有加载完成的图，将调用定时器递归
-        } else {
-            isLoad = true;
-            t_img = setTimeout(function () {
-                isImgLoad(callback); // 递归�?�?
-            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
-        }
+    @font-face {
+        font-weight: normal;
+        font-style: normal;
+        font-family: 'charganolton';
+        src: url('https://wonder-zhang.github.io/media/fonts/Charganolton.ttf');
+    }
+    @font-face {
+        font-weight: normal;
+        font-style: normal;
+        font-family: 'JetBrainsMono';
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.eot');
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.eot?#iefix') format('embedded-opentype'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.woff2') format('woff2'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.woff') format('woff'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.ttf') format('truetype');
     }
 
-    //文章阅读热度
-    var pl = $("#pl").html();
-    var rootaddr = $("#rootaddr").html();
-    pl = pl.replace(rootaddr, "");
-    $("#hotnum").attr('id', pl);
-</script>
-        <div name="comment" style="background: white">
-            <div class="commentcontainer">
-                
-                
-                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    @font-face {
+        font-weight: bold;
+        font-style: normal;
+        font-family: 'JetBrainsMono';
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.eot');
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.eot?#iefix') format('embedded-opentype'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.woff2') format('woff2'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.woff') format('woff'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.ttf') format('truetype');
+    }
+</style>
+<link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
 
-<div id="gitalk-container"></div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    
+</head>
+<body>
 
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: '0a75e243e68be28523b4',
-    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
-    repo: 'wonder-zhang.github.io',
-    owner: 'wonder-zhang',
-    admin: ['wonder-zhang'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-                
-                
-                
-            </div>
-        </div>
-    </div>
-     
-                <div class="toc-container">
+<div class="header">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="https://wonder-zhang.github.io">
+                <img src="https://wonder-zhang.github.io/images/avatar.png?v=1604373550487" width="30" height="30"
+                     class="d-inline-block align-top"
+                     alt="">
+                wonder&#39;s blog
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
                     
-    </div>
-    </div>
-    </div>
-    <div class="toggleContainer">
-        <div class="toggle">
-            <i class="fas fa-angle-double-up"></i>
-        </div>
-    </div>
-    <div id="bg">
-    </div>
-    <div id="bgchoice" style="display: none"></div>
-    
-    <div id="bgurl" style="display:none"></div>
-       
-    </div>
-    <!-- 响应式布局，针对手机端内容显示 -->
-    <div class="nav-small">
-        <head>
-  <!-- 引入Bootstrap核心样式文件 -->
-  <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-</head>
-
-<body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-          data-target="#barmenu" aria-expanded="false" id="barbutton">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="https://wonder-zhang.github.io">wonder&#39;s blog&nbsp;&nbsp;|</a>
-      </div>
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="barmenu">
-        <ul class="nav navbar-nav">
-          
-          
-          <li>
-            <a href="/">
-              首页
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/archives">
-              归档
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/tags">
-              标签
-            </a>
-          </li>
-          
-          
-          
-          
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
-
-
-  <!-- 引入jQuery核心js文件 -->
-  <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script>
-  var btstate = false;
-  var bt = $("#barbutton");
-  var bm = $("#barmenu");
-  bt.click(function(){
-    dropdown();
-  })
-  function dropdown(){
-    console.log(btstate);
-    //下拉
-    if(btstate==false){
-      bt.removeClass("collapsed");
-      bt.attr("aria-expanded","true");
-      bm.attr("aria-expanded","true")
-      bm.fadeIn(700);
-      btstate = true;
-    }
-    else{
-      bt.addClass("collapsed");
-      bt.attr("aria-expanded","false");
-      bm.removeClass("in");
-      bm.hide();
-      bm.attr("aria-expanded","false");
-      btstate = false;
-    }
-  }
-  </script> 
-</body>
-    <div style="margin-top:30px"></div>
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
-<style>
-
-</style>
-
-<body>
-    <div class="allcontent" id="postdetail">
-        <div class="postshow">
-            
-            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
-                
-                <img src="" class="postimage">
-                
-            </div>
-            <div class="postinfo-detail">
-                <div class="postdate"><i class="fa fa-calendar"></i>2020-07-22</div>
-            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 8 min read</div>
-            <div class="posttag">
-                
-                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-                    <i class="fa fa-tag"></i> 思想聚焦
-                </a>
-                
-                <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="postlink">
-                    <i class="fa fa-tag"></i> 摘抄
-                </a>
-                
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/"
+                                
+                                >首页</a>
+                            </li>
+                        
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/archives"
+                                
+                                >归档</a>
+                            </li>
+                        
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/tags"
+                                
+                                >标签</a>
+                            </li>
+                        
+                    
+                </ul>
             </div>
         </div>
-        
-        <div id="texttitle" style="text-align: center">
-            <h2>中年以后，“三观”比五官更重要</h2>
-            <!-- id 将作为查询条件 -->
-            <div id="pl" style="display:none">https://wonder-zhang.github.io/_4_MYPDyr/</div>
-            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
-            <span id="hotnum" class="leancloud_visitors" data-flag-title="中年以后，“三观”比五官更重要">
-                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
-            </span>
-        </div>
-        <div class="text ">
-            <p>文/洞见Autumn</p>
+    </nav>
+</div>
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-sm-100 col-lg-9">
+            <div class="shadow-sm post-detail">
+                <article class="post i-card">
+                    <h2 class="post-title">
+                        中年以后，“三观”比五官更重要
+                    </h2>
+                    <div class="post-info">
+                        <time class="post-time">2020-07-22</time>
+                        
+                            <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="post-tag i-tag
+                            i-tag-other_2">
+                                #思想聚焦
+                            </a>
+                        
+                            <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="post-tag i-tag
+                            i-tag-other_2">
+                                #摘抄
+                            </a>
+                        
+                    </div>
+                    
+                    <div class="post-content">
+                        <p>文/洞见Autumn</p>
 <p><strong>你必须精力饱满，才能经得住世事刁难。</strong></p>
 <p>人到中年，人生半坡。</p>
 <p>华发潜生，皱褶暗长，不再有鲜妍的容颜；</p>
@@ -656,156 +213,98 @@
 <p>如此，方能身心欢喜，内外皆安。</p>
 <p>与朋友们共勉。</p>
 
-        </div>
-        
-        <div class="prev-post">
-            上一篇
-            <a href="https://wonder-zhang.github.io/IilKziw0v/">
-                做一个操作系统有多难？
-            </a>
-        </div>
-        
-        
-        <div class="next-post">
-            下一篇
-            <a href="https://wonder-zhang.github.io/WcP96vYB_/">
-                抬杠，是我见过情商最低的行为
-            </a>
-        </div>
-        
-    </div>
-    </div>
-</body>
-<script>
-    var t_img; // 定时�?
-    var isLoad = true; // 控制变量
-    isImgLoad(function () {
-        // 加载完成
-        $('.postdetailimg').css("display", "block");
-    });
-    // 判断图片加载的函�?
-    function isImgLoad(callback) {
-        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
-        // 查找所有封面图，迭代�?�理
-        $('.postdetailimg').each(function () {
-            // 找到�?0就将isLoad设为false，并退出each
-            if (this.height === 0) {
-                isLoad = false;
-                return false;
-            }
-        });
-        // 为true，没有发现为0的。加载完�?
-        if (isLoad) {
-            clearTimeout(t_img); // 清除定时�?
-            // 回调函数
-            callback();
-            // 为false，因为找到了没有加载完成的图，将调用定时器递归
-        } else {
-            isLoad = true;
-            t_img = setTimeout(function () {
-                isImgLoad(callback); // 递归�?�?
-            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
-        }
-    }
-
-    //文章阅读热度
-    var pl = $("#pl").html();
-    var rootaddr = $("#rootaddr").html();
-    pl = pl.replace(rootaddr, "");
-    $("#hotnum").attr('id', pl);
-</script>
-    <div name="comment" style="background: white;margin-top:100px">
-        <div class="commentcontainer">
-            
-            
-            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-<div id="gitalk-container"></div>
-
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: '0a75e243e68be28523b4',
-    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
-    repo: 'wonder-zhang.github.io',
-    owner: 'wonder-zhang',
-    admin: ['wonder-zhang'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-            
-            
+                    </div>
+                </article>
+            </div>
+            <div class="row">
+                <div class="next-post col-6">
+                    
+                        <div class="next">上一篇</div>
+                        <a href="https://wonder-zhang.github.io/IilKziw0v/">
+                            <h3 class="post-title">
+                                做一个操作系统有多难？
+                            </h3>
+                        </a>
+                    
+                </div>
+                <div class="next-post col-6">
+                    
+                        <div class="next">下一篇</div>
+                        <a href="https://wonder-zhang.github.io/WcP96vYB_/">
+                            <h3 class="post-title">
+                                抬杠，是我见过情商最低的行为
+                            </h3>
+                        </a>
+                    
+                </div>
+            </div>
             
         </div>
+        <div class="d-none d-lg-block col-lg-3">
+            
+                <div class="toc-card i-card shadow-sm sticky-top">
+    <div class="toc-title i-card-title">目录</div>
+    <div class="toc-content">
+        
     </div>
-    </div>
-    <div id="landlord">
-        <div class="message" style="opacity:0"></div>
-        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
-    </div>
-    <div id="codeCopyText" style="display: none"></div>
-    <div id="domainname" style="display:none">https://wonder-zhang.github.io</div>
-    </body>
-    <script src="https://wonder-zhang.github.io/media/js/post.js"></script>
     <script>
-        //寻找所有code标签，加复制按钮鸭！(行内代码除外)
-        var codes = document.getElementsByTagName('code');
-        if (codes.length) {
-            for (var i = 0; i < codes.length; i++) {
-                //高度/行高=文本行数
-                // var rowNum=Math.round(codes[i].height()/parseFloat(codes[i].css('line-height')));
-                // console.log("当前有"+rowNum+"行");
-                var code_id = "code_id_" + i;
-                codes[i].setAttribute("id", code_id);
-                var ci = "#" + code_id;
-                var codedot = $(ci);
-                var rowNum = Math.round(codedot.height() / parseFloat(codedot.css('line-height')));
-                if (rowNum <= 1) continue;
-                var btn = document.createElement("button");
-                btn.setAttribute("class", "copybt");
-                btn.setAttribute("data-clipboard-target", "#" + code_id);
-                btn.innerHTML = '复制代码';
-                codes[i].parentNode.insertBefore(btn, codes[i]);
+        function locateCatelogList() {
+            /*获取文章目录集合,可通过:header过滤器*/
+            var alis = $('.post-content :header');
+            /*获取侧边栏目录列表集合**/
+            var sidebar_alis = $('.markdownIt-TOC a');
+            /*获取滚动条到顶部的距离*/
+            var scroll_height = $(window).scrollTop();
+            for (var i = 0; i < alis.length; i++) {
+                /*获取锚点集合中的元素分别到顶点的距离*/
+                var a_height = $(alis[i]).offset().top-150;
+                if (a_height < scroll_height) {
+                    /*高亮显示*/
+                    sidebar_alis.removeClass('on');
+                    $(sidebar_alis[i]).addClass('on');
+                }
             }
-        };
-        var cop = new ClipboardJS('.copybt');
-        var codeCopyText = $("#codeCopyText").html();
-        cop.on('success', function (e) {
-            alert(codeCopyText);
-            e.clearSelection();
-        });
-        cop.on('error', function (e) {
-            alert("矮油，复制失败了...手动复制吧勇士！");
-            e.clearSelection();
+        }
+
+        $(function () {
+            /*绑定滚动事件 */
+            $(window).bind('scroll', locateCatelogList);
         });
     </script>
-    
-<script>
-$(function () {
-    $('.toggleContainer').click(function(){$('html,body').animate({scrollTop: '0px'}, 800);});
-	$(window).scroll(function() {
-        var st = $(window).scrollTop();
-        if(st > 30){
-            $(".toggleContainer").fadeIn(400);
-        }else{
-            $(".toggleContainer").fadeOut(100);
-        }
-	});
-});
-</script>
+</div>
 
-<script>
-        var bgchoice=$('#bgchoice').html();
-        var bg = $('#bg');
-        var bgurl = document.getElementById("bgurl").innerHTML;
-        if(bgchoice=='default')
-            for (var i = 0; i < 3; i++)
-                bgurl = bgurl.replace("\\", "/");
-        bg.css("background", "url('" + bgurl + "')");
-</script>
+            
+        </div>
+    </div>
+    <div class="site-footer">
+    Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
+ <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a> | Theme <a href="//github.com/violetfreesia/gridea-theme-Violet" target="_blank">Violet</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://wonder-zhang.github.io/media/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</body>
+</html>

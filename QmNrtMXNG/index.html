@@ -1,799 +1,117 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="我没有钱，我徘徊不前。
-文/张拉灯
-
-
-
-陈婉，我胸口上永远的朱砂痣。
-其实我胸口真的有一颗痣，但是被烟头烫的。那时候我躺在宿舍床上抽烟，脑海里全是陈婉的模样。烟头一个没拿稳，正好落在我的胸口。
-嘶——疼！
-疤痕永远地留在了我的胸口，我永远..." />
-    <meta name="keywords" content="阅读" />
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
-    
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/dracula.min.css">
-              
-    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
-    <script src="https://wonder-zhang.github.io/media/js/clipboard.min.js"></script>
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/live2d.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
-    <!-- 数学公式 -->
-    
-    <title>wonder's blog</title>
-    
-    <style>
-        .markdownIt-TOC {
-            padding-left: 2px;
-            width: 100%;
-        }
-        .markdownIt-TOC li{
-            padding-left: 2%;
-        }
-    </style>
-    
-</head>
-
-<body>
-    <!-- 响应式布局，针对PC端内容显示 -->
-    <div id="content">
-        <div class="nav-large">
-            <div class="row">
-                <div class="side"><head>
-    <meta name="description" content="Stay Hungry. Stay Foolish" />
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-</head>
-
-
-<body>
-    
-
-
-
-    
-</body>
-<script>
-    //-------------------------------------------------搜索
-    // 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素
-    var searchInput = document.querySelector('.search-input');
-    var searchResults = document.querySelector('.search-results');
-
-    // 申明保存文章的标题、链接、内容的数组变量
-    var searchValue = '',
-        arrItems = [],
-        arrLinks = [],
-        arrTitles = [],
-        arrResults = [],
-        indexItem = [],
-        itemLength = 0;
-    var tmpDiv = document.createElement('div');
-    tmpDiv.className = 'result-item';
-
-    // ajax 的兼容写法
-    var xhr = new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            xml = xhr.responseXML;
-            arrItems = xml.getElementsByTagName('entry');
-            itemLength = arrItems.length;
-            // 遍历并保存所有文章对应的标题、链接、内容到对应的数组中
-            // 同时过滤掉 HTML 标签
-            for (i = 0; i < itemLength; i++) {
-                var link = arrItems[i].getElementsByTagName('link')[0];
-                arrLinks[i] = link.getAttribute("href");
-                arrTitles[i] = arrItems[i].getElementsByTagName('title')[0].
-                childNodes[0].nodeValue.replace(/<.*?>/g, '');
-            }
-        }
-    }
-
-    // 开始获取根目录下 feed.xml 文件内的数据
-    xhr.open('get', '/atom.xml', true);
-    xhr.send();
-
-
-
-    // 输入框内容变化后就开始匹配，可以不用点按钮
-    // 经测试，onkeydown, onchange 等方法效果不太理想，
-    // 存在输入延迟等问题，最后发现触发 input 事件最理想，
-    // 并且可以处理中文输入法拼写的变化
-    searchInput.oninput = function () {
-        setTimeout(searchConfirm, 0);
-    }
-    searchInput.onfocus = function () {
-        searchResults.style.display = 'block';
-    }
-
-    function searchConfirm() {
-        if (searchInput.value == '') {
-            searchResults.style.display = 'none';
-        } else if (searchInput.value.search(/^\s+$/) >= 0) {
-            // 检测输入值全是空白的情况
-            searchInit();
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '请输入有效内容...';
-            searchResults.appendChild(itemDiv);
-        } else {
-            // 合法输入值的情况
-            searchInit();
-            searchValue = searchInput.value;
-            // 在标题、内容中查找
-            searchMatching(arrTitles, searchValue);
-        }
-    }
-
-    // 每次搜索完成后的初始化
-    function searchInit() {
-        arrResults = [];
-        indexItem = [];
-        searchResults.innerHTML = '';
-        searchResults.style.display = 'block';
-    }
-
-    function searchMatching(arr1, input) {
-        // 忽略输入大小写
-        input = new RegExp(input, 'i');
-        // 在所有文章标题、内容中匹配查询值
-        for (i = 0; i < itemLength; i++) {
-            if (arr1[i].search(input) !== -1) {
-                var arr = arr1;
-                indexItem.push(i); // 保存匹配值的索引
-                var indexContent = arr[i].search(input);
-                // 此时 input 为 RegExp 格式 /input/i，转换为原 input 字符串长度
-                var l = input.toString().length - 3;
-                var step = 10;
-
-                // 将匹配到内容的地方进行黄色标记，并包括周围一定数量的文本
-                arrResults.push(arr[i].slice(indexContent - step, indexContent));
-            }
-        }
-
-        // 输出总共匹配到的数目
-        var totalDiv = tmpDiv.cloneNode(true);
-        totalDiv.innerHTML = '<b>总匹配：' + indexItem.length + ' 项<hr></b>';
-        searchResults.appendChild(totalDiv);
-
-        // 未匹配到内容的情况
-        if (indexItem.length == 0) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '未匹配到内容...';
-            searchResults.appendChild(itemDiv);
-        }
-
-        // 将所有匹配内容进行组合
-        for (i = 0; i < arrResults.length; i++) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerHTML = '<b>[' + arrTitles[indexItem[i]] +
-                ']</b><p>' + arrResults[i] + "</p><hr />";
-            itemDiv.setAttribute('onclick', 'changeHref(arrLinks[indexItem[' + i + ']])');
-            searchResults.appendChild(itemDiv);
-        }
-    }
-
-    function changeHref(href) {
-        location.href = href;
-    }
-
-    function showqq() {
-        var qq = document.getElementById("qq").innerHTML;
-        if (qq != '')
-            alert("博主的QQ联系方式为：" + qq);
-        else
-            alert("博主暂未设置QQ联系方式");
-    }
-</script></div>
-    
-    <div id="main" class="col-xs-12 col-sm-7" style="width:50%;margin-top:50px;left:27%">
-        <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>wonder&#39;s blog</title>
+<link rel="shortcut icon" href="https://wonder-zhang.github.io/favicon.ico?v=1604373550487">
+<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+<link href="" rel="stylesheet">
+<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/prism-.css">
 <style>
-
-</style>
-
-<body>
-    <div class="allcontent" id="postdetail">
-        <div class="postshow">
-            
-            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
-                
-                <img src="" class="postimage">
-                
-            </div>
-            <div class="postinfo-detail">
-                <div class="postdate"><i class="fa fa-calendar"></i>2020-06-18</div>
-            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 22 min read</div>
-            <div class="posttag">
-                
-                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-                    <i class="fa fa-tag"></i> 阅读
-                </a>
-                
-            </div>
-        </div>
-        
-        <div id="texttitle" style="text-align: center">
-            <h2>人生别放弃</h2>
-            <!-- id 将作为查询条件 -->
-            <div id="pl" style="display:none">https://wonder-zhang.github.io/QmNrtMXNG/</div>
-            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
-            <span id="hotnum" class="leancloud_visitors" data-flag-title="人生别放弃">
-                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
-            </span>
-        </div>
-        <div class="text ">
-            <p><strong>我没有钱，我徘徊不前。</strong></p>
-<p>文/张拉灯</p>
-<ol>
-<li></li>
-</ol>
-<p>陈婉，我胸口上永远的朱砂痣。</p>
-<p>其实我胸口真的有一颗痣，但是被烟头烫的。那时候我躺在宿舍床上抽烟，脑海里全是陈婉的模样。烟头一个没拿稳，正好落在我的胸口。</p>
-<p>嘶——疼！</p>
-<p>疤痕永远地留在了我的胸口，我永远忘记不了了。</p>
-<p>而我同样忘不了的，还有在这之前发生的事。</p>
-<p>那是下午两点半，室友夏刚顶着太阳，气喘吁吁从外面回宿舍，面色兴奋。</p>
-<p>“老张，你知道咱们院插画班有个叫陈婉的女生吗？”</p>
-<p>我瞥他一眼说，你想干啥。</p>
-<p>他说，那就是认识。</p>
-<p>我说，有屁快放。</p>
-<p>他笑，我想要她微信号，你懂的。</p>
-<p>我没说话。</p>
-<p>夏刚见我表情冷漠，于是抱着我的大腿说，我的好兄弟，求你了！</p>
-<p>我说，滚滚滚。</p>
-<p>那天直到最后，我都没给出陈婉的微信号。</p>
-<p>夏刚后来不知道找了谁，还是要到了。</p>
-<p>我心里有点不是滋味。</p>
-<p>陈婉和我，来自同一高中的艺考集训班。</p>
-<p>当时我总被老师拎坐在第一排，而陈婉坐在最后一排左边靠窗的位置。在那段昏天黑地的绘画集训期，每次感到心灰意冷疲惫不堪的时候，我都不自觉回头往左后方看去。</p>
-<p>有好长时间，我都以为我是在看窗外的风景。可我没有注意到，陈婉总会出现在我的视线之中。</p>
-<p>后来她坐到了右边靠窗位置，我又总往右后方看。</p>
-<p>艺考老师经常会从讲台上跳下来，掐我耳朵问，后面有什么好看的？</p>
-<p>我说，看黑板报，汲取艺术灵感。</p>
-<p>还是免不了被一通乱捶。</p>
-<p>我和陈婉讲话次数很少。</p>
-<p>她好像有种魔力，像有一股无形的力量扶着我的脖颈，隐隐推动着我，让我不自觉回头望去。只要不回头看她，我心里就难受。</p>
-<p>我们那个班，大部分人都报了同一所东部沿海某艺术学院，我也一样。</p>
-<p>高考成绩出来以后，陈婉是唯一通过专业考上的学生，她进了插画系。</p>
-<p>而我走了条捷径，通过理论考试，调剂进了和她一个学院的理论班。</p>
-<p>上大学后，我偶尔会在学院碰见她，愣一下，然后互相点个头。我总是想着，总有一个机会，我能和她正经认识。</p>
-<p>可什么也没发生。</p>
-<p>每次想起这，心情都感到压抑。</p>
-<p>加到她微信，已经是大二下学期。</p>
-<p>我们选了同一门大课，有天碰巧坐一起，我搭话说，咱们算缘分吧，你还记得当年那个艺考老师吗。</p>
-<p>她笑，记得呀，经常捶你那个。</p>
-<p>聊了大半节课，氛围融洽，临走她说，你之前怎么不找我说话。</p>
-<p>我说，这不是来了吗。</p>
-<p>这对话我现在想来都觉得十分尴尬。</p>
-<p>从那以后，我一直没有和她聊天。</p>
-<p>她也什么都不说。</p>
-<p>可我越是想她，越是不知道说什么。</p>
-<p>时光就这样悄悄溜走。</p>
-<p>直到大三下学期，那个春夏之交的午后。</p>
-<p>我的室友夏刚，跑过来告诉我他喜欢陈婉，还让我推给他陈婉的微信号。</p>
-<p>我轻描淡写假装不在意，却一直都没有答应，实际上心里已经乱套。突然想起了很多细节往事，一种眼看珍藏许久的东西丢失的感觉。</p>
-<p>夏刚走出宿舍以后的整个下午，我失魂落魄地躺在床上。</p>
-<p>陈婉的模样不断浮现在我眼前。</p>
-<p>伴随一个烟头掉落在胸口，我的内心仿佛被某些东西击中。</p>
-<ol start="2">
-<li></li>
-</ol>
-<p>夏刚，是那种说一不二，说二就真的很二的那种男生。</p>
-<p>有时比谁都闷骚古怪，有时比谁都神经大条。</p>
-<p>大一夏日深夜，我们在公共澡堂洗冷水澡相遇。</p>
-<p>那一晚，我们赤诚相见，他说，兄弟我肥皂掉地上了。</p>
-<p>我说，要我帮你捡？</p>
-<p>他摇头，指着我的肥皂说，能不能借我。</p>
-<p>我说你拿着吧，我正好冲完了。</p>
-<p>没想到，第二天他找遍了整个男生宿舍楼，就为了还我一块崭新的肥皂。</p>
-<p>真是皂滑弄人。</p>
-<p>大二重新分配宿舍，我们碰巧又进了同一宿舍。</p>
-<p>他在理论专业一班，成绩却不一般。可这不重要，更重要的是他家里有钱。</p>
-<p>他爸开厂，他妈有间律师事务所。</p>
-<p>在夏刚的字典里，从来没有“缺钱”二字。</p>
-<p>我在理论专业二班，成绩却很一般。可这不重要，重要的是我考上大学那年，老爸创业失败，欠下三十万人民币，至今没有还清。</p>
-<p>从那时起，我的字典里就再也没“有钱”二字。</p>
-<p>时间回到现在。</p>
-<p>我点开了陈婉的微信，刷完她全部的朋友圈，点开对话框，我陷入沉默。绞尽脑汁，思虑良久，努力找话题。</p>
-<p>结果我手一抖，不小心给她过往的一张照片点了个赞。我瞬间慌乱阵脚，急忙发了句：感觉大学比高中轻松。</p>
-<p>这简直是废话。</p>
-<p>我觉得在她面前我说什么都是废话。</p>
-<p>等回复的时间就像被吊起来活烤，时间越久，死得越透。</p>
-<p>和等公交相比，等在乎的人回消息，才是真正的煎熬。</p>
-<p>终于，在傍晚时分，她回了我：为啥这么说？</p>
-<p>我克制住颤抖的手，意识逐渐模糊，也不知道自己要说什么。</p>
-<p>我想让自己的回答机智又不失风度，我想展示自己有趣又富有学养。</p>
-<p>一筹莫展之际，宿舍门开了。</p>
-<p>夏刚满面春风冲进来，对我说，老张你吃饭了没，我请你吃烧烤啊。</p>
-<p>我下意识说好，因为一直以来蹭吃习惯了。但此刻说出口，又觉得心里有些怪。我突然想找个理由推脱掉。</p>
-<p>“那就换衣服走啊，快点。”夏刚把我从床上拉起来。这时我才发现自己肚子已经很饿了，就没有再推辞。</p>
-<p>跟在夏刚后面，我隐约觉得有些卑微。陈婉的消息我还没有回复，我想不到怎么回答。</p>
-<p>一路上我保持沉默，夏刚哼着我听不懂的流行歌。</p>
-<p>到了烧烤店坐定，两瓶啤酒，十几根肉串下肚。</p>
-<p>夏刚开始止不住地露出门牙，激动溢于言表。</p>
-<p>我说你笑个毛啊。</p>
-<p>他说你还记得我之前和你说的陈婉吗。</p>
-<p>我正在挑串的手顿了一下，说咋啦。</p>
-<p>他继续笑，她是你高中同学吧？</p>
-<p>我试探：“进展顺利？”</p>
-<p>他哈哈大笑，说他和陈婉见过面了，送了礼物，对方很开心。我一边吃串，一边说嗯。</p>
-<p>夏刚打开话匣，开始和我分享他是怎么要到微信，怎么聊上天，又怎么相约一起出去见面的。</p>
-<p>讲到这，夏刚拿起酒杯，要和我碰杯。</p>
-<p>我把串放下，和他碰杯，说祝你成功。</p>
-<p>实际上，我当时脑海里浮现的，全是我神经兮兮等回复的时候，陈婉在和夏刚聊得火热的画面。</p>
-<p>我仿佛看到我蜷缩在宿舍的床上，期待对方回复一脸激动的可笑模样。</p>
-<p>这酒含在口中，我硬是喝不下去。我只觉得天旋地转，胃里翻涌。</p>
-<p>夏刚说，他对陈婉是认真的，她和其他女生不一样。</p>
-<p>我闭上眼睛，把酒给咽了下去。</p>
-<p>回宿舍的路上，昏黄路灯照亮校园的人行道。</p>
-<p>夏刚喝多了，他说，准备找一个日子告白。马上就大四了，想要一份能走入社会的爱情，以后的日子，一定全心全意对她好。</p>
-<p>我听着夏刚的话，感觉我走的每一步，都像踩在泥潭里一样艰难。</p>
-<p>我没有说出夏刚这些话的底气，我只是默默抽着烟，盯着路灯下的影子。</p>
-<p>在那一刻，我甚至觉得连自己的影子都要比夏刚的要矮上半截。</p>
-<p>那天晚上回去，我借着酒劲，点开微信，盯着陈婉的那条消息，大脑放空。</p>
-<p>许久以后，我关上了手机，没有回复。</p>
-<p>如同熄灭的屏幕一样，我感觉自己的欲念，在这黑夜里渐渐死去。</p>
-<ol start="3">
-<li></li>
-</ol>
-<p>“你为什么不回我消息？”</p>
-<p>凌晨四点辗转反侧的我，看见手机屏幕的消息提醒，是陈婉。</p>
-<p>我困惑。这是什么情况。</p>
-<p>你不是有夏刚吗，干吗还要回复我？我心里一阵窝火，但又意识到，这火其实是发给自己的。此刻的大脑还不太清醒。</p>
-<p>清晨的风顺着宿舍的窗户，吹拂过我的脸庞，我隐隐看到太阳初现。</p>
-<p>“睡太早。”</p>
-<p>我的手指几乎是自动摁出这些字。</p>
-<p>发送以后，我再度瘫倒在床，感到一切都不是真的。就像是一场梦，趁酒劲还没过，我再度昏睡。</p>
-<p>当阳光彻底照亮宿舍，我睁开眼，第一时间摸出手机。</p>
-<p>看到陈婉再次发来的几条消息。</p>
-<p>这时候我觉得头疼得裂开，开始隐隐冒汗。</p>
-<p>“和你约个地方见面。”</p>
-<p>“有些事想和你说。”</p>
-<p>“有空吗？”</p>
-<p>我显然知道这不是梦，伸出头，看到夏刚还躺在床上呼呼大睡。</p>
-<p>我从床上爬起来，平复呼吸，思绪仍是混乱。</p>
-<p>“有。”我回复。</p>
-<p>我如时赴约，在学院的一间空画室，我见到了陈婉。</p>
-<p>她头顶着白色的帽子，一身休闲装，见到我来，说了一声好久不见。</p>
-<p>好久不见，我说。</p>
-<p>然后是沉默，沉默的氛围中弥漫着尴尬。</p>
-<p>陈婉笑出声，说，你咋不说话。</p>
-<p>我说，不知道说啥。</p>
-<p>“夏刚是你室友吧？”陈婉说。</p>
-<p>我心里咯噔一下，说是，咋了。</p>
-<p>“你帮我个忙吧，把这礼物送回给他，转告下，谢谢他的礼物，我不太需要这些。”</p>
-<p>我双手接过几个袋子，上面写的都是一些看不懂的外文商标。</p>
-<p>“你这是干啥。”我问。</p>
-<p>“你得问问夏刚想干啥。”陈婉说。</p>
-<p>“还有事吗？”不知道为什么，我不敢看她眼睛，只想赶快走。</p>
-<p>“你昨晚怎么不回我消息？”</p>
-<p>我顿了一下，努力组织语言。</p>
-<p>“我昨晚喝多了，没看见。”</p>
-<p>“我记得你和我说，是你睡太早。”</p>
-<p>我一下慌了神，支吾半天。</p>
-<p>“看来确实喝多了。”陈婉继续看着我笑。</p>
-<p>“那我先走了。”我转身拎着袋子就走。到门口，我忽然回头问她：“陈婉，你为什么要找我把东西拎回去，而不直接找夏刚呢？”我期待着某些不一样的回答。</p>
-<p>“因为他没回微信啊。”</p>
-<p>“哦。”我失落了一下，看到手上这些被退回的礼物，心情复杂。</p>
-<p>我回到宿舍，夏刚看到我双手提着几个袋子的时候，眼神明显黯淡下去。他一脸颓丧坐在床上。</p>
-<p>我把袋子放在他的桌上，然后默默坐在一边。</p>
-<p>“这是......”我说。</p>
-<p>“我知道。”夏刚说。</p>
-<p>宿舍安静得只能听到呼吸声。</p>
-<p>“你说，陈婉到底是个什么样的女生？”</p>
-<p>“不知道。”我说。</p>
-<p>夏刚没有继续再问，和我要了一根烟点起来，呛个半死，眼泪狂喷。这是他第一次抽烟。</p>
-<p>第二天，我给陈婉发了条消息。</p>
-<p>“和你聊聊。”</p>
-<p>“好。”陈婉秒回。</p>
-<p>还是画室，我提前十分钟到的时候，她已经坐在椅子上等我。</p>
-<p>陈婉换了一条白裙子，见到我以后她露出两颗虎牙，我也对她笑笑。</p>
-<p>其实我也不知道找她聊什么，只是觉得想见她。这种念头，在昨天画室见面后愈发强烈。可同时，夏刚低沉的样子，也在我眼前反复出现。</p>
-<p>“老同学叙旧？”陈婉问。</p>
-<p>“夏刚很低沉。”我说。</p>
-<p>陈婉耸了耸肩膀。我没有再提夏刚的事。</p>
-<p>外面的风缓缓地吹，蓝天白云像一幅画。</p>
-<p>陈婉问我有没有交女朋友，我反问说，你呢。</p>
-<p>她说：“以前上高中，一心想上大学。上了大学，却什么兴趣都提不起来。有阵子特想谈恋爱，可男生都太爱装了，装绅士，装细心，装深情，就为了要把你追到手。要不就是懒得付出，以为靠魅力可以直接把你征服。无聊。”</p>
-<p>我说，还好我没有祸害过其他人，哈哈哈。</p>
-<p>陈婉看着窗外没说话。</p>
-<p>我一时间不知道说什么好。</p>
-<p>“我说话比较直。”陈婉开口，“挺喜欢你的，从高中开始。”</p>
-<p>我以为我听错了。</p>
-<p>“可能你觉得有点惊讶吧，为什么现在这个时候突然和你说这个。”陈婉还是没看我，一直望着窗户外面随风摆动的树叶。</p>
-<p>“你在高中集训班，是不是经常回头看我。”陈婉继续说。</p>
-<p>这突如其来的告白，比初中生写的爱情小说还要离奇不真实，但确确实实从陈婉的口中说出来了。</p>
-<p>更让我慌乱的是，我心里想的，全是夏刚那颓丧的样子。</p>
-<p>陈婉看向我，画室安静异常。</p>
-<p>“那你为什么，现在才说。”我渐渐缓过神。</p>
-<p>“你不一直也没说。”陈婉看着我。</p>
-<p>一定是哪里出了错。我感到头皮发麻，像是即将掉入一个巨大的陷阱，我只想往后退。</p>
-<p>“是有点唐突了吧！”陈婉说，“不好意思啊，我只是觉得，得说出来。可能我对你的判断出现了误差，让你难堪了。”</p>
-<p>我从椅子上坐起来，觉得自己像是十几岁的青春期刚刚接触异性的懵懂少年。</p>
-<p>“走了。”陈婉转身离开，一袭白裙像是从天上下来的仙女。女士皮鞋踩在地面的声音，传入我的耳朵，随着她的远去渐渐减弱。</p>
-<p>我盯着窗外在风中轻摆的树叶，好久才回到现实。</p>
-<ol start="4">
-<li></li>
-</ol>
-<p>当我再次回到宿舍的时候，夏刚正在阳台抽我的烟。</p>
-<p>我本来也想抽一根，发现一根都没剩下。夏刚眼窝深陷，对我笑笑，问要不要出去吃饭。</p>
-<p>我说我吃过了，然后回到床上躺着。</p>
-<p>夏刚一个人换衣服准备出去，我看着他的背影，心情复杂。</p>
-<p>“我再去吃一点吧，没吃饱。”我跟上去。</p>
-<p>夕阳逐渐坠入地平线，我在路上看着夏刚，感觉他头顶上有一朵沉重的乌云。</p>
-<p>落座以后，他没了以前的活力，只有无精打采。</p>
-<p>“她太不一样了。”夏刚仿佛在自言自语。</p>
-<p>我有点后悔跟出来了。</p>
-<p>“别看我被暂时回绝，但我会用真心证明给她的。”夏刚继续自言自语。</p>
-<p>我有些不忍，想起许多我和夏刚的过往。</p>
-<p>曾经有段时间，我因为缺钱，很少买水果，经常口腔溃疡。夏刚总是买好多水果回来，和我说，他买多了，分我一点吃，还骂自己怎么总是买多，真是便宜了我。但我清楚，他每次买回来的水果，都是刚好多一人的量。</p>
-<p>像这种小事还有很多，此刻全都汹涌而来，可我的思绪戛然而止。</p>
-<p>我想到，如果我要是和陈婉在一起了，有什么脸面对夏刚呢？</p>
-<p>我想，这他妈都是什么事？</p>
-<p>晚上回去的途中，路灯昏暗。</p>
-<p>我和夏刚往宿舍走，彼此一言不发。</p>
-<p>夏刚转头看了我一眼说，不对啊，遭遇挫折的是我，你怎么比我还沮丧？</p>
-<p>我说，我不能幸灾乐祸吧。</p>
-<p>夏刚说，你幸灾乐祸，我还好受一点。</p>
-<p>我说，那就不让你好受。</p>
-<p>回到宿舍，我给陈婉发了条消息。</p>
-<p>“我还是不敢相信。”</p>
-<p>过了一会，陈婉回：“还记得高中集训时的座位吗？有一次我从左调到右。”</p>
-<p>我回复：“记得。”</p>
-<p>“我其实就是想看看，你到底是想看我，还是想看风景。”她回。</p>
-<p>“我其实想看黑板报。”我回。</p>
-<p>关上手机，已是深夜。</p>
-<p>我看见夏刚挂在墙上的礼物袋，外文商标反射着窗外的皎洁月光。</p>
-<p>我不知道我做的这个决定，到底对不对。</p>
-<ol start="5">
-<li></li>
-</ol>
-<p>一天以后，我找到陈婉。我和她说，我有喜欢的人了。</p>
-<p>陈婉笑着说，哦，那个人不会是我吧？</p>
-<p>我说，不会。</p>
-<p>陈婉继续笑，不会吧？</p>
-<p>我说，不会。</p>
-<p>陈婉不笑了。她没有再说话。</p>
-<p>那天回到宿舍，我钻到被子里撕心痛哭。担心突然有人回宿舍看见我的样子，我只能把头埋进被子里流眼泪，还不能哭出声来。</p>
-<p>呼吸艰难，一切就像是巨石压在了我的胸腔。</p>
-<p>当天傍晚，陈婉发来一条微信。</p>
-<p>“让你困扰了，不好意思。另外，麻烦转告夏刚，让他不要再追我了。”</p>
-<p>我的泪痕渐渐消失。</p>
-<p>其实，我没有想成全夏刚，在这个过程中，是自卑淹没了我。</p>
-<p>第二天，我和夏刚说，不要追陈婉了。他问为什么。我说不为什么。夏刚看着我红肿的眼睛，说知道了，是你们是在一起的对吧。我说没有。夏刚说没事，我走，然后任我再怎么解释，夏刚都不再说话。</p>
-<p>我感觉自己正走向万丈深渊，而选择路的人，恰恰是我自己。</p>
-<p>从那以后，我没有和夏刚说过话。</p>
-<p>同在一个宿舍，大家在宿舍胡侃的时候，我们也都从来不接对方的话头，相当默契。</p>
-<p>好几次，我都想打破这种局面，可一说话，他就转身就走，微信给他发文字也不回。</p>
-<p>我很委屈，可没有办法。</p>
-<p>后来，我干脆告诉自己，夏刚给脸不要脸。明明老子为了不能让你难受，才选择这条路。你这样，我还不如直接和陈婉在一起。</p>
-<p>陈婉也不理我了。确切说，我们两个，她谁也不理。我把自己给逼死在胡同里了。</p>
-<p>夏天就这么过去，大四的上学期，我才意识到自己应该找点事情做。</p>
-<p>专业鸡肋，又不考研，我实在想不到自己能干什么。正好看见网上有新媒体文章写手招聘，我开始凑点稿子，赚取微薄的稿费。</p>
-<p>不过每次反复改稿到精神崩溃，到最后也没有挣多少钱。</p>
-<p>那时候，我还帮私人画廊老板布展，从梯子上摔了下来。我直接从两米拍在地上，为了保护脑袋，腰先着地，一声闷响，感觉五脏六腑都被震碎了。</p>
-<p>老板看我躺在地上好久没起来，从钱包里掏出两张红钞，让我自己去看医生。</p>
-<p>我想，如果真查出有问题，两百块钱能顶什么用？但我没说什么，拿了钱直接回到宿舍，给自己买了点水果吃。</p>
-<p>比起腰疼，我更怕口腔溃疡。</p>
-<p>不就是多吃点水果吗？</p>
-<p>所有的事情，都在时间的推移下，往没有转机的方向驶去。</p>
-<p>直到大四上学期的末尾，我意外得到一次去北京新媒体公司实习的机会。</p>
-<p>那一刻，我真觉得可以改变自己的命运。</p>
-<p>不过北京的房租和生活成本实在太高，实习工资更是少得可怜。</p>
-<p>我没有钱，我徘徊不前。</p>
-<ol start="6">
-<li></li>
-</ol>
-<p>这个时候，我把自己的想法和父亲讲了。</p>
-<p>他第二天大早，给我打了一通电话。</p>
-<p>父亲说：“我当时创业失败欠钱，不代表闯荡是错，而是我老了。如果你想闯，你还年轻，别想那么多。第一季度的房租，我来想办法。”</p>
-<p>那时候，我热血上头，像是家族遗传一般，沉浸在一种巨大的幻觉当中。</p>
-<p>我很快就买了高铁，直奔北京。为了远离不好的回忆，为了离开那些失落的情感。</p>
-<p>其实在去北京之前，我又见过一次陈婉。当时在学院楼，她正好站在门口。</p>
-<p>见到我，她没有任何表情。我也只是往前走，礼貌地打了个招呼，没看清她的反应。</p>
-<p>一切仿佛都走向了无可挽回。</p>
-<p>在北京实习的日子，我每天都活在巨大的精神压力之中，彻底见识了这个社会真实的面目。</p>
-<p>每天十几个小时的高强度工作，搜集素材，撰写大纲，开各种会，写各种我不感兴趣的文字，然后还要被领导和同事指责打压。</p>
-<p>每天夜里，我一个人拖着疲惫的身子回家，躺在拥挤的隔间里绝望地流眼泪。经常累到衣服都没脱就睡着了，同时开始频繁掉头发，长痘，发胖。</p>
-<p>之前摔到的腰部总是在黑夜里隐隐作痛。</p>
-<p>随着时间推移，逐渐开始对这个世界的冷漠以麻木作为回应。</p>
-<p>我开始清醒地认识到，我只是一个普通人。</p>
-<p>后来，夏刚主动跟我和好。</p>
-<p>过生日那天，他远程给我点了一块大蛋糕，上面写着“北京张爷”。我哭笑不得。</p>
-<p>他说在学校，一切都挺好，九成时间用来玩，一成时间抄论文。</p>
-<p>我告诉他，自己每天工作到凌晨才睡，就这样还总结了好几套论文降重的方法。</p>
-<p>我多么希望和夏刚跟从前一样，但那已经不可能了。</p>
-<p>更多的时候，我在想的是陈婉。</p>
-<p>她在干什么，她怎么样了。</p>
-<p>正是那段时间开始，我看到夏刚和陈婉的朋友圈定位经常出现在同一地点。</p>
-<p>一些事好像已经起了变化。</p>
-<p>我的脑海里隐隐约约出现了一种可能的结局。</p>
-<p>我不希望这是真的。</p>
-<p>五月末很快就来临，一切都会来临。</p>
-<p>早晚问题，时间问题。</p>
-<p>我决定不去想这些，我想挽回自己曾经的错误。</p>
-<p>我要向陈婉告白。</p>
-<ol start="7">
-<li></li>
-</ol>
-<p>当我再次重返校园，看见树木摇曳，仿佛那个充满蝉鸣和心悸的夏天又回来了。</p>
-<p>只是物是人非，我已经不是那个我。</p>
-<p>我给陈婉发了条消息，说想和她见一面。我想把所有我想说的话，全都说给她听。我想把这一年来的全部内心活动，全部的真情实感，毫无保留地表达出来。</p>
-<p>我想说，我爱她。</p>
-<p>回到宿舍，和半年没见的室友们互相开玩笑对喷，如往日一般，氛围融洽又欢快。</p>
-<p>“张老板，在北京混，以后发达了多带带我们！”夏刚从我身后冒出来。</p>
-<p>“夏董事长，你不要搞我了。”我说。</p>
-<p>夏刚坚持今晚要请我喝酒，陈婉一直没有回我消息。我推脱不过，只好答应。</p>
-<p>经过社会洗礼的我，对任何事，脸上都会带着微笑，这是对抗生活悲剧的技巧。</p>
-<p>你要先笑起来，才能开心。</p>
-<p>我们去了以前经常光顾的那家烧烤店，那是我们乏味的大学生活当中，永远的根据地。</p>
-<ol start="8">
-<li></li>
-</ol>
-<p>“我要谢谢你。”酒过三巡，夏刚和我说。</p>
-<p>“为什么谢我？”</p>
-<p>夏刚指着我的胸口说：“是你刺激了我。你让我明白，我以前是多自以为是，如果没有你，我不会去学习如何真心对待一个女生。”</p>
-<p>我脸上挂着微笑，手上刷着微信。</p>
-<p>接下来的话，我曾经想过，也推测过，但当真正面对的时候，我还是没有这个准备。</p>
-<p>我抖动的双脚停顿下来。</p>
-<p>夏刚和我说，这半年他和陈婉见了很多次面，包括我和陈婉之间的事，他都清楚，他不介意，因为一切已经过去。</p>
-<p>他说他现在已经和陈婉在一起了。</p>
-<p>这时候，我刷到陈婉的消息：“最近可能都没空。”</p>
-<p>我面带微笑。</p>
-<p>夏刚红着脸，不断拍我的肩膀。</p>
-<p>他说，毕业以后他会带着陈婉一起去上海，父母在那边都有安排。他希望我也能保重自己。</p>
-<p>我什么话也说不出来。</p>
-<p>我感觉他每拍我一次肩膀，都像是要用力把我死死钉在柱子上。</p>
-<p>我没有再去打扰陈婉，没这个必要了。</p>
-<p>答辩之后，我准备直接返回北京。</p>
-<p>我没告诉任何人，那家我正在实习的公司，如今处境艰难，不断裁人。</p>
-<p>在拿到毕业证以前，我不知道自己能否留下。</p>
-<p>可我还能去哪呢，回家我会甘心吗，我要怎么面对我父亲呢？</p>
-<p>无论如何，我都要滚回北京了，再见吧，青春。</p>
-<ol start="9">
-<li></li>
-</ol>
-<p>北上的列车开始启动。</p>
-<p>我望着窗外飞速驶离的风景，摸了摸胸口的疤痕。这半年习惯挂在脸上的微笑，渐渐消失。</p>
-<p>我给陈婉发出最后一条消息。</p>
-<p>“我出发了，回北京。”</p>
-<p>过了会，陈婉回：“希望你，这回不放弃。”</p>
-
-        </div>
-        
-        <div class="prev-post">
-            上一篇
-            <a href="https://wonder-zhang.github.io/ibTztyIFE/">
-                那242个被改写的人生，还是认了吧？
-            </a>
-        </div>
-        
-        
-        <div class="next-post">
-            下一篇
-            <a href="https://wonder-zhang.github.io/mvxRvP1Ye/">
-                有哪些好的解压方式？
-            </a>
-        </div>
-        
-    </div>
-    </div>
-</body>
-<script>
-    var t_img; // 定时�?
-    var isLoad = true; // 控制变量
-    isImgLoad(function () {
-        // 加载完成
-        $('.postdetailimg').css("display", "block");
-    });
-    // 判断图片加载的函�?
-    function isImgLoad(callback) {
-        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
-        // 查找所有封面图，迭代�?�理
-        $('.postdetailimg').each(function () {
-            // 找到�?0就将isLoad设为false，并退出each
-            if (this.height === 0) {
-                isLoad = false;
-                return false;
-            }
-        });
-        // 为true，没有发现为0的。加载完�?
-        if (isLoad) {
-            clearTimeout(t_img); // 清除定时�?
-            // 回调函数
-            callback();
-            // 为false，因为找到了没有加载完成的图，将调用定时器递归
-        } else {
-            isLoad = true;
-            t_img = setTimeout(function () {
-                isImgLoad(callback); // 递归�?�?
-            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
-        }
+    @font-face {
+        font-weight: normal;
+        font-style: normal;
+        font-family: 'charganolton';
+        src: url('https://wonder-zhang.github.io/media/fonts/Charganolton.ttf');
+    }
+    @font-face {
+        font-weight: normal;
+        font-style: normal;
+        font-family: 'JetBrainsMono';
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.eot');
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.eot?#iefix') format('embedded-opentype'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.woff2') format('woff2'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.woff') format('woff'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.ttf') format('truetype');
     }
 
-    //文章阅读热度
-    var pl = $("#pl").html();
-    var rootaddr = $("#rootaddr").html();
-    pl = pl.replace(rootaddr, "");
-    $("#hotnum").attr('id', pl);
-</script>
-        <div name="comment" style="background: white">
-            <div class="commentcontainer">
-                
-                
-                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    @font-face {
+        font-weight: bold;
+        font-style: normal;
+        font-family: 'JetBrainsMono';
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.eot');
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.eot?#iefix') format('embedded-opentype'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.woff2') format('woff2'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.woff') format('woff'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.ttf') format('truetype');
+    }
+</style>
+<link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
 
-<div id="gitalk-container"></div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    
+</head>
+<body>
 
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: '0a75e243e68be28523b4',
-    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
-    repo: 'wonder-zhang.github.io',
-    owner: 'wonder-zhang',
-    admin: ['wonder-zhang'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-                
-                
-                
-            </div>
-        </div>
-    </div>
-     
-                <div class="toc-container">
+<div class="header">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="https://wonder-zhang.github.io">
+                <img src="https://wonder-zhang.github.io/images/avatar.png?v=1604373550487" width="30" height="30"
+                     class="d-inline-block align-top"
+                     alt="">
+                wonder&#39;s blog
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
                     
-    </div>
-    </div>
-    </div>
-    <div class="toggleContainer">
-        <div class="toggle">
-            <i class="fas fa-angle-double-up"></i>
-        </div>
-    </div>
-    <div id="bg">
-    </div>
-    <div id="bgchoice" style="display: none"></div>
-    
-    <div id="bgurl" style="display:none"></div>
-       
-    </div>
-    <!-- 响应式布局，针对手机端内容显示 -->
-    <div class="nav-small">
-        <head>
-  <!-- 引入Bootstrap核心样式文件 -->
-  <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-</head>
-
-<body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-          data-target="#barmenu" aria-expanded="false" id="barbutton">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="https://wonder-zhang.github.io">wonder&#39;s blog&nbsp;&nbsp;|</a>
-      </div>
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="barmenu">
-        <ul class="nav navbar-nav">
-          
-          
-          <li>
-            <a href="/">
-              首页
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/archives">
-              归档
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/tags">
-              标签
-            </a>
-          </li>
-          
-          
-          
-          
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
-
-
-  <!-- 引入jQuery核心js文件 -->
-  <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script>
-  var btstate = false;
-  var bt = $("#barbutton");
-  var bm = $("#barmenu");
-  bt.click(function(){
-    dropdown();
-  })
-  function dropdown(){
-    console.log(btstate);
-    //下拉
-    if(btstate==false){
-      bt.removeClass("collapsed");
-      bt.attr("aria-expanded","true");
-      bm.attr("aria-expanded","true")
-      bm.fadeIn(700);
-      btstate = true;
-    }
-    else{
-      bt.addClass("collapsed");
-      bt.attr("aria-expanded","false");
-      bm.removeClass("in");
-      bm.hide();
-      bm.attr("aria-expanded","false");
-      btstate = false;
-    }
-  }
-  </script> 
-</body>
-    <div style="margin-top:30px"></div>
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
-<style>
-
-</style>
-
-<body>
-    <div class="allcontent" id="postdetail">
-        <div class="postshow">
-            
-            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
-                
-                <img src="" class="postimage">
-                
-            </div>
-            <div class="postinfo-detail">
-                <div class="postdate"><i class="fa fa-calendar"></i>2020-06-18</div>
-            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 22 min read</div>
-            <div class="posttag">
-                
-                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-                    <i class="fa fa-tag"></i> 阅读
-                </a>
-                
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/"
+                                
+                                >首页</a>
+                            </li>
+                        
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/archives"
+                                
+                                >归档</a>
+                            </li>
+                        
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/tags"
+                                
+                                >标签</a>
+                            </li>
+                        
+                    
+                </ul>
             </div>
         </div>
-        
-        <div id="texttitle" style="text-align: center">
-            <h2>人生别放弃</h2>
-            <!-- id 将作为查询条件 -->
-            <div id="pl" style="display:none">https://wonder-zhang.github.io/QmNrtMXNG/</div>
-            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
-            <span id="hotnum" class="leancloud_visitors" data-flag-title="人生别放弃">
-                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
-            </span>
-        </div>
-        <div class="text ">
-            <p><strong>我没有钱，我徘徊不前。</strong></p>
+    </nav>
+</div>
+<div id="content" class="container">
+    <div class="row">
+        <div class="col-sm-100 col-lg-9">
+            <div class="shadow-sm post-detail">
+                <article class="post i-card">
+                    <h2 class="post-title">
+                        人生别放弃
+                    </h2>
+                    <div class="post-info">
+                        <time class="post-time">2020-06-18</time>
+                        
+                            <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="post-tag i-tag
+                            i-tag-success">
+                                #阅读
+                            </a>
+                        
+                    </div>
+                    
+                    <div class="post-content">
+                        <p><strong>我没有钱，我徘徊不前。</strong></p>
 <p>文/张拉灯</p>
 <ol>
 <li></li>
@@ -1130,156 +448,98 @@
 <p>“我出发了，回北京。”</p>
 <p>过了会，陈婉回：“希望你，这回不放弃。”</p>
 
-        </div>
-        
-        <div class="prev-post">
-            上一篇
-            <a href="https://wonder-zhang.github.io/ibTztyIFE/">
-                那242个被改写的人生，还是认了吧？
-            </a>
-        </div>
-        
-        
-        <div class="next-post">
-            下一篇
-            <a href="https://wonder-zhang.github.io/mvxRvP1Ye/">
-                有哪些好的解压方式？
-            </a>
-        </div>
-        
-    </div>
-    </div>
-</body>
-<script>
-    var t_img; // 定时�?
-    var isLoad = true; // 控制变量
-    isImgLoad(function () {
-        // 加载完成
-        $('.postdetailimg').css("display", "block");
-    });
-    // 判断图片加载的函�?
-    function isImgLoad(callback) {
-        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
-        // 查找所有封面图，迭代�?�理
-        $('.postdetailimg').each(function () {
-            // 找到�?0就将isLoad设为false，并退出each
-            if (this.height === 0) {
-                isLoad = false;
-                return false;
-            }
-        });
-        // 为true，没有发现为0的。加载完�?
-        if (isLoad) {
-            clearTimeout(t_img); // 清除定时�?
-            // 回调函数
-            callback();
-            // 为false，因为找到了没有加载完成的图，将调用定时器递归
-        } else {
-            isLoad = true;
-            t_img = setTimeout(function () {
-                isImgLoad(callback); // 递归�?�?
-            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
-        }
-    }
-
-    //文章阅读热度
-    var pl = $("#pl").html();
-    var rootaddr = $("#rootaddr").html();
-    pl = pl.replace(rootaddr, "");
-    $("#hotnum").attr('id', pl);
-</script>
-    <div name="comment" style="background: white;margin-top:100px">
-        <div class="commentcontainer">
-            
-            
-            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-<div id="gitalk-container"></div>
-
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: '0a75e243e68be28523b4',
-    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
-    repo: 'wonder-zhang.github.io',
-    owner: 'wonder-zhang',
-    admin: ['wonder-zhang'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-            
-            
+                    </div>
+                </article>
+            </div>
+            <div class="row">
+                <div class="next-post col-6">
+                    
+                        <div class="next">上一篇</div>
+                        <a href="https://wonder-zhang.github.io/ibTztyIFE/">
+                            <h3 class="post-title">
+                                那242个被改写的人生，还是认了吧？
+                            </h3>
+                        </a>
+                    
+                </div>
+                <div class="next-post col-6">
+                    
+                        <div class="next">下一篇</div>
+                        <a href="https://wonder-zhang.github.io/mvxRvP1Ye/">
+                            <h3 class="post-title">
+                                有哪些好的解压方式？
+                            </h3>
+                        </a>
+                    
+                </div>
+            </div>
             
         </div>
+        <div class="d-none d-lg-block col-lg-3">
+            
+                <div class="toc-card i-card shadow-sm sticky-top">
+    <div class="toc-title i-card-title">目录</div>
+    <div class="toc-content">
+        
     </div>
-    </div>
-    <div id="landlord">
-        <div class="message" style="opacity:0"></div>
-        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
-    </div>
-    <div id="codeCopyText" style="display: none"></div>
-    <div id="domainname" style="display:none">https://wonder-zhang.github.io</div>
-    </body>
-    <script src="https://wonder-zhang.github.io/media/js/post.js"></script>
     <script>
-        //寻找所有code标签，加复制按钮鸭！(行内代码除外)
-        var codes = document.getElementsByTagName('code');
-        if (codes.length) {
-            for (var i = 0; i < codes.length; i++) {
-                //高度/行高=文本行数
-                // var rowNum=Math.round(codes[i].height()/parseFloat(codes[i].css('line-height')));
-                // console.log("当前有"+rowNum+"行");
-                var code_id = "code_id_" + i;
-                codes[i].setAttribute("id", code_id);
-                var ci = "#" + code_id;
-                var codedot = $(ci);
-                var rowNum = Math.round(codedot.height() / parseFloat(codedot.css('line-height')));
-                if (rowNum <= 1) continue;
-                var btn = document.createElement("button");
-                btn.setAttribute("class", "copybt");
-                btn.setAttribute("data-clipboard-target", "#" + code_id);
-                btn.innerHTML = '复制代码';
-                codes[i].parentNode.insertBefore(btn, codes[i]);
+        function locateCatelogList() {
+            /*获取文章目录集合,可通过:header过滤器*/
+            var alis = $('.post-content :header');
+            /*获取侧边栏目录列表集合**/
+            var sidebar_alis = $('.markdownIt-TOC a');
+            /*获取滚动条到顶部的距离*/
+            var scroll_height = $(window).scrollTop();
+            for (var i = 0; i < alis.length; i++) {
+                /*获取锚点集合中的元素分别到顶点的距离*/
+                var a_height = $(alis[i]).offset().top-150;
+                if (a_height < scroll_height) {
+                    /*高亮显示*/
+                    sidebar_alis.removeClass('on');
+                    $(sidebar_alis[i]).addClass('on');
+                }
             }
-        };
-        var cop = new ClipboardJS('.copybt');
-        var codeCopyText = $("#codeCopyText").html();
-        cop.on('success', function (e) {
-            alert(codeCopyText);
-            e.clearSelection();
-        });
-        cop.on('error', function (e) {
-            alert("矮油，复制失败了...手动复制吧勇士！");
-            e.clearSelection();
+        }
+
+        $(function () {
+            /*绑定滚动事件 */
+            $(window).bind('scroll', locateCatelogList);
         });
     </script>
-    
-<script>
-$(function () {
-    $('.toggleContainer').click(function(){$('html,body').animate({scrollTop: '0px'}, 800);});
-	$(window).scroll(function() {
-        var st = $(window).scrollTop();
-        if(st > 30){
-            $(".toggleContainer").fadeIn(400);
-        }else{
-            $(".toggleContainer").fadeOut(100);
-        }
-	});
-});
-</script>
+</div>
 
-<script>
-        var bgchoice=$('#bgchoice').html();
-        var bg = $('#bg');
-        var bgurl = document.getElementById("bgurl").innerHTML;
-        if(bgchoice=='default')
-            for (var i = 0; i < 3; i++)
-                bgurl = bgurl.replace("\\", "/");
-        bg.css("background", "url('" + bgurl + "')");
-</script>
+            
+        </div>
+    </div>
+    <div class="site-footer">
+    Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
+ <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a> | Theme <a href="//github.com/violetfreesia/gridea-theme-Violet" target="_blank">Violet</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://wonder-zhang.github.io/media/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</body>
+</html>

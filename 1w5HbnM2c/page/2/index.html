@@ -1,1164 +1,584 @@
 <!DOCTYPE html>
-<html lang="en">
-<style>
-    a {
-        text-decoration: none;
-    }
-</style>
-<meta charset="UTF-8">
+<html lang="zh-CN">
+<head><meta charset="UTF-8">
+<meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-<link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/live2d.css">
-<link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
-<title>标签-wonder's blog</title>
-
-
-<body>
-    <!-- 响应式布局，针对PC端内容显示 -->
-    <div id="content">
-        <div class="nav-large">
-            <div class="row">
-                <div class="side"><head>
-    <meta name="description" content="Stay Hungry. Stay Foolish" />
-    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-</head>
-
-
-<body>
-    
-
-
-
-    
-</body>
-<script>
-    //-------------------------------------------------搜索
-    // 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素
-    var searchInput = document.querySelector('.search-input');
-    var searchResults = document.querySelector('.search-results');
-
-    // 申明保存文章的标题、链接、内容的数组变量
-    var searchValue = '',
-        arrItems = [],
-        arrLinks = [],
-        arrTitles = [],
-        arrResults = [],
-        indexItem = [],
-        itemLength = 0;
-    var tmpDiv = document.createElement('div');
-    tmpDiv.className = 'result-item';
-
-    // ajax 的兼容写法
-    var xhr = new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            xml = xhr.responseXML;
-            arrItems = xml.getElementsByTagName('entry');
-            itemLength = arrItems.length;
-            // 遍历并保存所有文章对应的标题、链接、内容到对应的数组中
-            // 同时过滤掉 HTML 标签
-            for (i = 0; i < itemLength; i++) {
-                var link = arrItems[i].getElementsByTagName('link')[0];
-                arrLinks[i] = link.getAttribute("href");
-                arrTitles[i] = arrItems[i].getElementsByTagName('title')[0].
-                childNodes[0].nodeValue.replace(/<.*?>/g, '');
-            }
-        }
+<title>wonder&#39;s blog</title>
+<link rel="shortcut icon" href="https://wonder-zhang.github.io/favicon.ico?v=1604373550487">
+<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+<link href="" rel="stylesheet">
+<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/prism-.css">
+<style>
+    @font-face {
+        font-weight: normal;
+        font-style: normal;
+        font-family: 'charganolton';
+        src: url('https://wonder-zhang.github.io/media/fonts/Charganolton.ttf');
+    }
+    @font-face {
+        font-weight: normal;
+        font-style: normal;
+        font-family: 'JetBrainsMono';
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.eot');
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.eot?#iefix') format('embedded-opentype'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.woff2') format('woff2'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.woff') format('woff'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Regular.ttf') format('truetype');
     }
 
-    // 开始获取根目录下 feed.xml 文件内的数据
-    xhr.open('get', '/atom.xml', true);
-    xhr.send();
-
-
-
-    // 输入框内容变化后就开始匹配，可以不用点按钮
-    // 经测试，onkeydown, onchange 等方法效果不太理想，
-    // 存在输入延迟等问题，最后发现触发 input 事件最理想，
-    // 并且可以处理中文输入法拼写的变化
-    searchInput.oninput = function () {
-        setTimeout(searchConfirm, 0);
-    }
-    searchInput.onfocus = function () {
-        searchResults.style.display = 'block';
-    }
-
-    function searchConfirm() {
-        if (searchInput.value == '') {
-            searchResults.style.display = 'none';
-        } else if (searchInput.value.search(/^\s+$/) >= 0) {
-            // 检测输入值全是空白的情况
-            searchInit();
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '请输入有效内容...';
-            searchResults.appendChild(itemDiv);
-        } else {
-            // 合法输入值的情况
-            searchInit();
-            searchValue = searchInput.value;
-            // 在标题、内容中查找
-            searchMatching(arrTitles, searchValue);
-        }
-    }
-
-    // 每次搜索完成后的初始化
-    function searchInit() {
-        arrResults = [];
-        indexItem = [];
-        searchResults.innerHTML = '';
-        searchResults.style.display = 'block';
-    }
-
-    function searchMatching(arr1, input) {
-        // 忽略输入大小写
-        input = new RegExp(input, 'i');
-        // 在所有文章标题、内容中匹配查询值
-        for (i = 0; i < itemLength; i++) {
-            if (arr1[i].search(input) !== -1) {
-                var arr = arr1;
-                indexItem.push(i); // 保存匹配值的索引
-                var indexContent = arr[i].search(input);
-                // 此时 input 为 RegExp 格式 /input/i，转换为原 input 字符串长度
-                var l = input.toString().length - 3;
-                var step = 10;
-
-                // 将匹配到内容的地方进行黄色标记，并包括周围一定数量的文本
-                arrResults.push(arr[i].slice(indexContent - step, indexContent));
-            }
-        }
-
-        // 输出总共匹配到的数目
-        var totalDiv = tmpDiv.cloneNode(true);
-        totalDiv.innerHTML = '<b>总匹配：' + indexItem.length + ' 项<hr></b>';
-        searchResults.appendChild(totalDiv);
-
-        // 未匹配到内容的情况
-        if (indexItem.length == 0) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '未匹配到内容...';
-            searchResults.appendChild(itemDiv);
-        }
-
-        // 将所有匹配内容进行组合
-        for (i = 0; i < arrResults.length; i++) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerHTML = '<b>[' + arrTitles[indexItem[i]] +
-                ']</b><p>' + arrResults[i] + "</p><hr />";
-            itemDiv.setAttribute('onclick', 'changeHref(arrLinks[indexItem[' + i + ']])');
-            searchResults.appendChild(itemDiv);
-        }
-    }
-
-    function changeHref(href) {
-        location.href = href;
-    }
-
-    function showqq() {
-        var qq = document.getElementById("qq").innerHTML;
-        if (qq != '')
-            alert("博主的QQ联系方式为：" + qq);
-        else
-            alert("博主暂未设置QQ联系方式");
-    }
-</script></div>
-                <div id="main" class="col-xs-12 col-sm-7">
-                    <style>
-    @keyframes fade-in {
-        0% {
-            opacity: 0;
-        }
-
-        /*��ʼ״̬ ͸����Ϊ0*/
-        40% {
-            opacity: 0;
-        }
-
-        /*����״̬ ͸����Ϊ0*/
-        100% {
-            opacity: 1;
-        }
-
-        /*����״̬ ͸����Ϊ1*/
-    }
-
-    @-webkit-keyframes fade-in {
-
-        /*���webkit�ں�*/
-        0% {
-            opacity: 0;
-        }
-
-        40% {
-            opacity: 0;
-        }
-
-        100% {
-            opacity: 1;
-        }
-    }
-
-    .postimage {
-        width: 100%;
-    }
-
-    .tag-container {
-        min-height: 100vh;
-        animation: fade-in;
-        /*��������*/
-        animation-duration: 1s;
-        /*��������ʱ��*/
-        -webkit-animation: fade-in 1s;
-        /*���webkit�ں�*/
-    }
-
-    @media screen and (max-width:1300px) {
-        .tag-container {
-            margin-top: 100px;
-            animation: fade-in;
-            /*��������*/
-            animation-duration: 1s;
-            /*��������ʱ��*/
-            -webkit-animation: fade-in 1s;
-            /*���webkit�ں�*/
-        }
+    @font-face {
+        font-weight: bold;
+        font-style: normal;
+        font-family: 'JetBrainsMono';
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.eot');
+        src: url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.eot?#iefix') format('embedded-opentype'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.woff2') format('woff2'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.woff') format('woff'),
+        url('https://wonder-zhang.github.io/media/fonts/JetBrainsMono-Bold.ttf') format('truetype');
     }
 </style>
-<link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
-<div class="tag-container">
-    
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/1Bn1tmKTd/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/1Bn1tmKTd/';return false">
-            提升自己生活品质的8件事情！
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-09-01</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 9 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/ulBkKQwhp/" class="postlink">
-            <i class="fa fa-tag"></i> 随笔
-        </a>
-        
-    </div>
-</div>
+<link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
 
-</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+</head>
+<body>
 
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/uoJLplXal/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/uoJLplXal/';return false">
-            没有追责，“张玉环案”依旧会发生！
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-08-07</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 5 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/xC1He9Jay/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/xC1He9Jay/';return false">
-            伪自律，正在麻痹你的人生
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-08-02</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 8 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/NMUt3sPYb/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/NMUt3sPYb/';return false">
-            网红“家暴妆”火了，但我真的欣赏不来
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-23</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 11 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/ulBkKQwhp/" class="postlink">
-            <i class="fa fa-tag"></i> 随笔
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/IilKziw0v/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/IilKziw0v/';return false">
-            做一个操作系统有多难？
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-23</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 25 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/WcP96vYB_/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/WcP96vYB_/';return false">
-            抬杠，是我见过情商最低的行为
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-17</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 10 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/mGE3ge6JI/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/mGE3ge6JI/';return false">
-            承认吧，你不是“佛系”，是懒！
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-16</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 5 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="postlink">
-            <i class="fa fa-tag"></i> 摘抄
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/loxyoX8Gn/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/loxyoX8Gn/';return false">
-            你为什么执意想去改变另外一个人呢？
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-15</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 5 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/1xyUcrkV3/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/1xyUcrkV3/';return false">
-            纳兰词——美到极致，唱尽悲欢
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-09</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 8 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="postlink">
-            <i class="fa fa-tag"></i> 摘抄
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/pJZY13XM8/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/pJZY13XM8/';return false">
-            被孤立了应该怎么办？
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-09</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 7 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/po1l6111A/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/po1l6111A/';return false">
-            真的有一见钟情吗？
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-09</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 5 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-</div>
-                    <div>
-                        <div class="pagi">
-    <ul>
-        
-        <li><a href="https://wonder-zhang.github.io/1w5HbnM2c" style="width:100px" id="prev">上一页</a></li>
-        
-                <li><a id="page1">1</a></li>
-                <li><a id="page2" class="active">2</a></li>
-                <li><a id="page3">3</a></li>
-                
-        <li><a href="https://wonder-zhang.github.io/1w5HbnM2c/page/3/" style="width:100px" id="next">下一页</a></li>
-        
-            </ul>
-</div>
-
-<div id="pagination-prev" style="display:none"> https://wonder-zhang.github.io/1w5HbnM2c
-</div>
-<div id="pagination-next" style="display:none"> https://wonder-zhang.github.io/1w5HbnM2c/page/3/</div>
-
-
-<script>
-    var prevstr = document.getElementById("pagination-prev").innerHTML;
-    var nextstr = document.getElementById("pagination-next").innerHTML;
-    var page1 = document.getElementById("page1");
-    var page2 = document.getElementById("page2");
-    var page3 = document.getElementById("page3");
-    page1.innerHTML = '-';
-    page2.innerHTML = '1';
-    page3.innerHTML = '-';
-    if (prevstr.length > 5) {
-        if (prevstr.indexOf("page/") != -1) {
-            var prevnum = parseInt(prevstr.split("page/")[1]);
-            page1.innerHTML = prevnum;
-            page2.innerHTML = prevnum + 1;
-        } else {
-            page1.innerHTML = 1;
-            page2.innerHTML = 2;
-        }
-    }
-    if (nextstr.indexOf("page/") != -1) {
-        var nextnum = parseInt(nextstr.split("page/")[1]);
-        page3.innerHTML = nextnum;
-        page2.innerHTML = nextnum - 1;
-    }
-</script>
-                        <div style="padding-bottom:10%"></div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-2"></div>
+<div class="header">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="https://wonder-zhang.github.io">
+                <img src="https://wonder-zhang.github.io/images/avatar.png?v=1604373550487" width="30" height="30"
+                     class="d-inline-block align-top"
+                     alt="">
+                wonder&#39;s blog
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/"
+                                
+                                >首页</a>
+                            </li>
+                        
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/archives"
+                                
+                                >归档</a>
+                            </li>
+                        
+                    
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/tags"
+                                
+                                >标签</a>
+                            </li>
+                        
+                    
+                </ul>
             </div>
         </div>
-        <div id="bg">
-        </div>
-        <div id="bgchoice" style="display: none"></div>
-        
-        <div id="bgurl" style="display:none"></div>
-           
-    </div>
-
-
-    <!-- 响应式布局，针对手机端内容显示 -->
-    <div class="nav-small">
-        <head>
-  <!-- 引入Bootstrap核心样式文件 -->
-  <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
-</head>
-
-<body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-          data-target="#barmenu" aria-expanded="false" id="barbutton">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="https://wonder-zhang.github.io">wonder&#39;s blog&nbsp;&nbsp;|</a>
-      </div>
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="barmenu">
-        <ul class="nav navbar-nav">
-          
-          
-          <li>
-            <a href="/">
-              首页
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/archives">
-              归档
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/tags">
-              标签
-            </a>
-          </li>
-          
-          
-          
-          
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
-
-
-  <!-- 引入jQuery核心js文件 -->
-  <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script>
-  var btstate = false;
-  var bt = $("#barbutton");
-  var bm = $("#barmenu");
-  bt.click(function(){
-    dropdown();
-  })
-  function dropdown(){
-    console.log(btstate);
-    //下拉
-    if(btstate==false){
-      bt.removeClass("collapsed");
-      bt.attr("aria-expanded","true");
-      bm.attr("aria-expanded","true")
-      bm.fadeIn(700);
-      btstate = true;
-    }
-    else{
-      bt.addClass("collapsed");
-      bt.attr("aria-expanded","false");
-      bm.removeClass("in");
-      bm.hide();
-      bm.attr("aria-expanded","false");
-      btstate = false;
-    }
-  }
-  </script> 
-</body>
-        <div style="margin-top:50px"></div>
-        <style>
-    @keyframes fade-in {
-        0% {
-            opacity: 0;
-        }
-
-        /*��ʼ״̬ ͸����Ϊ0*/
-        40% {
-            opacity: 0;
-        }
-
-        /*����״̬ ͸����Ϊ0*/
-        100% {
-            opacity: 1;
-        }
-
-        /*����״̬ ͸����Ϊ1*/
-    }
-
-    @-webkit-keyframes fade-in {
-
-        /*���webkit�ں�*/
-        0% {
-            opacity: 0;
-        }
-
-        40% {
-            opacity: 0;
-        }
-
-        100% {
-            opacity: 1;
-        }
-    }
-
-    .postimage {
-        width: 100%;
-    }
-
-    .tag-container {
-        min-height: 100vh;
-        animation: fade-in;
-        /*��������*/
-        animation-duration: 1s;
-        /*��������ʱ��*/
-        -webkit-animation: fade-in 1s;
-        /*���webkit�ں�*/
-    }
-
-    @media screen and (max-width:1300px) {
-        .tag-container {
-            margin-top: 100px;
-            animation: fade-in;
-            /*��������*/
-            animation-duration: 1s;
-            /*��������ʱ��*/
-            -webkit-animation: fade-in 1s;
-            /*���webkit�ں�*/
-        }
-    }
-</style>
-<link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
-<div class="tag-container">
+    </nav>
+</div>
+<div id="content" class="container">
+        <div class="row">
+            <div class="col-sm-100 col-lg-9 index-post-list">
+                
+<article class="post-item row">
     
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
+    <div class="post-desc col-sm-12 ">
+        <h2 class="post-title">
+            <a href="https://wonder-zhang.github.io/1Bn1tmKTd/">
+                提升自己生活品质的8件事情！
+            </a>
+        </h2>
+        <div class="post-info">
+            <time class="post-time">2020-09-01</time>
             
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/1Bn1tmKTd/';return false">
+                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="post-tag i-tag
+                                i-tag-success">
+                    #思想聚焦
+                </a>
             
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/1Bn1tmKTd/';return false">
-            提升自己生活品质的8件事情！
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-09-01</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 9 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/ulBkKQwhp/" class="postlink">
-            <i class="fa fa-tag"></i> 随笔
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="post-tag i-tag
+                                i-tag-primary">
+                    #阅读
+                </a>
             
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/uoJLplXal/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/uoJLplXal/';return false">
-            没有追责，“张玉环案”依旧会发生！
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-08-07</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 5 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/xC1He9Jay/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/xC1He9Jay/';return false">
-            伪自律，正在麻痹你的人生
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-08-02</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 8 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/NMUt3sPYb/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/NMUt3sPYb/';return false">
-            网红“家暴妆”火了，但我真的欣赏不来
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-23</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 11 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/ulBkKQwhp/" class="postlink">
-            <i class="fa fa-tag"></i> 随笔
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/IilKziw0v/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/IilKziw0v/';return false">
-            做一个操作系统有多难？
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-23</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 25 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/WcP96vYB_/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/WcP96vYB_/';return false">
-            抬杠，是我见过情商最低的行为
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-17</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 10 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/mGE3ge6JI/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/mGE3ge6JI/';return false">
-            承认吧，你不是“佛系”，是懒！
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-16</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 5 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="postlink">
-            <i class="fa fa-tag"></i> 摘抄
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/loxyoX8Gn/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/loxyoX8Gn/';return false">
-            你为什么执意想去改变另外一个人呢？
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-15</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 5 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
-            <i class="fa fa-tag"></i> 思想聚焦
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/1xyUcrkV3/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/1xyUcrkV3/';return false">
-            纳兰词——美到极致，唱尽悲欢
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-09</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 8 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-        <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="postlink">
-            <i class="fa fa-tag"></i> 摘抄
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/pJZY13XM8/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/pJZY13XM8/';return false">
-            被孤立了应该怎么办？
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-09</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 7 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-    <div class="postshow">
-        
-        <div id="post" style="width:100%">
-            
-            <img src="" class="postimage"
-                onclick="window.location.href= 'https://wonder-zhang.github.io/po1l6111A/';return false">
-            
-        <div class="posttitlebox">
-            <div class="posttitle" onclick="window.location.href= 'https://wonder-zhang.github.io/po1l6111A/';return false">
-            真的有一见钟情吗？
-        </div>
-    </div>
-</div>
-<div class="postinfo">
-    <div class="postdate"><i class="fa fa-calendar"></i>2020-07-09</div>
-    <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 5 min read</div>
-    <div class="posttag">
-        
-        <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
-            <i class="fa fa-tag"></i> 阅读
-        </a>
-        
-    </div>
-</div>
-
-</div>
-
-</div>
-        <div class="pagination-container">
-            
-            <a href="https://wonder-zhang.github.io/1w5HbnM2c" class="mobile-prevpage">上一页</a>
-            
-            
-            <a href="https://wonder-zhang.github.io/1w5HbnM2c/page/3/" class="mobile-nextpage">下一页</a>
+                <a href="https://wonder-zhang.github.io/ulBkKQwhp/" class="post-tag i-tag
+                                i-tag-success">
+                    #随笔
+                </a>
             
         </div>
+        <div class="post-summary">
+            <div class="post-summary-description">
+                
+                    文/小佳
+写这篇文章的时间是早晨5:28分开始的，梦里梦到自己得了一场大病即将离开人世，醒来后痛苦万分，实在难以入眠，随机思考人生的各种问题。
+每天忙忙碌碌，我到底在追求什么？我的目标又是什么？
+绝大多数的回答就是：“努力赚钱”，但是赚到钱...
+                
+            </div>
+            <a class="btn-readMore" href="https://wonder-zhang.github.io/1Bn1tmKTd/">Read More ~</a>
+        </div>
     </div>
-    <div id="landlord">
-        <div class="message" style="opacity:0"></div>
-        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
+    
+</article>
+
+<article class="post-item row">
+    
+    <div class="post-desc col-sm-12 ">
+        <h2 class="post-title">
+            <a href="https://wonder-zhang.github.io/uoJLplXal/">
+                没有追责，“张玉环案”依旧会发生！
+            </a>
+        </h2>
+        <div class="post-info">
+            <time class="post-time">2020-08-07</time>
+            
+                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="post-tag i-tag
+                                i-tag-other_3">
+                    #思想聚焦
+                </a>
+            
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="post-tag i-tag
+                                i-tag-other_3">
+                    #阅读
+                </a>
+            
+        </div>
+        <div class="post-summary">
+            <div class="post-summary-description">
+                
+                    1993年江西进贤，两个男孩被人勒死在水库里，警察在走访调查中，发现被害者的邻居张玉环神色慌张，且胳膊上有抓痕，于是带去调查，几天后被正式拘留！
+在被调查的这几天里，张玉环遭受非人折磨，刑讯逼供，被放警犬咬，还被警察拿妻子孩子的安危来威胁，...
+                
+            </div>
+            <a class="btn-readMore" href="https://wonder-zhang.github.io/uoJLplXal/">Read More ~</a>
+        </div>
     </div>
-    <div id="domainname" style="display:none">https://wonder-zhang.github.io</div>
+    
+</article>
+
+<article class="post-item row">
+    
+    <div class="post-desc col-sm-12 ">
+        <h2 class="post-title">
+            <a href="https://wonder-zhang.github.io/xC1He9Jay/">
+                伪自律，正在麻痹你的人生
+            </a>
+        </h2>
+        <div class="post-info">
+            <time class="post-time">2020-08-02</time>
+            
+                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="post-tag i-tag
+                                i-tag-">
+                    #思想聚焦
+                </a>
+            
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="post-tag i-tag
+                                i-tag-error">
+                    #阅读
+                </a>
+            
+        </div>
+        <div class="post-summary">
+            <div class="post-summary-description">
+                
+                    文/梁爽
+1
+读者告诉我，为了早起，他参加了一个早起群。每个人进群之前，先交一笔费用。
+然后每天在规定时间内打卡，到了月底，没有坚持打卡的人的钱被没收，拿去奖励坚持打卡的人。
+他不想自己交的钱打水漂，硬着头皮早起打卡，一天都精神欠佳，后来定...
+                
+            </div>
+            <a class="btn-readMore" href="https://wonder-zhang.github.io/xC1He9Jay/">Read More ~</a>
+        </div>
+    </div>
+    
+</article>
+
+<article class="post-item row">
+    
+    <div class="post-desc col-sm-12 ">
+        <h2 class="post-title">
+            <a href="https://wonder-zhang.github.io/NMUt3sPYb/">
+                网红“家暴妆”火了，但我真的欣赏不来
+            </a>
+        </h2>
+        <div class="post-info">
+            <time class="post-time">2020-07-23</time>
+            
+                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="post-tag i-tag
+                                i-tag-error">
+                    #思想聚焦
+                </a>
+            
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="post-tag i-tag
+                                i-tag-error">
+                    #阅读
+                </a>
+            
+                <a href="https://wonder-zhang.github.io/ulBkKQwhp/" class="post-tag i-tag
+                                i-tag-info">
+                    #随笔
+                </a>
+            
+        </div>
+        <div class="post-summary">
+            <div class="post-summary-description">
+                
+                    文/桌子
+1
+你见过被家暴的人吗？
+我见过。
+那年我还在上小学，有一天放学很早，发小约我一起去他们家玩。快到的时候，我们听到他家里传出巨大的打砸声，有人在拼命压抑哭泣声。
+我吓了一大跳。发小的脸色突然变了，沉默着快步往家里走。我也快步跟在后...
+                
+            </div>
+            <a class="btn-readMore" href="https://wonder-zhang.github.io/NMUt3sPYb/">Read More ~</a>
+        </div>
+    </div>
+    
+</article>
+
+<article class="post-item row">
+    
+    <div class="post-desc col-sm-12 ">
+        <h2 class="post-title">
+            <a href="https://wonder-zhang.github.io/IilKziw0v/">
+                做一个操作系统有多难？
+            </a>
+        </h2>
+        <div class="post-info">
+            <time class="post-time">2020-07-23</time>
+            
+                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="post-tag i-tag
+                                i-tag-other_3">
+                    #思想聚焦
+                </a>
+            
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="post-tag i-tag
+                                i-tag-other_3">
+                    #阅读
+                </a>
+            
+        </div>
+        <div class="post-summary">
+            <div class="post-summary-description">
+                
+                    编者荐语：
+我们总有一天需要明白，所谓国产自主，不是我们炫耀的资本、谈判的筹码、壮胆的口号，而是我们在新时代的立足之本。
+作者：董指导、刘芮
+支持：远川研究所科技组
+智库：安信证券计算机首席分析师 吕伟
+北京明十三陵龙虎山脚下，有一处地势隐...
+                
+            </div>
+            <a class="btn-readMore" href="https://wonder-zhang.github.io/IilKziw0v/">Read More ~</a>
+        </div>
+    </div>
+    
+</article>
+
+<article class="post-item row">
+    
+    <div class="post-desc col-sm-12 ">
+        <h2 class="post-title">
+            <a href="https://wonder-zhang.github.io/WcP96vYB_/">
+                抬杠，是我见过情商最低的行为
+            </a>
+        </h2>
+        <div class="post-info">
+            <time class="post-time">2020-07-17</time>
+            
+                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="post-tag i-tag
+                                i-tag-other_3">
+                    #思想聚焦
+                </a>
+            
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="post-tag i-tag
+                                i-tag-error">
+                    #阅读
+                </a>
+            
+        </div>
+        <div class="post-summary">
+            <div class="post-summary-description">
+                
+                    文/武小五
+不去计较谁输谁赢，不去争个谁高谁低，不去辩个泾渭分明，是一种高情商，也是一种活得通透的大智慧。
+1
+言语胜人
+是一种“杠精病”
+前段时间，在网上看了由康辉担任“班主任”的央视大型文化类节目《一堂好课》。
+其中一期，邀请著名作家、...
+                
+            </div>
+            <a class="btn-readMore" href="https://wonder-zhang.github.io/WcP96vYB_/">Read More ~</a>
+        </div>
+    </div>
+    
+</article>
+
+<article class="post-item row">
+    
+    <div class="post-desc col-sm-12 ">
+        <h2 class="post-title">
+            <a href="https://wonder-zhang.github.io/mGE3ge6JI/">
+                承认吧，你不是“佛系”，是懒！
+            </a>
+        </h2>
+        <div class="post-info">
+            <time class="post-time">2020-07-16</time>
+            
+                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="post-tag i-tag
+                                i-tag-banana">
+                    #思想聚焦
+                </a>
+            
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="post-tag i-tag
+                                i-tag-other_3">
+                    #阅读
+                </a>
+            
+                <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="post-tag i-tag
+                                i-tag-other_3">
+                    #摘抄
+                </a>
+            
+        </div>
+        <div class="post-summary">
+            <div class="post-summary-description">
+                
+                    文/肖寒
+1
+在别人眼里，我是一个很“佛系”的人。
+上学，分数高低无所谓；职场，不争不抢，别人要我就让；甚至恋爱对象，别人说想跟他谈，我也会说，那你去谈吧。
+我唯一执着的兴趣是写作，看到训练班就报，总想写出点什么名堂来。但报班之后，我依然很...
+                
+            </div>
+            <a class="btn-readMore" href="https://wonder-zhang.github.io/mGE3ge6JI/">Read More ~</a>
+        </div>
+    </div>
+    
+</article>
+
+<article class="post-item row">
+    
+    <div class="post-desc col-sm-12 ">
+        <h2 class="post-title">
+            <a href="https://wonder-zhang.github.io/loxyoX8Gn/">
+                你为什么执意想去改变另外一个人呢？
+            </a>
+        </h2>
+        <div class="post-info">
+            <time class="post-time">2020-07-15</time>
+            
+                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="post-tag i-tag
+                                i-tag-other_3">
+                    #思想聚焦
+                </a>
+            
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="post-tag i-tag
+                                i-tag-other_1">
+                    #阅读
+                </a>
+            
+        </div>
+        <div class="post-summary">
+            <div class="post-summary-description">
+                
+                    文/渔眠小姐
+此时此刻，她正独自呆坐在书房生着闷气，这样的情景已不是第一次，她愤怒、无奈、懊恼…..
+事情的起因是她看到老公又瘫在沙发上手指翻飞的玩着游戏，怒从中来，忍不住数落他浪费时间、不思上进，而老公口中应着好好好，眼和手却未从屏幕挪开...
+                
+            </div>
+            <a class="btn-readMore" href="https://wonder-zhang.github.io/loxyoX8Gn/">Read More ~</a>
+        </div>
+    </div>
+    
+</article>
+
+<article class="post-item row">
+    
+    <div class="post-desc col-sm-12 ">
+        <h2 class="post-title">
+            <a href="https://wonder-zhang.github.io/1xyUcrkV3/">
+                纳兰词——美到极致，唱尽悲欢
+            </a>
+        </h2>
+        <div class="post-info">
+            <time class="post-time">2020-07-09</time>
+            
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="post-tag i-tag
+                                i-tag-warning">
+                    #阅读
+                </a>
+            
+                <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="post-tag i-tag
+                                i-tag-success">
+                    #摘抄
+                </a>
+            
+        </div>
+        <div class="post-summary">
+            <div class="post-summary-description">
+                
+                    《木兰花》
+人生若只如初见，何事秋风悲画扇。
+等闲变却故人心，却道故人心易变。
+有人说，年少时不能遇见太惊艳的人，否则这一生都会因为念念不忘而孤独。
+TA一转身就带走了你整个青春，你说不出TA哪里好，但就是谁都替代不了。
+太惊艳的人，一旦过...
+                
+            </div>
+            <a class="btn-readMore" href="https://wonder-zhang.github.io/1xyUcrkV3/">Read More ~</a>
+        </div>
+    </div>
+    
+</article>
+
+<article class="post-item row">
+    
+    <div class="post-desc col-sm-12 ">
+        <h2 class="post-title">
+            <a href="https://wonder-zhang.github.io/pJZY13XM8/">
+                被孤立了应该怎么办？
+            </a>
+        </h2>
+        <div class="post-info">
+            <time class="post-time">2020-07-09</time>
+            
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="post-tag i-tag
+                                i-tag-other_3">
+                    #阅读
+                </a>
+            
+        </div>
+        <div class="post-summary">
+            <div class="post-summary-description">
+                
+                    年少的时候，我总觉得被孤立是那个年纪特有的事情，心想着，或许长大了就不会再次发生了，于是各种熬，以为熬过去了就能融入到新的集体里。其实当时的我忽略了很重要的一点，那就是自己在煎熬的过程中，逐渐养成了一颗玻璃心，而且越来越脆弱。
+被孤立者常常...
+                
+            </div>
+            <a class="btn-readMore" href="https://wonder-zhang.github.io/pJZY13XM8/">Read More ~</a>
+        </div>
+    </div>
+    
+</article>
+
+<article class="post-item row">
+    
+    <div class="post-desc col-sm-12 ">
+        <h2 class="post-title">
+            <a href="https://wonder-zhang.github.io/po1l6111A/">
+                真的有一见钟情吗？
+            </a>
+        </h2>
+        <div class="post-info">
+            <time class="post-time">2020-07-09</time>
+            
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="post-tag i-tag
+                                i-tag-success">
+                    #阅读
+                </a>
+            
+        </div>
+        <div class="post-summary">
+            <div class="post-summary-description">
+                
+                    一见钟情信吗，朋友？我不信。
+以前我信。在很年轻的时候遇到一个人，看他照片第一眼觉得心神荡漾，随后手足无措，就在身旁的朋友对我说的话，我都能一个字没听清。
+就好像，你脑子里的内容全部被打散了，变成了粉红色的棉花。
+后来跟他真的有了很深的交集...
+                
+            </div>
+            <a class="btn-readMore" href="https://wonder-zhang.github.io/po1l6111A/">Read More ~</a>
+        </div>
+    </div>
+    
+</article>
+
+
+    <div class="pagination-container">
+        
+            <a href="https://wonder-zhang.github.io/1w5HbnM2c" class="btn btn-outline-primary">上一页</a>
+        
+        
+            <a href="https://wonder-zhang.github.io/1w5HbnM2c/page/3/" class="btn btn-outline-primary">下一页</a>
+        
+    </div>
+
+            </div>
+            <div class="col-lg-3">
+                
+<div class="id_card i-card">
+    <div class="id_card-avatar"
+         style="background-image: url(https://wonder-zhang.github.io/images/avatar.png?v=1604373550487)">
+    </div>
+    <h1 class="id_card-title">
+        wonder&#39;s blog
+    </h1>
+    <h2 class="id_card-description">
+        Stay Hungry. Stay Foolish
+    </h2>
+    <ul class="id_card-site-info row">
+        <li class="col-6"><a href="https://wonder-zhang.github.io/archives">文章</a></li>
+        <li class="col-6"><a href="https://wonder-zhang.github.io/tags">标签</a></li>
+        <li class="col-6"><a href="https://wonder-zhang.github.io/archives">71</a></li>
+        <li class="col-6"><a href="https://wonder-zhang.github.io/tags">9</a></li>
+    </ul>
+    <div class="id_card-sns">
+         
+        
+    </div>
+</div>
+                
+                
+                
+            </div>
+        </div>
+        <div class="site-footer">
+    Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
+ <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a> | Theme <a href="//github.com/violetfreesia/gridea-theme-Violet" target="_blank">Violet</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://wonder-zhang.github.io/media/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
 </body>
-
 </html>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
-
-
-<script>
-        var bgchoice=$('#bgchoice').html();
-        var bg = $('#bg');
-        var bgurl = document.getElementById("bgurl").innerHTML;
-        if(bgchoice=='default')
-            for (var i = 0; i < 3; i++)
-                bgurl = bgurl.replace("\\", "/");
-        bg.css("background", "url('" + bgurl + "')");
-</script>
