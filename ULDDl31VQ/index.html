@@ -1,95 +1,239 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
- <head>
-     <meta charset="utf-8" />
-  <title>时间，是治愈一切的良药 | wonder&#39;s blog</title>
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-  <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-   <script src="https://cdn.staticfile.org/highlight.js/9.15.9/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
- </head>
- <body>
-     <div class="sidebar animated fadeInDown">
-   <div class="logo-title">
-    <div class="title">
-     <img src="https://wonder-zhang.github.io/images/avatar.png?v=1604323134436" style="width:127px;" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="01
+所有一切，都会成为过眼云烟。
+时光匆匆，转瞬即逝。在人生的道路上，我们体会过世态炎凉，也感悟过人情冷暖。
+我们总以为，有些人，一辈子都难以忘记；有些事，一辈子都不能释怀；有些坎，一辈子都迈不过去。
+殊不知，时间，是治愈一切的良药。
+那..." />
+    <meta name="keywords" content="思想聚焦,阅读,摘抄,随笔" />
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/dracula.min.css">
+              
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
+    <script src="https://wonder-zhang.github.io/media/js/clipboard.min.js"></script>
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/live2d.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <!-- 数学公式 -->
+    
+    <title>wonder's blog</title>
+    
+    <style>
+        .markdownIt-TOC {
+            padding-left: 2px;
+            width: 100%;
+        }
+        .markdownIt-TOC li{
+            padding-left: 2%;
+        }
+    </style>
+    
+</head>
 
-     <h3 title=""><a href="/">wonder</a></h3>
+<body>
+    <!-- 响应式布局，针对PC端内容显示 -->
+    <div id="content">
+        <div class="nav-large">
+            <div class="row">
+                <div class="side"><head>
+    <meta name="description" content="Stay Hungry. Stay Foolish" />
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+</head>
 
-     <div class="description">
-      <p>Stay Hungry. Stay Foolish</p>
-     </div>
-    </div>
-   </div>
-   <ul class="social-links">
 
-
-    <li><a href="https://wonder-zhang.github.io/atom.xml"><i class="fa fa-rss"></i></a></li>
- 
+<body>
     
 
-    
+
 
     
+</body>
+<script>
+    //-------------------------------------------------搜索
+    // 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素
+    var searchInput = document.querySelector('.search-input');
+    var searchResults = document.querySelector('.search-results');
 
-    <li><a href="https://github.com/wonder-zhang"><i class="fa fa-github"></i></a></li>
- 
+    // 申明保存文章的标题、链接、内容的数组变量
+    var searchValue = '',
+        arrItems = [],
+        arrLinks = [],
+        arrTitles = [],
+        arrResults = [],
+        indexItem = [],
+        itemLength = 0;
+    var tmpDiv = document.createElement('div');
+    tmpDiv.className = 'result-item';
+
+    // ajax 的兼容写法
+    var xhr = new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            xml = xhr.responseXML;
+            arrItems = xml.getElementsByTagName('entry');
+            itemLength = arrItems.length;
+            // 遍历并保存所有文章对应的标题、链接、内容到对应的数组中
+            // 同时过滤掉 HTML 标签
+            for (i = 0; i < itemLength; i++) {
+                var link = arrItems[i].getElementsByTagName('link')[0];
+                arrLinks[i] = link.getAttribute("href");
+                arrTitles[i] = arrItems[i].getElementsByTagName('title')[0].
+                childNodes[0].nodeValue.replace(/<.*?>/g, '');
+            }
+        }
+    }
+
+    // 开始获取根目录下 feed.xml 文件内的数据
+    xhr.open('get', '/atom.xml', true);
+    xhr.send();
+
+
+
+    // 输入框内容变化后就开始匹配，可以不用点按钮
+    // 经测试，onkeydown, onchange 等方法效果不太理想，
+    // 存在输入延迟等问题，最后发现触发 input 事件最理想，
+    // 并且可以处理中文输入法拼写的变化
+    searchInput.oninput = function () {
+        setTimeout(searchConfirm, 0);
+    }
+    searchInput.onfocus = function () {
+        searchResults.style.display = 'block';
+    }
+
+    function searchConfirm() {
+        if (searchInput.value == '') {
+            searchResults.style.display = 'none';
+        } else if (searchInput.value.search(/^\s+$/) >= 0) {
+            // 检测输入值全是空白的情况
+            searchInit();
+            var itemDiv = tmpDiv.cloneNode(true);
+            itemDiv.innerText = '请输入有效内容...';
+            searchResults.appendChild(itemDiv);
+        } else {
+            // 合法输入值的情况
+            searchInit();
+            searchValue = searchInput.value;
+            // 在标题、内容中查找
+            searchMatching(arrTitles, searchValue);
+        }
+    }
+
+    // 每次搜索完成后的初始化
+    function searchInit() {
+        arrResults = [];
+        indexItem = [];
+        searchResults.innerHTML = '';
+        searchResults.style.display = 'block';
+    }
+
+    function searchMatching(arr1, input) {
+        // 忽略输入大小写
+        input = new RegExp(input, 'i');
+        // 在所有文章标题、内容中匹配查询值
+        for (i = 0; i < itemLength; i++) {
+            if (arr1[i].search(input) !== -1) {
+                var arr = arr1;
+                indexItem.push(i); // 保存匹配值的索引
+                var indexContent = arr[i].search(input);
+                // 此时 input 为 RegExp 格式 /input/i，转换为原 input 字符串长度
+                var l = input.toString().length - 3;
+                var step = 10;
+
+                // 将匹配到内容的地方进行黄色标记，并包括周围一定数量的文本
+                arrResults.push(arr[i].slice(indexContent - step, indexContent));
+            }
+        }
+
+        // 输出总共匹配到的数目
+        var totalDiv = tmpDiv.cloneNode(true);
+        totalDiv.innerHTML = '<b>总匹配：' + indexItem.length + ' 项<hr></b>';
+        searchResults.appendChild(totalDiv);
+
+        // 未匹配到内容的情况
+        if (indexItem.length == 0) {
+            var itemDiv = tmpDiv.cloneNode(true);
+            itemDiv.innerText = '未匹配到内容...';
+            searchResults.appendChild(itemDiv);
+        }
+
+        // 将所有匹配内容进行组合
+        for (i = 0; i < arrResults.length; i++) {
+            var itemDiv = tmpDiv.cloneNode(true);
+            itemDiv.innerHTML = '<b>[' + arrTitles[indexItem[i]] +
+                ']</b><p>' + arrResults[i] + "</p><hr />";
+            itemDiv.setAttribute('onclick', 'changeHref(arrLinks[indexItem[' + i + ']])');
+            searchResults.appendChild(itemDiv);
+        }
+    }
+
+    function changeHref(href) {
+        location.href = href;
+    }
+
+    function showqq() {
+        var qq = document.getElementById("qq").innerHTML;
+        if (qq != '')
+            alert("博主的QQ联系方式为：" + qq);
+        else
+            alert("博主暂未设置QQ联系方式");
+    }
+</script></div>
     
+    <div id="main" class="col-xs-12 col-sm-7" style="width:50%;margin-top:50px;left:27%">
+        <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
+<style>
 
-    
+</style>
 
-    
-
-    
-
-    <li><a href="https://weibo.com/936659044"><i class="fa fa-weibo"></i></a></li>
- 
-    
-
-    
-
-    
-
-   </ul>
-   <div class="footer">
-    <div class="by_farbox">
-   Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
- <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
-    </div>
-    
-
-    </div>
-   </div>
-  </div>
-  <div class="main">
-     <div class="page-top animated fadeInDown">
-    <div class="nav">
-    
-     <li><a  href="/">首页</a></li>
-
-     <li><a  href="/archives">归档</a></li>
-
-     <li><a  href="/tags">标签</a></li>
-
-    </div>
-    <div class="information">
-     <div class="back_btn">
-      <li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li>
-     </div>
-    </div>
-   </div>
-   <div class="autopagerize_page_element">
-    <div class="content">
-     <div class="post-page">
-      <div class="post animated fadeInDown">
-       <div class="post-title">
-        <h3><a>时间，是治愈一切的良药</a></h3>
-       </div>
-       <div class="post-content">
-        <p>01</p>
+<body>
+    <div class="allcontent" id="postdetail">
+        <div class="postshow">
+            
+            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
+                
+                <img src="" class="postimage">
+                
+            </div>
+            <div class="postinfo-detail">
+                <div class="postdate"><i class="fa fa-calendar"></i>2020-09-11</div>
+            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 3 min read</div>
+            <div class="posttag">
+                
+                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
+                    <i class="fa fa-tag"></i> 思想聚焦
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
+                    <i class="fa fa-tag"></i> 阅读
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="postlink">
+                    <i class="fa fa-tag"></i> 摘抄
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/ulBkKQwhp/" class="postlink">
+                    <i class="fa fa-tag"></i> 随笔
+                </a>
+                
+            </div>
+        </div>
+        
+        <div id="texttitle" style="text-align: center">
+            <h2>时间，是治愈一切的良药</h2>
+            <!-- id 将作为查询条件 -->
+            <div id="pl" style="display:none">https://wonder-zhang.github.io/ULDDl31VQ/</div>
+            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
+            <span id="hotnum" class="leancloud_visitors" data-flag-title="时间，是治愈一切的良药">
+                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
+            </span>
+        </div>
+        <div class="text ">
+            <p>01</p>
 <p>所有一切，都会成为过眼云烟。</p>
 <p>时光匆匆，转瞬即逝。在人生的道路上，我们体会过世态炎凉，也感悟过人情冷暖。</p>
 <p>我们总以为，有些人，一辈子都难以忘记；有些事，一辈子都不能释怀；有些坎，一辈子都迈不过去。</p>
@@ -129,49 +273,352 @@
 <p>但你要相信，时间，终能愈合所有的伤口。</p>
 <p>当你懂得一切随遇而安、顺其自然，时间，自会给你最好的安排。</p>
 
-       </div>
-       <div class="post-footer">
-        <div class="meta">
-         <div class="info">
-          <i class="fa fa-sun-o"></i>
-          <span class="date">2020-09-11</span>
-          <i class="fa fa-tag"></i>
-          
-          <a class="tag" href="https://wonder-zhang.github.io/1ttwVHLb-/" title="思想聚焦">思想聚焦 </a>
-          
-          <a class="tag" href="https://wonder-zhang.github.io/1w5HbnM2c/" title="阅读">阅读 </a>
-          
-          <a class="tag" href="https://wonder-zhang.github.io/OVQhcUD1u/" title="摘抄">摘抄 </a>
-          
-          <a class="tag" href="https://wonder-zhang.github.io/ulBkKQwhp/" title="随笔">随笔 </a>
-          
-         </div>
         </div>
-       </div>
-      </div>
-      <div class="share">
-       <div class="evernote">
-        <a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a>
-       </div>
-       <div class="weibo">
-        <a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
-       </div>
-       <div class="twitter">
-        <a class="fa fa-twitter" href="http://twitter.com/home?status=,https://wonder-zhang.github.io/ULDDl31VQ/,;"></a>
-       </div>
-      </div>
-      <div class="pagination">
-       <ul class="clearfix">
+        
+        <div class="prev-post">
+            上一篇
+            <a href="https://wonder-zhang.github.io/9RUCkrb7I/">
+                Windows Terminal美化界面，优雅的办公带来超高的效率
+            </a>
+        </div>
+        
+        
+        <div class="next-post">
+            下一篇
+            <a href="https://wonder-zhang.github.io/nK8eLf6no/">
+                让负面情绪产生最高的价值？
+            </a>
+        </div>
+        
+    </div>
+    </div>
+</body>
+<script>
+    var t_img; // 定时�?
+    var isLoad = true; // 控制变量
+    isImgLoad(function () {
+        // 加载完成
+        $('.postdetailimg').css("display", "block");
+    });
+    // 判断图片加载的函�?
+    function isImgLoad(callback) {
+        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
+        // 查找所有封面图，迭代�?�理
+        $('.postdetailimg').each(function () {
+            // 找到�?0就将isLoad设为false，并退出each
+            if (this.height === 0) {
+                isLoad = false;
+                return false;
+            }
+        });
+        // 为true，没有发现为0的。加载完�?
+        if (isLoad) {
+            clearTimeout(t_img); // 清除定时�?
+            // 回调函数
+            callback();
+            // 为false，因为找到了没有加载完成的图，将调用定时器递归
+        } else {
+            isLoad = true;
+            t_img = setTimeout(function () {
+                isImgLoad(callback); // 递归�?�?
+            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
+        }
+    }
 
-        <li class="pre pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/9RUCkrb7I/" title="Windows Terminal美化界面，优雅的办公带来超高的效率">上一篇</a></li>
-         
-        
-        <li class="next pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/nK8eLf6no/" title=" 让负面情绪产生最高的价值？">下一篇</a></li>
-        
-       </ul>
+    //文章阅读热度
+    var pl = $("#pl").html();
+    var rootaddr = $("#rootaddr").html();
+    pl = pl.replace(rootaddr, "");
+    $("#hotnum").attr('id', pl);
+</script>
+        <div name="comment" style="background: white">
+            <div class="commentcontainer">
+                
+                
+                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '0a75e243e68be28523b4',
+    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
+    repo: 'wonder-zhang.github.io',
+    owner: 'wonder-zhang',
+    admin: ['wonder-zhang'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+                
+                
+                
+            </div>
+        </div>
+    </div>
+     
+                <div class="toc-container">
+                    
+    </div>
+    </div>
+    </div>
+    <div class="toggleContainer">
+        <div class="toggle">
+            <i class="fas fa-angle-double-up"></i>
+        </div>
+    </div>
+    <div id="bg">
+    </div>
+    <div id="bgchoice" style="display: none"></div>
+    
+    <div id="bgurl" style="display:none"></div>
+       
+    </div>
+    <!-- 响应式布局，针对手机端内容显示 -->
+    <div class="nav-small">
+        <head>
+  <!-- 引入Bootstrap核心样式文件 -->
+  <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+          data-target="#barmenu" aria-expanded="false" id="barbutton">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="https://wonder-zhang.github.io">wonder&#39;s blog&nbsp;&nbsp;|</a>
       </div>
-        
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="barmenu">
+        <ul class="nav navbar-nav">
           
+          
+          <li>
+            <a href="/">
+              首页
+            </a>
+          </li>
+          
+          
+          
+          <li>
+            <a href="/archives">
+              归档
+            </a>
+          </li>
+          
+          
+          
+          <li>
+            <a href="/tags">
+              标签
+            </a>
+          </li>
+          
+          
+          
+          
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+
+  <!-- 引入jQuery核心js文件 -->
+  <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script>
+  var btstate = false;
+  var bt = $("#barbutton");
+  var bm = $("#barmenu");
+  bt.click(function(){
+    dropdown();
+  })
+  function dropdown(){
+    console.log(btstate);
+    //下拉
+    if(btstate==false){
+      bt.removeClass("collapsed");
+      bt.attr("aria-expanded","true");
+      bm.attr("aria-expanded","true")
+      bm.fadeIn(700);
+      btstate = true;
+    }
+    else{
+      bt.addClass("collapsed");
+      bt.attr("aria-expanded","false");
+      bm.removeClass("in");
+      bm.hide();
+      bm.attr("aria-expanded","false");
+      btstate = false;
+    }
+  }
+  </script> 
+</body>
+    <div style="margin-top:30px"></div>
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
+<style>
+
+</style>
+
+<body>
+    <div class="allcontent" id="postdetail">
+        <div class="postshow">
+            
+            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
+                
+                <img src="" class="postimage">
+                
+            </div>
+            <div class="postinfo-detail">
+                <div class="postdate"><i class="fa fa-calendar"></i>2020-09-11</div>
+            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 3 min read</div>
+            <div class="posttag">
+                
+                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
+                    <i class="fa fa-tag"></i> 思想聚焦
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
+                    <i class="fa fa-tag"></i> 阅读
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="postlink">
+                    <i class="fa fa-tag"></i> 摘抄
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/ulBkKQwhp/" class="postlink">
+                    <i class="fa fa-tag"></i> 随笔
+                </a>
+                
+            </div>
+        </div>
+        
+        <div id="texttitle" style="text-align: center">
+            <h2>时间，是治愈一切的良药</h2>
+            <!-- id 将作为查询条件 -->
+            <div id="pl" style="display:none">https://wonder-zhang.github.io/ULDDl31VQ/</div>
+            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
+            <span id="hotnum" class="leancloud_visitors" data-flag-title="时间，是治愈一切的良药">
+                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
+            </span>
+        </div>
+        <div class="text ">
+            <p>01</p>
+<p>所有一切，都会成为过眼云烟。</p>
+<p>时光匆匆，转瞬即逝。在人生的道路上，我们体会过世态炎凉，也感悟过人情冷暖。</p>
+<p>我们总以为，有些人，一辈子都难以忘记；有些事，一辈子都不能释怀；有些坎，一辈子都迈不过去。</p>
+<p>殊不知，时间，是治愈一切的良药。</p>
+<p>那些放不下的人、忘不掉的事、过不去的坎，原来到了最后，岁月都会替你轻描淡写。</p>
+<p>人的一生中，时常会遇到不少坎坷，不少困境。</p>
+<p>然而，面对生活的刁难，我们总是在抱怨与介怀，感叹着命运的不公。</p>
+<p>却不曾想过，无论我们怎么抱怨，怎么哀叹，一切早已尘埃落定。</p>
+<p>与其念念不忘过去的一切，不如放平心态过好如今。</p>
+<p>时间回不到开始的地方。</p>
+<p>对于一些已经错过的东西，不要一再地去遗憾，错过了就是错过了。</p>
+<p>只有好好珍惜已经得到的，错过的才有意义。</p>
+<p>在这个世界上，没有什么事物，是永恒不变的。</p>
+<p>你终究要明白，好事坏事，终成往事，人生无需太多感慨，想开便是晴天。</p>
+<p>所有经历，无论是好是坏，都是一种成长。</p>
+<p>所有一切，到最后，都会成为过眼云烟。</p>
+<p>生活对于任何人而言，从来都是不容易。虽然我们被赋予的一切并非最好的，但从来也不是最差的。</p>
+<p>懂得笑对生活，生活才会善待于你。</p>
+<p>一个人最好的生活状态，是不为过去而悲伤，不为现在而惆怅，不为将来而迷茫，无论好坏，都能够坦然面对一切。</p>
+<p>02</p>
+<p>有句话说过：“时间，是最好的疗伤药，能治好所有的遗憾。”</p>
+<p>深以为然。</p>
+<p>那些苦苦留恋的人，到最后，都会随着时间的流逝而淡忘；那些苦苦纠缠的事，到最后，都会随着时间的流逝而过去。</p>
+<p>时隔多年，你再回头想想，才会发现：</p>
+<p>过往的种种痛苦、难过、不堪与烦恼，最终都会成为无关紧要的小事。</p>
+<p>人这一辈子，没有所谓过不去的坎，也没有所谓熬不过的苦。</p>
+<p>过不去的时候，缓一缓；心很累的时候，歇一歇；耿耿于怀的时候，放一放。</p>
+<p>慢慢地，时间就会在不知不觉中，抚平所有的忧伤和遗憾。</p>
+<p>余华在《活着》里写过：“没有什么比时间更具说服力了，因为时间无需通知我们，就可以改变一切。”</p>
+<p>是啊，时间能看清一切，更能带走一切。</p>
+<p>不要太沉浸于过去的悲伤里，也不要为当下的苦恼顾虑太多。</p>
+<p>毕竟，每个人都会经历一些难关，一段难熬的岁月。</p>
+<p>生活带给你的一切心酸和苦难，其实都会被时间一一化解。</p>
+<p>03</p>
+<p>人生是一个自我修炼的过程。</p>
+<p>在修炼的过程中，我们难免被生活磨砺出许多伤痕。</p>
+<p>但你要相信，时间，终能愈合所有的伤口。</p>
+<p>当你懂得一切随遇而安、顺其自然，时间，自会给你最好的安排。</p>
+
+        </div>
+        
+        <div class="prev-post">
+            上一篇
+            <a href="https://wonder-zhang.github.io/9RUCkrb7I/">
+                Windows Terminal美化界面，优雅的办公带来超高的效率
+            </a>
+        </div>
+        
+        
+        <div class="next-post">
+            下一篇
+            <a href="https://wonder-zhang.github.io/nK8eLf6no/">
+                让负面情绪产生最高的价值？
+            </a>
+        </div>
+        
+    </div>
+    </div>
+</body>
+<script>
+    var t_img; // 定时�?
+    var isLoad = true; // 控制变量
+    isImgLoad(function () {
+        // 加载完成
+        $('.postdetailimg').css("display", "block");
+    });
+    // 判断图片加载的函�?
+    function isImgLoad(callback) {
+        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
+        // 查找所有封面图，迭代�?�理
+        $('.postdetailimg').each(function () {
+            // 找到�?0就将isLoad设为false，并退出each
+            if (this.height === 0) {
+                isLoad = false;
+                return false;
+            }
+        });
+        // 为true，没有发现为0的。加载完�?
+        if (isLoad) {
+            clearTimeout(t_img); // 清除定时�?
+            // 回调函数
+            callback();
+            // 为false，因为找到了没有加载完成的图，将调用定时器递归
+        } else {
+            isLoad = true;
+            t_img = setTimeout(function () {
+                isImgLoad(callback); // 递归�?�?
+            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
+        }
+    }
+
+    //文章阅读热度
+    var pl = $("#pl").html();
+    var rootaddr = $("#rootaddr").html();
+    pl = pl.replace(rootaddr, "");
+    $("#hotnum").attr('id', pl);
+</script>
+    <div name="comment" style="background: white;margin-top:100px">
+        <div class="commentcontainer">
+            
+            
             <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
 <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
@@ -193,17 +640,73 @@
 
 </script>
 
-          
-          
-        
-     </div>
+            
+            
+            
+        </div>
     </div>
-   </div>
-  </div>
-  <script src="https://wonder-zhang.github.io/media/scripts/jquery.js"></script>
-  <script src="https://wonder-zhang.github.io/media/scripts/jquery-migrate-1.2.1.min.js"></script>
-  <script src="https://wonder-zhang.github.io/media/scripts/jquery.appear.js"></script>
+    </div>
+    <div id="landlord">
+        <div class="message" style="opacity:0"></div>
+        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
+    </div>
+    <div id="codeCopyText" style="display: none"></div>
+    <div id="domainname" style="display:none">https://wonder-zhang.github.io</div>
+    </body>
+    <script src="https://wonder-zhang.github.io/media/js/post.js"></script>
+    <script>
+        //寻找所有code标签，加复制按钮鸭！(行内代码除外)
+        var codes = document.getElementsByTagName('code');
+        if (codes.length) {
+            for (var i = 0; i < codes.length; i++) {
+                //高度/行高=文本行数
+                // var rowNum=Math.round(codes[i].height()/parseFloat(codes[i].css('line-height')));
+                // console.log("当前有"+rowNum+"行");
+                var code_id = "code_id_" + i;
+                codes[i].setAttribute("id", code_id);
+                var ci = "#" + code_id;
+                var codedot = $(ci);
+                var rowNum = Math.round(codedot.height() / parseFloat(codedot.css('line-height')));
+                if (rowNum <= 1) continue;
+                var btn = document.createElement("button");
+                btn.setAttribute("class", "copybt");
+                btn.setAttribute("data-clipboard-target", "#" + code_id);
+                btn.innerHTML = '复制代码';
+                codes[i].parentNode.insertBefore(btn, codes[i]);
+            }
+        };
+        var cop = new ClipboardJS('.copybt');
+        var codeCopyText = $("#codeCopyText").html();
+        cop.on('success', function (e) {
+            alert(codeCopyText);
+            e.clearSelection();
+        });
+        cop.on('error', function (e) {
+            alert("矮油，复制失败了...手动复制吧勇士！");
+            e.clearSelection();
+        });
+    </script>
+    
+<script>
+$(function () {
+    $('.toggleContainer').click(function(){$('html,body').animate({scrollTop: '0px'}, 800);});
+	$(window).scroll(function() {
+        var st = $(window).scrollTop();
+        if(st > 30){
+            $(".toggleContainer").fadeIn(400);
+        }else{
+            $(".toggleContainer").fadeOut(100);
+        }
+	});
+});
+</script>
 
-
- </body>
-</html>
+<script>
+        var bgchoice=$('#bgchoice').html();
+        var bg = $('#bg');
+        var bgurl = document.getElementById("bgurl").innerHTML;
+        if(bgchoice=='default')
+            for (var i = 0; i < 3; i++)
+                bgurl = bgurl.replace("\\", "/");
+        bg.css("background", "url('" + bgurl + "')");
+</script>

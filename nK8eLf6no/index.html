@@ -1,95 +1,237 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
- <head>
-     <meta charset="utf-8" />
-  <title>让负面情绪产生最高的价值？ | wonder&#39;s blog</title>
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-  <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-   <script src="https://cdn.staticfile.org/highlight.js/9.15.9/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
- </head>
- <body>
-     <div class="sidebar animated fadeInDown">
-   <div class="logo-title">
-    <div class="title">
-     <img src="https://wonder-zhang.github.io/images/avatar.png?v=1604323134436" style="width:127px;" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="后悔是人类才有的高级认知情绪
+后悔通常被认为是一种消极的认知和情绪状态，包括为坏结果责备自己，对错失的机会感到失落，希望撤销之前的选择等。
+后悔产生的前提是，在心理上模拟各种可选结果，涉及思考和感受。
+所以动物和小孩子不会后悔，后悔是具有审..." />
+    <meta name="keywords" content="思想聚焦,阅读,摘抄,随笔" />
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/dracula.min.css">
+              
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
+    <script src="https://wonder-zhang.github.io/media/js/clipboard.min.js"></script>
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/live2d.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <!-- 数学公式 -->
+    
+    <title>wonder's blog</title>
+    
+    <style>
+        .markdownIt-TOC {
+            padding-left: 2px;
+            width: 100%;
+        }
+        .markdownIt-TOC li{
+            padding-left: 2%;
+        }
+    </style>
+    
+</head>
 
-     <h3 title=""><a href="/">wonder</a></h3>
+<body>
+    <!-- 响应式布局，针对PC端内容显示 -->
+    <div id="content">
+        <div class="nav-large">
+            <div class="row">
+                <div class="side"><head>
+    <meta name="description" content="Stay Hungry. Stay Foolish" />
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+</head>
 
-     <div class="description">
-      <p>Stay Hungry. Stay Foolish</p>
-     </div>
-    </div>
-   </div>
-   <ul class="social-links">
 
-
-    <li><a href="https://wonder-zhang.github.io/atom.xml"><i class="fa fa-rss"></i></a></li>
- 
+<body>
     
 
-    
+
 
     
+</body>
+<script>
+    //-------------------------------------------------搜索
+    // 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素
+    var searchInput = document.querySelector('.search-input');
+    var searchResults = document.querySelector('.search-results');
 
-    <li><a href="https://github.com/wonder-zhang"><i class="fa fa-github"></i></a></li>
- 
+    // 申明保存文章的标题、链接、内容的数组变量
+    var searchValue = '',
+        arrItems = [],
+        arrLinks = [],
+        arrTitles = [],
+        arrResults = [],
+        indexItem = [],
+        itemLength = 0;
+    var tmpDiv = document.createElement('div');
+    tmpDiv.className = 'result-item';
+
+    // ajax 的兼容写法
+    var xhr = new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            xml = xhr.responseXML;
+            arrItems = xml.getElementsByTagName('entry');
+            itemLength = arrItems.length;
+            // 遍历并保存所有文章对应的标题、链接、内容到对应的数组中
+            // 同时过滤掉 HTML 标签
+            for (i = 0; i < itemLength; i++) {
+                var link = arrItems[i].getElementsByTagName('link')[0];
+                arrLinks[i] = link.getAttribute("href");
+                arrTitles[i] = arrItems[i].getElementsByTagName('title')[0].
+                childNodes[0].nodeValue.replace(/<.*?>/g, '');
+            }
+        }
+    }
+
+    // 开始获取根目录下 feed.xml 文件内的数据
+    xhr.open('get', '/atom.xml', true);
+    xhr.send();
+
+
+
+    // 输入框内容变化后就开始匹配，可以不用点按钮
+    // 经测试，onkeydown, onchange 等方法效果不太理想，
+    // 存在输入延迟等问题，最后发现触发 input 事件最理想，
+    // 并且可以处理中文输入法拼写的变化
+    searchInput.oninput = function () {
+        setTimeout(searchConfirm, 0);
+    }
+    searchInput.onfocus = function () {
+        searchResults.style.display = 'block';
+    }
+
+    function searchConfirm() {
+        if (searchInput.value == '') {
+            searchResults.style.display = 'none';
+        } else if (searchInput.value.search(/^\s+$/) >= 0) {
+            // 检测输入值全是空白的情况
+            searchInit();
+            var itemDiv = tmpDiv.cloneNode(true);
+            itemDiv.innerText = '请输入有效内容...';
+            searchResults.appendChild(itemDiv);
+        } else {
+            // 合法输入值的情况
+            searchInit();
+            searchValue = searchInput.value;
+            // 在标题、内容中查找
+            searchMatching(arrTitles, searchValue);
+        }
+    }
+
+    // 每次搜索完成后的初始化
+    function searchInit() {
+        arrResults = [];
+        indexItem = [];
+        searchResults.innerHTML = '';
+        searchResults.style.display = 'block';
+    }
+
+    function searchMatching(arr1, input) {
+        // 忽略输入大小写
+        input = new RegExp(input, 'i');
+        // 在所有文章标题、内容中匹配查询值
+        for (i = 0; i < itemLength; i++) {
+            if (arr1[i].search(input) !== -1) {
+                var arr = arr1;
+                indexItem.push(i); // 保存匹配值的索引
+                var indexContent = arr[i].search(input);
+                // 此时 input 为 RegExp 格式 /input/i，转换为原 input 字符串长度
+                var l = input.toString().length - 3;
+                var step = 10;
+
+                // 将匹配到内容的地方进行黄色标记，并包括周围一定数量的文本
+                arrResults.push(arr[i].slice(indexContent - step, indexContent));
+            }
+        }
+
+        // 输出总共匹配到的数目
+        var totalDiv = tmpDiv.cloneNode(true);
+        totalDiv.innerHTML = '<b>总匹配：' + indexItem.length + ' 项<hr></b>';
+        searchResults.appendChild(totalDiv);
+
+        // 未匹配到内容的情况
+        if (indexItem.length == 0) {
+            var itemDiv = tmpDiv.cloneNode(true);
+            itemDiv.innerText = '未匹配到内容...';
+            searchResults.appendChild(itemDiv);
+        }
+
+        // 将所有匹配内容进行组合
+        for (i = 0; i < arrResults.length; i++) {
+            var itemDiv = tmpDiv.cloneNode(true);
+            itemDiv.innerHTML = '<b>[' + arrTitles[indexItem[i]] +
+                ']</b><p>' + arrResults[i] + "</p><hr />";
+            itemDiv.setAttribute('onclick', 'changeHref(arrLinks[indexItem[' + i + ']])');
+            searchResults.appendChild(itemDiv);
+        }
+    }
+
+    function changeHref(href) {
+        location.href = href;
+    }
+
+    function showqq() {
+        var qq = document.getElementById("qq").innerHTML;
+        if (qq != '')
+            alert("博主的QQ联系方式为：" + qq);
+        else
+            alert("博主暂未设置QQ联系方式");
+    }
+</script></div>
     
+    <div id="main" class="col-xs-12 col-sm-7" style="width:50%;margin-top:50px;left:27%">
+        <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
+<style>
 
-    
+</style>
 
-    
-
-    
-
-    <li><a href="https://weibo.com/936659044"><i class="fa fa-weibo"></i></a></li>
- 
-    
-
-    
-
-    
-
-   </ul>
-   <div class="footer">
-    <div class="by_farbox">
-   Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
- <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
-    </div>
-    
-
-    </div>
-   </div>
-  </div>
-  <div class="main">
-     <div class="page-top animated fadeInDown">
-    <div class="nav">
-    
-     <li><a  href="/">首页</a></li>
-
-     <li><a  href="/archives">归档</a></li>
-
-     <li><a  href="/tags">标签</a></li>
-
-    </div>
-    <div class="information">
-     <div class="back_btn">
-      <li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li>
-     </div>
-    </div>
-   </div>
-   <div class="autopagerize_page_element">
-    <div class="content">
-     <div class="post-page">
-      <div class="post animated fadeInDown">
-       <div class="post-title">
-        <h3><a>让负面情绪产生最高的价值？</a></h3>
-       </div>
-       <div class="post-content">
-        <p>后悔是人类才有的高级认知情绪</p>
+<body>
+    <div class="allcontent" id="postdetail">
+        <div class="postshow">
+            
+            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
+                
+                <img src="" class="postimage">
+                
+            </div>
+            <div class="postinfo-detail">
+                <div class="postdate"><i class="fa fa-calendar"></i>2020-09-11</div>
+            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 5 min read</div>
+            <div class="posttag">
+                
+                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
+                    <i class="fa fa-tag"></i> 思想聚焦
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
+                    <i class="fa fa-tag"></i> 阅读
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="postlink">
+                    <i class="fa fa-tag"></i> 摘抄
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/ulBkKQwhp/" class="postlink">
+                    <i class="fa fa-tag"></i> 随笔
+                </a>
+                
+            </div>
+        </div>
+        
+        <div id="texttitle" style="text-align: center">
+            <h2>让负面情绪产生最高的价值？</h2>
+            <!-- id 将作为查询条件 -->
+            <div id="pl" style="display:none">https://wonder-zhang.github.io/nK8eLf6no/</div>
+            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
+            <span id="hotnum" class="leancloud_visitors" data-flag-title="让负面情绪产生最高的价值？">
+                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
+            </span>
+        </div>
+        <div class="text ">
+            <p>后悔是人类才有的高级认知情绪</p>
 <p>后悔通常被认为是一种消极的认知和情绪状态，包括为坏结果责备自己，对错失的机会感到失落，希望撤销之前的选择等。</p>
 <p>后悔产生的前提是，在心理上模拟各种可选结果，涉及思考和感受。</p>
 <p>所以动物和小孩子不会后悔，后悔是具有审视能力的人类才有的高级认知情绪，在日常决策推理和社会学系中扮演着重要的角色。</p>
@@ -143,49 +285,366 @@
 <p>最好选择和安全的人，比如亲密的朋友，或者专业的咨询师倾诉来纾解情绪。</p>
 <p>倾诉，是一个梳理内心、回归平静的过程，让我们自身拥有思考和找到答案的能力。</p>
 
-       </div>
-       <div class="post-footer">
-        <div class="meta">
-         <div class="info">
-          <i class="fa fa-sun-o"></i>
-          <span class="date">2020-09-11</span>
-          <i class="fa fa-tag"></i>
-          
-          <a class="tag" href="https://wonder-zhang.github.io/1ttwVHLb-/" title="思想聚焦">思想聚焦 </a>
-          
-          <a class="tag" href="https://wonder-zhang.github.io/1w5HbnM2c/" title="阅读">阅读 </a>
-          
-          <a class="tag" href="https://wonder-zhang.github.io/OVQhcUD1u/" title="摘抄">摘抄 </a>
-          
-          <a class="tag" href="https://wonder-zhang.github.io/ulBkKQwhp/" title="随笔">随笔 </a>
-          
-         </div>
         </div>
-       </div>
-      </div>
-      <div class="share">
-       <div class="evernote">
-        <a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a>
-       </div>
-       <div class="weibo">
-        <a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
-       </div>
-       <div class="twitter">
-        <a class="fa fa-twitter" href="http://twitter.com/home?status=,https://wonder-zhang.github.io/nK8eLf6no/,;"></a>
-       </div>
-      </div>
-      <div class="pagination">
-       <ul class="clearfix">
+        
+        <div class="prev-post">
+            上一篇
+            <a href="https://wonder-zhang.github.io/ULDDl31VQ/">
+                时间，是治愈一切的良药
+            </a>
+        </div>
+        
+        
+        <div class="next-post">
+            下一篇
+            <a href="https://wonder-zhang.github.io/AptUznBf6/">
+                与情绪为伴，你被情绪淹没了吗
+            </a>
+        </div>
+        
+    </div>
+    </div>
+</body>
+<script>
+    var t_img; // 定时�?
+    var isLoad = true; // 控制变量
+    isImgLoad(function () {
+        // 加载完成
+        $('.postdetailimg').css("display", "block");
+    });
+    // 判断图片加载的函�?
+    function isImgLoad(callback) {
+        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
+        // 查找所有封面图，迭代�?�理
+        $('.postdetailimg').each(function () {
+            // 找到�?0就将isLoad设为false，并退出each
+            if (this.height === 0) {
+                isLoad = false;
+                return false;
+            }
+        });
+        // 为true，没有发现为0的。加载完�?
+        if (isLoad) {
+            clearTimeout(t_img); // 清除定时�?
+            // 回调函数
+            callback();
+            // 为false，因为找到了没有加载完成的图，将调用定时器递归
+        } else {
+            isLoad = true;
+            t_img = setTimeout(function () {
+                isImgLoad(callback); // 递归�?�?
+            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
+        }
+    }
 
-        <li class="pre pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/ULDDl31VQ/" title="时间，是治愈一切的良药">上一篇</a></li>
-         
-        
-        <li class="next pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/AptUznBf6/" title=" 与情绪为伴，你被情绪淹没了吗">下一篇</a></li>
-        
-       </ul>
+    //文章阅读热度
+    var pl = $("#pl").html();
+    var rootaddr = $("#rootaddr").html();
+    pl = pl.replace(rootaddr, "");
+    $("#hotnum").attr('id', pl);
+</script>
+        <div name="comment" style="background: white">
+            <div class="commentcontainer">
+                
+                
+                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '0a75e243e68be28523b4',
+    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
+    repo: 'wonder-zhang.github.io',
+    owner: 'wonder-zhang',
+    admin: ['wonder-zhang'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+                
+                
+                
+            </div>
+        </div>
+    </div>
+     
+                <div class="toc-container">
+                    
+    </div>
+    </div>
+    </div>
+    <div class="toggleContainer">
+        <div class="toggle">
+            <i class="fas fa-angle-double-up"></i>
+        </div>
+    </div>
+    <div id="bg">
+    </div>
+    <div id="bgchoice" style="display: none"></div>
+    
+    <div id="bgurl" style="display:none"></div>
+       
+    </div>
+    <!-- 响应式布局，针对手机端内容显示 -->
+    <div class="nav-small">
+        <head>
+  <!-- 引入Bootstrap核心样式文件 -->
+  <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+          data-target="#barmenu" aria-expanded="false" id="barbutton">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="https://wonder-zhang.github.io">wonder&#39;s blog&nbsp;&nbsp;|</a>
       </div>
-        
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="barmenu">
+        <ul class="nav navbar-nav">
           
+          
+          <li>
+            <a href="/">
+              首页
+            </a>
+          </li>
+          
+          
+          
+          <li>
+            <a href="/archives">
+              归档
+            </a>
+          </li>
+          
+          
+          
+          <li>
+            <a href="/tags">
+              标签
+            </a>
+          </li>
+          
+          
+          
+          
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+
+  <!-- 引入jQuery核心js文件 -->
+  <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script>
+  var btstate = false;
+  var bt = $("#barbutton");
+  var bm = $("#barmenu");
+  bt.click(function(){
+    dropdown();
+  })
+  function dropdown(){
+    console.log(btstate);
+    //下拉
+    if(btstate==false){
+      bt.removeClass("collapsed");
+      bt.attr("aria-expanded","true");
+      bm.attr("aria-expanded","true")
+      bm.fadeIn(700);
+      btstate = true;
+    }
+    else{
+      bt.addClass("collapsed");
+      bt.attr("aria-expanded","false");
+      bm.removeClass("in");
+      bm.hide();
+      bm.attr("aria-expanded","false");
+      btstate = false;
+    }
+  }
+  </script> 
+</body>
+    <div style="margin-top:30px"></div>
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
+<style>
+
+</style>
+
+<body>
+    <div class="allcontent" id="postdetail">
+        <div class="postshow">
+            
+            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
+                
+                <img src="" class="postimage">
+                
+            </div>
+            <div class="postinfo-detail">
+                <div class="postdate"><i class="fa fa-calendar"></i>2020-09-11</div>
+            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 5 min read</div>
+            <div class="posttag">
+                
+                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
+                    <i class="fa fa-tag"></i> 思想聚焦
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
+                    <i class="fa fa-tag"></i> 阅读
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="postlink">
+                    <i class="fa fa-tag"></i> 摘抄
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/ulBkKQwhp/" class="postlink">
+                    <i class="fa fa-tag"></i> 随笔
+                </a>
+                
+            </div>
+        </div>
+        
+        <div id="texttitle" style="text-align: center">
+            <h2>让负面情绪产生最高的价值？</h2>
+            <!-- id 将作为查询条件 -->
+            <div id="pl" style="display:none">https://wonder-zhang.github.io/nK8eLf6no/</div>
+            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
+            <span id="hotnum" class="leancloud_visitors" data-flag-title="让负面情绪产生最高的价值？">
+                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
+            </span>
+        </div>
+        <div class="text ">
+            <p>后悔是人类才有的高级认知情绪</p>
+<p>后悔通常被认为是一种消极的认知和情绪状态，包括为坏结果责备自己，对错失的机会感到失落，希望撤销之前的选择等。</p>
+<p>后悔产生的前提是，在心理上模拟各种可选结果，涉及思考和感受。</p>
+<p>所以动物和小孩子不会后悔，后悔是具有审视能力的人类才有的高级认知情绪，在日常决策推理和社会学系中扮演着重要的角色。</p>
+<p>据心理学家统计，后悔是人们日常生活中第二常见的情绪。</p>
+<p>在以下情况更容易后悔：</p>
+<p>▷机会更多</p>
+<p>机会越多，越容易想象不同的结果，越有可能后悔。</p>
+<p>比如，单身时有很多追求者，婚后生活不幸，就容易后悔是否选错人。</p>
+<p>▷年龄渐长</p>
+<p>年轻时候，总觉得自己还有很多光阴与可能， 随着年龄增长，定局越来越多，我们会越来越后悔。</p>
+<p>心理学研究也表明人的情绪调节能力会随着年龄增长而增长，所以年纪较大的人即使会有更多的后悔事件，也能更多与后悔和解。</p>
+<p>▷没有听从内心</p>
+<p>如果选择与内心相悖，或者与价值观、目标不一致的时候，更容易后悔。</p>
+<p>比如，为了满足父母而结婚，为了更好找工作去读了理科……这些后悔，如果一直没有纠正，会在心里停留很多年。</p>
+<p>▷无所作为</p>
+<p>心理学家发现，最让人们意难平的不是犯错或者出糗，而是未能完成“理想的自我”。</p>
+<p>在短时间内，人们更容易为自己的行为和错误而后悔，而长远来看，无所作为更容易导致后悔。</p>
+<p>可怕的不是后悔<br>
+而是从后悔中只得到痛苦</p>
+<p>后悔虽然是消极情绪，但如果能利用好，就能成为适应性情绪，产生不可估量的积极影响。</p>
+<p>心理学家尼尔·罗斯的研究表明，后悔是有利的，在大部分负面情绪中，产生的价值最高。</p>
+<p>每犯一个错，都是人生重要一课。每一份后悔，也都藏着重要信息。</p>
+<p>后悔是对过去行为的内部反馈，让我们从错误中吸取教训，形成自我监督，并在未来做出更谨慎的决定。</p>
+<p>哲学家克尔凯郭尔说过：“只有向后看，才能理解生活。”</p>
+<p>如果人生一直无怨无悔，我们也就没有足够的洞察力和智慧来理解生活。</p>
+<p>我们怎么可能深切地知道：敢于冒险和挑战，多么重要。喜欢就去争取，深爱就好好珍惜，多么可贵。</p>
+<p>又怎么会懂得：时间，一去不复返。有些机会，没有抓住就失去了；有些人，错过了就是一辈子……</p>
+<p>关键不是拒绝后悔<br>
+而是创造性地理解后悔</p>
+<p>总是追求无怨无悔，反倒是一种理想化，让人无法有效地应对这个不可预测、错误不可避免的世界。</p>
+<p>试图避免后悔的人经常会感到焦虑和无力，因为他们更关注于不犯错，而不是为了实现理想而冒险。</p>
+<p>不怕后悔的人，更能保持成长与学习的心态。</p>
+<p>所以，重要的不是追求无怨无悔，而是在后悔发生的时候，创造性地去处理它。</p>
+<p>①原谅错误，接纳自己</p>
+<p>人无完人，每个人都会犯错。</p>
+<p>犯错的时候，可以自我反思，但不要陷入自我怪责的怪圈；允许自己痛苦，但不要被后悔吞噬。</p>
+<p>同情地去理解错误，接受现在的处境，哪怕它很坏。</p>
+<p>不要在脑海中重复“如果怎样”的想法，接受人生无法重来一次。</p>
+<p>只有先原谅和接纳，后悔才可能产生积极的影响。</p>
+<p>②重新评价过去，从错误中学习</p>
+<p>过去的行为，无论感觉如何糟糕，都可以通过重新评价来改变。</p>
+<p>转负为正的关键是，从错误中学到更多东西，让错误变得有意义。</p>
+<p>不要把注意力集中在负面后果上，要多留意后悔是如何被激发的。</p>
+<p>③如果真的造成了伤害，请尽量去弥补</p>
+<p>有些错误的代价过于巨大，随之而来的后悔也无法轻易释怀。</p>
+<p>比如冲动出轨，伤害了最爱的人；沉迷赌博，输掉了人生……</p>
+<p>那么请向伤害过的人道歉，并努力去弥补伤害。</p>
+<p>不要因为内疚羞愧而拖延正确的行为，也不要因为觉得为时已晚而拒绝改变。</p>
+<p>只要抱着积极的态度去处理，一定会迎来和解。</p>
+<p>不过，如果后悔带给你的压力和痛苦不可承受，无法自己平复的时候，千万不要硬抗。</p>
+<p>最好选择和安全的人，比如亲密的朋友，或者专业的咨询师倾诉来纾解情绪。</p>
+<p>倾诉，是一个梳理内心、回归平静的过程，让我们自身拥有思考和找到答案的能力。</p>
+
+        </div>
+        
+        <div class="prev-post">
+            上一篇
+            <a href="https://wonder-zhang.github.io/ULDDl31VQ/">
+                时间，是治愈一切的良药
+            </a>
+        </div>
+        
+        
+        <div class="next-post">
+            下一篇
+            <a href="https://wonder-zhang.github.io/AptUznBf6/">
+                与情绪为伴，你被情绪淹没了吗
+            </a>
+        </div>
+        
+    </div>
+    </div>
+</body>
+<script>
+    var t_img; // 定时�?
+    var isLoad = true; // 控制变量
+    isImgLoad(function () {
+        // 加载完成
+        $('.postdetailimg').css("display", "block");
+    });
+    // 判断图片加载的函�?
+    function isImgLoad(callback) {
+        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
+        // 查找所有封面图，迭代�?�理
+        $('.postdetailimg').each(function () {
+            // 找到�?0就将isLoad设为false，并退出each
+            if (this.height === 0) {
+                isLoad = false;
+                return false;
+            }
+        });
+        // 为true，没有发现为0的。加载完�?
+        if (isLoad) {
+            clearTimeout(t_img); // 清除定时�?
+            // 回调函数
+            callback();
+            // 为false，因为找到了没有加载完成的图，将调用定时器递归
+        } else {
+            isLoad = true;
+            t_img = setTimeout(function () {
+                isImgLoad(callback); // 递归�?�?
+            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
+        }
+    }
+
+    //文章阅读热度
+    var pl = $("#pl").html();
+    var rootaddr = $("#rootaddr").html();
+    pl = pl.replace(rootaddr, "");
+    $("#hotnum").attr('id', pl);
+</script>
+    <div name="comment" style="background: white;margin-top:100px">
+        <div class="commentcontainer">
+            
+            
             <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
 <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
@@ -207,17 +666,73 @@
 
 </script>
 
-          
-          
-        
-     </div>
+            
+            
+            
+        </div>
     </div>
-   </div>
-  </div>
-  <script src="https://wonder-zhang.github.io/media/scripts/jquery.js"></script>
-  <script src="https://wonder-zhang.github.io/media/scripts/jquery-migrate-1.2.1.min.js"></script>
-  <script src="https://wonder-zhang.github.io/media/scripts/jquery.appear.js"></script>
+    </div>
+    <div id="landlord">
+        <div class="message" style="opacity:0"></div>
+        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
+    </div>
+    <div id="codeCopyText" style="display: none"></div>
+    <div id="domainname" style="display:none">https://wonder-zhang.github.io</div>
+    </body>
+    <script src="https://wonder-zhang.github.io/media/js/post.js"></script>
+    <script>
+        //寻找所有code标签，加复制按钮鸭！(行内代码除外)
+        var codes = document.getElementsByTagName('code');
+        if (codes.length) {
+            for (var i = 0; i < codes.length; i++) {
+                //高度/行高=文本行数
+                // var rowNum=Math.round(codes[i].height()/parseFloat(codes[i].css('line-height')));
+                // console.log("当前有"+rowNum+"行");
+                var code_id = "code_id_" + i;
+                codes[i].setAttribute("id", code_id);
+                var ci = "#" + code_id;
+                var codedot = $(ci);
+                var rowNum = Math.round(codedot.height() / parseFloat(codedot.css('line-height')));
+                if (rowNum <= 1) continue;
+                var btn = document.createElement("button");
+                btn.setAttribute("class", "copybt");
+                btn.setAttribute("data-clipboard-target", "#" + code_id);
+                btn.innerHTML = '复制代码';
+                codes[i].parentNode.insertBefore(btn, codes[i]);
+            }
+        };
+        var cop = new ClipboardJS('.copybt');
+        var codeCopyText = $("#codeCopyText").html();
+        cop.on('success', function (e) {
+            alert(codeCopyText);
+            e.clearSelection();
+        });
+        cop.on('error', function (e) {
+            alert("矮油，复制失败了...手动复制吧勇士！");
+            e.clearSelection();
+        });
+    </script>
+    
+<script>
+$(function () {
+    $('.toggleContainer').click(function(){$('html,body').animate({scrollTop: '0px'}, 800);});
+	$(window).scroll(function() {
+        var st = $(window).scrollTop();
+        if(st > 30){
+            $(".toggleContainer").fadeIn(400);
+        }else{
+            $(".toggleContainer").fadeOut(100);
+        }
+	});
+});
+</script>
 
-
- </body>
-</html>
+<script>
+        var bgchoice=$('#bgchoice').html();
+        var bg = $('#bg');
+        var bgurl = document.getElementById("bgurl").innerHTML;
+        if(bgchoice=='default')
+            for (var i = 0; i < 3; i++)
+                bgurl = bgurl.replace("\\", "/");
+        bg.css("background", "url('" + bgurl + "')");
+</script>

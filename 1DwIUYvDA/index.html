@@ -1,95 +1,227 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
- <head>
-     <meta charset="utf-8" />
-  <title>成年人的崩溃，是从缺钱开始的 | wonder&#39;s blog</title>
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-  <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-   <script src="https://cdn.staticfile.org/highlight.js/9.15.9/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
- </head>
- <body>
-     <div class="sidebar animated fadeInDown">
-   <div class="logo-title">
-    <div class="title">
-     <img src="https://wonder-zhang.github.io/images/avatar.png?v=1604323134436" style="width:127px;" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="文/红妆
+偶然在朋友圈中看到这样一句话，觉得颇有道理：
+“世人慌慌张张，不过图碎银几两。可偏偏这碎银几两，能解世间万种慌张。”
+是啊，正如有人说的那样：钱不是万能的，但没钱是万万不能的。
+话虽如此，从前的我，却是从来不敢坦然谈钱的：
+和对象..." />
+    <meta name="keywords" content="阅读" />
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/dracula.min.css">
+              
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
+    <script src="https://wonder-zhang.github.io/media/js/clipboard.min.js"></script>
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/live2d.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <!-- 数学公式 -->
+    
+    <title>wonder's blog</title>
+    
+    <style>
+        .markdownIt-TOC {
+            padding-left: 2px;
+            width: 100%;
+        }
+        .markdownIt-TOC li{
+            padding-left: 2%;
+        }
+    </style>
+    
+</head>
 
-     <h3 title=""><a href="/">wonder</a></h3>
+<body>
+    <!-- 响应式布局，针对PC端内容显示 -->
+    <div id="content">
+        <div class="nav-large">
+            <div class="row">
+                <div class="side"><head>
+    <meta name="description" content="Stay Hungry. Stay Foolish" />
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+</head>
 
-     <div class="description">
-      <p>Stay Hungry. Stay Foolish</p>
-     </div>
-    </div>
-   </div>
-   <ul class="social-links">
 
-
-    <li><a href="https://wonder-zhang.github.io/atom.xml"><i class="fa fa-rss"></i></a></li>
- 
+<body>
     
 
-    
+
 
     
+</body>
+<script>
+    //-------------------------------------------------搜索
+    // 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素
+    var searchInput = document.querySelector('.search-input');
+    var searchResults = document.querySelector('.search-results');
 
-    <li><a href="https://github.com/wonder-zhang"><i class="fa fa-github"></i></a></li>
- 
+    // 申明保存文章的标题、链接、内容的数组变量
+    var searchValue = '',
+        arrItems = [],
+        arrLinks = [],
+        arrTitles = [],
+        arrResults = [],
+        indexItem = [],
+        itemLength = 0;
+    var tmpDiv = document.createElement('div');
+    tmpDiv.className = 'result-item';
+
+    // ajax 的兼容写法
+    var xhr = new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            xml = xhr.responseXML;
+            arrItems = xml.getElementsByTagName('entry');
+            itemLength = arrItems.length;
+            // 遍历并保存所有文章对应的标题、链接、内容到对应的数组中
+            // 同时过滤掉 HTML 标签
+            for (i = 0; i < itemLength; i++) {
+                var link = arrItems[i].getElementsByTagName('link')[0];
+                arrLinks[i] = link.getAttribute("href");
+                arrTitles[i] = arrItems[i].getElementsByTagName('title')[0].
+                childNodes[0].nodeValue.replace(/<.*?>/g, '');
+            }
+        }
+    }
+
+    // 开始获取根目录下 feed.xml 文件内的数据
+    xhr.open('get', '/atom.xml', true);
+    xhr.send();
+
+
+
+    // 输入框内容变化后就开始匹配，可以不用点按钮
+    // 经测试，onkeydown, onchange 等方法效果不太理想，
+    // 存在输入延迟等问题，最后发现触发 input 事件最理想，
+    // 并且可以处理中文输入法拼写的变化
+    searchInput.oninput = function () {
+        setTimeout(searchConfirm, 0);
+    }
+    searchInput.onfocus = function () {
+        searchResults.style.display = 'block';
+    }
+
+    function searchConfirm() {
+        if (searchInput.value == '') {
+            searchResults.style.display = 'none';
+        } else if (searchInput.value.search(/^\s+$/) >= 0) {
+            // 检测输入值全是空白的情况
+            searchInit();
+            var itemDiv = tmpDiv.cloneNode(true);
+            itemDiv.innerText = '请输入有效内容...';
+            searchResults.appendChild(itemDiv);
+        } else {
+            // 合法输入值的情况
+            searchInit();
+            searchValue = searchInput.value;
+            // 在标题、内容中查找
+            searchMatching(arrTitles, searchValue);
+        }
+    }
+
+    // 每次搜索完成后的初始化
+    function searchInit() {
+        arrResults = [];
+        indexItem = [];
+        searchResults.innerHTML = '';
+        searchResults.style.display = 'block';
+    }
+
+    function searchMatching(arr1, input) {
+        // 忽略输入大小写
+        input = new RegExp(input, 'i');
+        // 在所有文章标题、内容中匹配查询值
+        for (i = 0; i < itemLength; i++) {
+            if (arr1[i].search(input) !== -1) {
+                var arr = arr1;
+                indexItem.push(i); // 保存匹配值的索引
+                var indexContent = arr[i].search(input);
+                // 此时 input 为 RegExp 格式 /input/i，转换为原 input 字符串长度
+                var l = input.toString().length - 3;
+                var step = 10;
+
+                // 将匹配到内容的地方进行黄色标记，并包括周围一定数量的文本
+                arrResults.push(arr[i].slice(indexContent - step, indexContent));
+            }
+        }
+
+        // 输出总共匹配到的数目
+        var totalDiv = tmpDiv.cloneNode(true);
+        totalDiv.innerHTML = '<b>总匹配：' + indexItem.length + ' 项<hr></b>';
+        searchResults.appendChild(totalDiv);
+
+        // 未匹配到内容的情况
+        if (indexItem.length == 0) {
+            var itemDiv = tmpDiv.cloneNode(true);
+            itemDiv.innerText = '未匹配到内容...';
+            searchResults.appendChild(itemDiv);
+        }
+
+        // 将所有匹配内容进行组合
+        for (i = 0; i < arrResults.length; i++) {
+            var itemDiv = tmpDiv.cloneNode(true);
+            itemDiv.innerHTML = '<b>[' + arrTitles[indexItem[i]] +
+                ']</b><p>' + arrResults[i] + "</p><hr />";
+            itemDiv.setAttribute('onclick', 'changeHref(arrLinks[indexItem[' + i + ']])');
+            searchResults.appendChild(itemDiv);
+        }
+    }
+
+    function changeHref(href) {
+        location.href = href;
+    }
+
+    function showqq() {
+        var qq = document.getElementById("qq").innerHTML;
+        if (qq != '')
+            alert("博主的QQ联系方式为：" + qq);
+        else
+            alert("博主暂未设置QQ联系方式");
+    }
+</script></div>
     
+    <div id="main" class="col-xs-12 col-sm-7" style="width:50%;margin-top:50px;left:27%">
+        <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
+<style>
 
-    
+</style>
 
-    
-
-    
-
-    <li><a href="https://weibo.com/936659044"><i class="fa fa-weibo"></i></a></li>
- 
-    
-
-    
-
-    
-
-   </ul>
-   <div class="footer">
-    <div class="by_farbox">
-   Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
- <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
-    </div>
-    
-
-    </div>
-   </div>
-  </div>
-  <div class="main">
-     <div class="page-top animated fadeInDown">
-    <div class="nav">
-    
-     <li><a  href="/">首页</a></li>
-
-     <li><a  href="/archives">归档</a></li>
-
-     <li><a  href="/tags">标签</a></li>
-
-    </div>
-    <div class="information">
-     <div class="back_btn">
-      <li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li>
-     </div>
-    </div>
-   </div>
-   <div class="autopagerize_page_element">
-    <div class="content">
-     <div class="post-page">
-      <div class="post animated fadeInDown">
-       <div class="post-title">
-        <h3><a>成年人的崩溃，是从缺钱开始的</a></h3>
-       </div>
-       <div class="post-content">
-        <p>文/红妆</p>
+<body>
+    <div class="allcontent" id="postdetail">
+        <div class="postshow">
+            
+            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
+                
+                <img src="" class="postimage">
+                
+            </div>
+            <div class="postinfo-detail">
+                <div class="postdate"><i class="fa fa-calendar"></i>2020-06-15</div>
+            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 8 min read</div>
+            <div class="posttag">
+                
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
+                    <i class="fa fa-tag"></i> 阅读
+                </a>
+                
+            </div>
+        </div>
+        
+        <div id="texttitle" style="text-align: center">
+            <h2>成年人的崩溃，是从缺钱开始的</h2>
+            <!-- id 将作为查询条件 -->
+            <div id="pl" style="display:none">https://wonder-zhang.github.io/1DwIUYvDA/</div>
+            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
+            <span id="hotnum" class="leancloud_visitors" data-flag-title="成年人的崩溃，是从缺钱开始的">
+                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
+            </span>
+        </div>
+        <div class="text ">
+            <p>文/红妆</p>
 <p>偶然在朋友圈中看到这样一句话，觉得颇有道理：</p>
 <p>“世人慌慌张张，不过图碎银几两。可偏偏这碎银几两，能解世间万种慌张。”</p>
 <p>是啊，正如有人说的那样：钱不是万能的，但没钱是万万不能的。</p>
@@ -182,43 +314,393 @@
 <p>往后余生，愿你我都能不为钱所困，在幸福的生活里，开心地过；愿你我都能努力赚钱，在多彩的世界里，绚烂地活。</p>
 <p>共勉。</p>
 
-       </div>
-       <div class="post-footer">
-        <div class="meta">
-         <div class="info">
-          <i class="fa fa-sun-o"></i>
-          <span class="date">2020-06-15</span>
-          <i class="fa fa-tag"></i>
-          
-          <a class="tag" href="https://wonder-zhang.github.io/1w5HbnM2c/" title="阅读">阅读 </a>
-          
-         </div>
         </div>
-       </div>
-      </div>
-      <div class="share">
-       <div class="evernote">
-        <a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a>
-       </div>
-       <div class="weibo">
-        <a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
-       </div>
-       <div class="twitter">
-        <a class="fa fa-twitter" href="http://twitter.com/home?status=,https://wonder-zhang.github.io/1DwIUYvDA/,;"></a>
-       </div>
-      </div>
-      <div class="pagination">
-       <ul class="clearfix">
+        
+        <div class="prev-post">
+            上一篇
+            <a href="https://wonder-zhang.github.io/IaJPWyJBh/">
+                你被迫学会了哪些社交常识？
+            </a>
+        </div>
+        
+        
+        <div class="next-post">
+            下一篇
+            <a href="https://wonder-zhang.github.io/3k2WMbXyM/">
+                所谓爱情——白居易
+            </a>
+        </div>
+        
+    </div>
+    </div>
+</body>
+<script>
+    var t_img; // 定时�?
+    var isLoad = true; // 控制变量
+    isImgLoad(function () {
+        // 加载完成
+        $('.postdetailimg').css("display", "block");
+    });
+    // 判断图片加载的函�?
+    function isImgLoad(callback) {
+        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
+        // 查找所有封面图，迭代�?�理
+        $('.postdetailimg').each(function () {
+            // 找到�?0就将isLoad设为false，并退出each
+            if (this.height === 0) {
+                isLoad = false;
+                return false;
+            }
+        });
+        // 为true，没有发现为0的。加载完�?
+        if (isLoad) {
+            clearTimeout(t_img); // 清除定时�?
+            // 回调函数
+            callback();
+            // 为false，因为找到了没有加载完成的图，将调用定时器递归
+        } else {
+            isLoad = true;
+            t_img = setTimeout(function () {
+                isImgLoad(callback); // 递归�?�?
+            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
+        }
+    }
 
-        <li class="pre pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/IaJPWyJBh/" title="你被迫学会了哪些社交常识？">上一篇</a></li>
-         
-        
-        <li class="next pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/3k2WMbXyM/" title=" 所谓爱情——白居易">下一篇</a></li>
-        
-       </ul>
+    //文章阅读热度
+    var pl = $("#pl").html();
+    var rootaddr = $("#rootaddr").html();
+    pl = pl.replace(rootaddr, "");
+    $("#hotnum").attr('id', pl);
+</script>
+        <div name="comment" style="background: white">
+            <div class="commentcontainer">
+                
+                
+                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '0a75e243e68be28523b4',
+    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
+    repo: 'wonder-zhang.github.io',
+    owner: 'wonder-zhang',
+    admin: ['wonder-zhang'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+                
+                
+                
+            </div>
+        </div>
+    </div>
+     
+                <div class="toc-container">
+                    
+    </div>
+    </div>
+    </div>
+    <div class="toggleContainer">
+        <div class="toggle">
+            <i class="fas fa-angle-double-up"></i>
+        </div>
+    </div>
+    <div id="bg">
+    </div>
+    <div id="bgchoice" style="display: none"></div>
+    
+    <div id="bgurl" style="display:none"></div>
+       
+    </div>
+    <!-- 响应式布局，针对手机端内容显示 -->
+    <div class="nav-small">
+        <head>
+  <!-- 引入Bootstrap核心样式文件 -->
+  <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+          data-target="#barmenu" aria-expanded="false" id="barbutton">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="https://wonder-zhang.github.io">wonder&#39;s blog&nbsp;&nbsp;|</a>
       </div>
-        
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="barmenu">
+        <ul class="nav navbar-nav">
           
+          
+          <li>
+            <a href="/">
+              首页
+            </a>
+          </li>
+          
+          
+          
+          <li>
+            <a href="/archives">
+              归档
+            </a>
+          </li>
+          
+          
+          
+          <li>
+            <a href="/tags">
+              标签
+            </a>
+          </li>
+          
+          
+          
+          
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+
+  <!-- 引入jQuery核心js文件 -->
+  <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script>
+  var btstate = false;
+  var bt = $("#barbutton");
+  var bm = $("#barmenu");
+  bt.click(function(){
+    dropdown();
+  })
+  function dropdown(){
+    console.log(btstate);
+    //下拉
+    if(btstate==false){
+      bt.removeClass("collapsed");
+      bt.attr("aria-expanded","true");
+      bm.attr("aria-expanded","true")
+      bm.fadeIn(700);
+      btstate = true;
+    }
+    else{
+      bt.addClass("collapsed");
+      bt.attr("aria-expanded","false");
+      bm.removeClass("in");
+      bm.hide();
+      bm.attr("aria-expanded","false");
+      btstate = false;
+    }
+  }
+  </script> 
+</body>
+    <div style="margin-top:30px"></div>
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
+<style>
+
+</style>
+
+<body>
+    <div class="allcontent" id="postdetail">
+        <div class="postshow">
+            
+            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
+                
+                <img src="" class="postimage">
+                
+            </div>
+            <div class="postinfo-detail">
+                <div class="postdate"><i class="fa fa-calendar"></i>2020-06-15</div>
+            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 8 min read</div>
+            <div class="posttag">
+                
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
+                    <i class="fa fa-tag"></i> 阅读
+                </a>
+                
+            </div>
+        </div>
+        
+        <div id="texttitle" style="text-align: center">
+            <h2>成年人的崩溃，是从缺钱开始的</h2>
+            <!-- id 将作为查询条件 -->
+            <div id="pl" style="display:none">https://wonder-zhang.github.io/1DwIUYvDA/</div>
+            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
+            <span id="hotnum" class="leancloud_visitors" data-flag-title="成年人的崩溃，是从缺钱开始的">
+                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
+            </span>
+        </div>
+        <div class="text ">
+            <p>文/红妆</p>
+<p>偶然在朋友圈中看到这样一句话，觉得颇有道理：</p>
+<p>“世人慌慌张张，不过图碎银几两。可偏偏这碎银几两，能解世间万种慌张。”</p>
+<p>是啊，正如有人说的那样：钱不是万能的，但没钱是万万不能的。</p>
+<p>话虽如此，从前的我，却是从来不敢坦然谈钱的：</p>
+<p>和对象谈钱吧，生怕他觉得自己肤浅拜金；</p>
+<p>和老板谈钱吧，唯恐对方认为自己功利现实；</p>
+<p>和熟人谈钱吧，又担心伤了彼此多年的交情；</p>
+<p>……</p>
+<p>那时的我，觉得谈钱太庸俗，觉得穷一点没事，只要活得开心就够了。</p>
+<p>可是，当我刚刚步入社会，就被现实狠狠地扇了个响亮的耳光。</p>
+<p>直到那个时刻，我才恍然大悟：</p>
+<p>钱，真的很重要！</p>
+<p>我们都是凡夫俗子，过不了没有钱的生活。</p>
+<p>电影《寄生虫》里有句话说得好：钱就是熨斗，能把一切熨平了。</p>
+<p>人到中年，最大的安全感，不是连绵十里的人脉，也不是百依百顺的儿女，而是银行账户里有一个能让你饿了有饭吃、倦了有房住、病了有药医的数字。</p>
+<p>毕竟，成年人的崩溃，往往都是从缺钱开始的。</p>
+<p><strong>01</strong></p>
+<p>缺一次钱，你就懂了</p>
+<p>成年人的世界，真的很难。</p>
+<p>没有童话，也没有容易，有的只是一个一场重病就能打破的看起来安稳无虞的生活。</p>
+<p>前段时间，朋友吴悦突然发了一条朋友圈：</p>
+<p>“在疾病面前，情比隙短；和贫穷面前，命比纸薄。”</p>
+<p>我急忙问她怎么了。</p>
+<p>她告诉我说，她老公被确诊为主动脉夹层，治疗费用高达30万。</p>
+<p>“亲戚朋友，亲戚的亲戚，朋友的朋友，能借的都借了，这钱啊，还是不够……”她说着说着，声音渐渐哽咽了起来。</p>
+<p>“我们结婚三年，平日里省吃俭用，就想着存点钱以后把乡下的父母接到城里来，结果他却得了这个病！”</p>
+<p>“平日里交好的人，现在看到我就躲，有的连电话都不接，生怕我开口找ta借钱。”</p>
+<p>“我也明白，大家都不容易，各有各的的难，但我这次实在是没办法了呀！”</p>
+<p>……</p>
+<p>说完之后，朋友早已泣不成声。而我，也心痛不已：</p>
+<p>29岁，一个年轻的生命，两个孩子的父亲，三十未满的美好年纪，却因为缺钱躺在ICU里静静等待——也许是钱凑齐之后的生，也许是钱凑齐之前的死。</p>
+<p>你看，生活就是这么残忍，不留一丝情面。</p>
+<p>有人问：富裕家庭与贫困家庭的差距有多大？</p>
+<p>一个高赞的回答是：不大，就隔一场重病。</p>
+<p>诚然如此。</p>
+<p>正所谓“一人重病，全家沦陷”。无论童话里多么美好，成人世界的真相就是：</p>
+<p>在某些时候，钱的多少，决定了生命的长度。</p>
+<p>工作的累、日子的苦算什么，缺钱才是人生中最大的难。</p>
+<p>有人说：缺一次钱，你才会真正见识到，所谓人生，有多无奈。</p>
+<p>是啊——</p>
+<p>缺一次钱，你才会知道什么叫“穷在闹市无人问”，有些友谊的小船，真的会说翻就翻；</p>
+<p>缺一次钱，你才会明白什么叫“贫贱夫妻百事哀”，有情，并不能饮水饱；</p>
+<p>缺一次钱，你才会知晓什么叫“世情看冷暖，人面逐高低”，攀贵疏贫，是悲哀，却是世间常态。</p>
+<p>真的，很多事情，缺一次钱，你就懂了。</p>
+<p><strong>02</strong></p>
+<p>成年人的体面，都是钱给的</p>
+<p>前段时间，秋叶老师发了这样一条微博：</p>
+<p>“今天老婆打的，的士司机主动给她说，刚刚上车的一个男的，在车上就哭起来了。</p>
+<p>这个人年前还是武汉一个企业高管，年薪30多万，买了一套房，月供5000元，刚刚买了一部30多万的车，月供7000元。</p>
+<p>本来想着今年大干一场，还清房货车货，以后也是有房有车的中产阶级，没有想到疫情过去，公司宣布倒闭。</p>
+<p>现在在武汉找不到合适的工作，去外地也出不去，没有想到才几个月人生沦落如此，只能在出租车上痛哭一场。”</p>
+<p>这就是成人世界的缩影：</p>
+<p>人前体面无比——你有车，我有房；你是公司高管，我是国家栋梁；你有你的高朋满座，我有我的一技之长。</p>
+<p>人后却各有各的不得已——车贷沉，房贷重；高管做了咸鱿鱼，栋梁成了边角木；你有你的自顾不暇，我有我的忙不迭地。</p>
+<p>所谓体面，不过是金钱织就的遮羞布：遮住了你的抱头痛哭，遮住了我的空无一物。</p>
+<p>一旦这块遮羞布被掀开，你、我、我们，或许也都只能像这位企业高管一样，挑个时间和地点，在无人识得的地方，大哭一场——这或许就是一个成年人最后的体面。</p>
+<p>而在大哭一场的背后，藏着的，是一地鸡毛的生活，和早已千疮百孔的人生。</p>
+<p>张爱玲曾说过：“生命是一袭华美的长袍，里面爬满了虱子。”</p>
+<p>这话听起来有点惊悚，但是倘若你缺过钱，你就知道这话一点也不夸张。</p>
+<p>《欢乐颂》中，樊胜美父亲因病住院，急需十万块钱手术费。她拿不出，只能蹲在楼道里痛哭——缺钱，击碎的不仅是她的自尊，还有她苦苦维持的体面。</p>
+<p>面对类似的金钱问题，《都挺好》里的苏明玉却可以一口气拿出40万解决母亲去世时家里的一地鸡毛。</p>
+<p>钱，也许无法帮助你摆脱黑暗，但至少，它让你保住了自尊和体面。</p>
+<p>王尔德曾说过：</p>
+<p>“在我年轻的时候，曾以为金钱是世界上最重要的东西。现在我老了，才知道的确如此。”</p>
+<p>成年人的体面啊，说白了，都是钱给的。</p>
+<p><strong>03</strong></p>
+<p>努力赚钱，是每个成年人应有的自觉</p>
+<p>网上有个问题：人，为什么一定要努力赚钱呢？</p>
+<p>有个高赞回答戳中了很多人的泪点：</p>
+<p>“我辛苦赚钱，不是因为多爱钱。而是这辈子，不想因为钱和谁低三下四，也不想因为钱而为难谁。</p>
+<p>我努力赚钱，只是希望在父母年老的时候，我有能力分担；在孩子需要的时候，我不会囊中羞涩。”</p>
+<p>诚然如此。</p>
+<p>赚钱或许很辛苦，但是相信我，没钱赚更苦。</p>
+<p>一场疫情，让很多人兵荒马乱。缺钱，成了常态。这时，我们终于明白过来：人间烟火气，最抚凡人心。</p>
+<p>张爱玲说：</p>
+<p>“我喜欢钱，因为我没吃过钱的苦，不知道钱的坏处，只知道钱的好处。”</p>
+<p>确实如此。</p>
+<p>缺钱，就只能在逼仄的生活里，局促地过；努力赚钱，才能在多彩的世界里，绚烂地活。</p>
+<p>要知道，努力赚钱能给你带来的：</p>
+<p>是当你想吃日本刺身时，就不必为了省钱去街角买份凉皮来代替的底气；</p>
+<p>是当你到了所谓的适婚年龄时，无人能够让你将就、凑合、勉强的能力；</p>
+<p>是当父母年老生病时，让他们住最好的医院、接受最好的治疗、得到最好的照顾的经济后盾；</p>
+<p>最重要的是，选择的权利——选择做什么，而不是只能做什么。</p>
+<p>所以，从今天起，别陷溺于小确幸，也别流连于舒适区，好好吃饭、好好睡觉、好好生活，也好好赚钱。</p>
+<p><strong>04</strong></p>
+<p>知乎上有个问题：这世上缺什么东西最可怕？</p>
+<p>有人说：这世上最可怕的不是缺爱，也不是缺心眼，而是缺钱。</p>
+<p>不要觉得谈钱很庸俗，缺钱带来的无力、无奈、无措，没有谁能抵挡得了。</p>
+<p>所以，趁着岁月尚早，趁着时光未老，趁着时间和精力还在，努力赚钱，认真生活吧！</p>
+<p>往后余生，愿你我都能不为钱所困，在幸福的生活里，开心地过；愿你我都能努力赚钱，在多彩的世界里，绚烂地活。</p>
+<p>共勉。</p>
+
+        </div>
+        
+        <div class="prev-post">
+            上一篇
+            <a href="https://wonder-zhang.github.io/IaJPWyJBh/">
+                你被迫学会了哪些社交常识？
+            </a>
+        </div>
+        
+        
+        <div class="next-post">
+            下一篇
+            <a href="https://wonder-zhang.github.io/3k2WMbXyM/">
+                所谓爱情——白居易
+            </a>
+        </div>
+        
+    </div>
+    </div>
+</body>
+<script>
+    var t_img; // 定时�?
+    var isLoad = true; // 控制变量
+    isImgLoad(function () {
+        // 加载完成
+        $('.postdetailimg').css("display", "block");
+    });
+    // 判断图片加载的函�?
+    function isImgLoad(callback) {
+        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
+        // 查找所有封面图，迭代�?�理
+        $('.postdetailimg').each(function () {
+            // 找到�?0就将isLoad设为false，并退出each
+            if (this.height === 0) {
+                isLoad = false;
+                return false;
+            }
+        });
+        // 为true，没有发现为0的。加载完�?
+        if (isLoad) {
+            clearTimeout(t_img); // 清除定时�?
+            // 回调函数
+            callback();
+            // 为false，因为找到了没有加载完成的图，将调用定时器递归
+        } else {
+            isLoad = true;
+            t_img = setTimeout(function () {
+                isImgLoad(callback); // 递归�?�?
+            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
+        }
+    }
+
+    //文章阅读热度
+    var pl = $("#pl").html();
+    var rootaddr = $("#rootaddr").html();
+    pl = pl.replace(rootaddr, "");
+    $("#hotnum").attr('id', pl);
+</script>
+    <div name="comment" style="background: white;margin-top:100px">
+        <div class="commentcontainer">
+            
+            
             <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
 <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
@@ -240,17 +722,73 @@
 
 </script>
 
-          
-          
-        
-     </div>
+            
+            
+            
+        </div>
     </div>
-   </div>
-  </div>
-  <script src="https://wonder-zhang.github.io/media/scripts/jquery.js"></script>
-  <script src="https://wonder-zhang.github.io/media/scripts/jquery-migrate-1.2.1.min.js"></script>
-  <script src="https://wonder-zhang.github.io/media/scripts/jquery.appear.js"></script>
+    </div>
+    <div id="landlord">
+        <div class="message" style="opacity:0"></div>
+        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
+    </div>
+    <div id="codeCopyText" style="display: none"></div>
+    <div id="domainname" style="display:none">https://wonder-zhang.github.io</div>
+    </body>
+    <script src="https://wonder-zhang.github.io/media/js/post.js"></script>
+    <script>
+        //寻找所有code标签，加复制按钮鸭！(行内代码除外)
+        var codes = document.getElementsByTagName('code');
+        if (codes.length) {
+            for (var i = 0; i < codes.length; i++) {
+                //高度/行高=文本行数
+                // var rowNum=Math.round(codes[i].height()/parseFloat(codes[i].css('line-height')));
+                // console.log("当前有"+rowNum+"行");
+                var code_id = "code_id_" + i;
+                codes[i].setAttribute("id", code_id);
+                var ci = "#" + code_id;
+                var codedot = $(ci);
+                var rowNum = Math.round(codedot.height() / parseFloat(codedot.css('line-height')));
+                if (rowNum <= 1) continue;
+                var btn = document.createElement("button");
+                btn.setAttribute("class", "copybt");
+                btn.setAttribute("data-clipboard-target", "#" + code_id);
+                btn.innerHTML = '复制代码';
+                codes[i].parentNode.insertBefore(btn, codes[i]);
+            }
+        };
+        var cop = new ClipboardJS('.copybt');
+        var codeCopyText = $("#codeCopyText").html();
+        cop.on('success', function (e) {
+            alert(codeCopyText);
+            e.clearSelection();
+        });
+        cop.on('error', function (e) {
+            alert("矮油，复制失败了...手动复制吧勇士！");
+            e.clearSelection();
+        });
+    </script>
+    
+<script>
+$(function () {
+    $('.toggleContainer').click(function(){$('html,body').animate({scrollTop: '0px'}, 800);});
+	$(window).scroll(function() {
+        var st = $(window).scrollTop();
+        if(st > 30){
+            $(".toggleContainer").fadeIn(400);
+        }else{
+            $(".toggleContainer").fadeOut(100);
+        }
+	});
+});
+</script>
 
-
- </body>
-</html>
+<script>
+        var bgchoice=$('#bgchoice').html();
+        var bg = $('#bg');
+        var bgurl = document.getElementById("bgurl").innerHTML;
+        if(bgchoice=='default')
+            for (var i = 0; i < 3; i++)
+                bgurl = bgurl.replace("\\", "/");
+        bg.css("background", "url('" + bgurl + "')");
+</script>

@@ -1,95 +1,233 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
- <head>
-     <meta charset="utf-8" />
-  <title>提升自己生活品质的8件事情！ | wonder&#39;s blog</title>
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-  <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-   <script src="https://cdn.staticfile.org/highlight.js/9.15.9/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
- </head>
- <body>
-     <div class="sidebar animated fadeInDown">
-   <div class="logo-title">
-    <div class="title">
-     <img src="https://wonder-zhang.github.io/images/avatar.png?v=1604323134436" style="width:127px;" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="文/小佳
+写这篇文章的时间是早晨5:28分开始的，梦里梦到自己得了一场大病即将离开人世，醒来后痛苦万分，实在难以入眠，随机思考人生的各种问题。
+每天忙忙碌碌，我到底在追求什么？我的目标又是什么？
+绝大多数的回答就是：“努力赚钱”，但是赚到钱..." />
+    <meta name="keywords" content="思想聚焦,阅读,随笔" />
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/dracula.min.css">
+              
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
+    <script src="https://wonder-zhang.github.io/media/js/clipboard.min.js"></script>
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/live2d.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <!-- 数学公式 -->
+    
+    <title>wonder's blog</title>
+    
+    <style>
+        .markdownIt-TOC {
+            padding-left: 2px;
+            width: 100%;
+        }
+        .markdownIt-TOC li{
+            padding-left: 2%;
+        }
+    </style>
+    
+</head>
 
-     <h3 title=""><a href="/">wonder</a></h3>
+<body>
+    <!-- 响应式布局，针对PC端内容显示 -->
+    <div id="content">
+        <div class="nav-large">
+            <div class="row">
+                <div class="side"><head>
+    <meta name="description" content="Stay Hungry. Stay Foolish" />
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+</head>
 
-     <div class="description">
-      <p>Stay Hungry. Stay Foolish</p>
-     </div>
-    </div>
-   </div>
-   <ul class="social-links">
 
-
-    <li><a href="https://wonder-zhang.github.io/atom.xml"><i class="fa fa-rss"></i></a></li>
- 
+<body>
     
 
-    
+
 
     
+</body>
+<script>
+    //-------------------------------------------------搜索
+    // 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素
+    var searchInput = document.querySelector('.search-input');
+    var searchResults = document.querySelector('.search-results');
 
-    <li><a href="https://github.com/wonder-zhang"><i class="fa fa-github"></i></a></li>
- 
+    // 申明保存文章的标题、链接、内容的数组变量
+    var searchValue = '',
+        arrItems = [],
+        arrLinks = [],
+        arrTitles = [],
+        arrResults = [],
+        indexItem = [],
+        itemLength = 0;
+    var tmpDiv = document.createElement('div');
+    tmpDiv.className = 'result-item';
+
+    // ajax 的兼容写法
+    var xhr = new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            xml = xhr.responseXML;
+            arrItems = xml.getElementsByTagName('entry');
+            itemLength = arrItems.length;
+            // 遍历并保存所有文章对应的标题、链接、内容到对应的数组中
+            // 同时过滤掉 HTML 标签
+            for (i = 0; i < itemLength; i++) {
+                var link = arrItems[i].getElementsByTagName('link')[0];
+                arrLinks[i] = link.getAttribute("href");
+                arrTitles[i] = arrItems[i].getElementsByTagName('title')[0].
+                childNodes[0].nodeValue.replace(/<.*?>/g, '');
+            }
+        }
+    }
+
+    // 开始获取根目录下 feed.xml 文件内的数据
+    xhr.open('get', '/atom.xml', true);
+    xhr.send();
+
+
+
+    // 输入框内容变化后就开始匹配，可以不用点按钮
+    // 经测试，onkeydown, onchange 等方法效果不太理想，
+    // 存在输入延迟等问题，最后发现触发 input 事件最理想，
+    // 并且可以处理中文输入法拼写的变化
+    searchInput.oninput = function () {
+        setTimeout(searchConfirm, 0);
+    }
+    searchInput.onfocus = function () {
+        searchResults.style.display = 'block';
+    }
+
+    function searchConfirm() {
+        if (searchInput.value == '') {
+            searchResults.style.display = 'none';
+        } else if (searchInput.value.search(/^\s+$/) >= 0) {
+            // 检测输入值全是空白的情况
+            searchInit();
+            var itemDiv = tmpDiv.cloneNode(true);
+            itemDiv.innerText = '请输入有效内容...';
+            searchResults.appendChild(itemDiv);
+        } else {
+            // 合法输入值的情况
+            searchInit();
+            searchValue = searchInput.value;
+            // 在标题、内容中查找
+            searchMatching(arrTitles, searchValue);
+        }
+    }
+
+    // 每次搜索完成后的初始化
+    function searchInit() {
+        arrResults = [];
+        indexItem = [];
+        searchResults.innerHTML = '';
+        searchResults.style.display = 'block';
+    }
+
+    function searchMatching(arr1, input) {
+        // 忽略输入大小写
+        input = new RegExp(input, 'i');
+        // 在所有文章标题、内容中匹配查询值
+        for (i = 0; i < itemLength; i++) {
+            if (arr1[i].search(input) !== -1) {
+                var arr = arr1;
+                indexItem.push(i); // 保存匹配值的索引
+                var indexContent = arr[i].search(input);
+                // 此时 input 为 RegExp 格式 /input/i，转换为原 input 字符串长度
+                var l = input.toString().length - 3;
+                var step = 10;
+
+                // 将匹配到内容的地方进行黄色标记，并包括周围一定数量的文本
+                arrResults.push(arr[i].slice(indexContent - step, indexContent));
+            }
+        }
+
+        // 输出总共匹配到的数目
+        var totalDiv = tmpDiv.cloneNode(true);
+        totalDiv.innerHTML = '<b>总匹配：' + indexItem.length + ' 项<hr></b>';
+        searchResults.appendChild(totalDiv);
+
+        // 未匹配到内容的情况
+        if (indexItem.length == 0) {
+            var itemDiv = tmpDiv.cloneNode(true);
+            itemDiv.innerText = '未匹配到内容...';
+            searchResults.appendChild(itemDiv);
+        }
+
+        // 将所有匹配内容进行组合
+        for (i = 0; i < arrResults.length; i++) {
+            var itemDiv = tmpDiv.cloneNode(true);
+            itemDiv.innerHTML = '<b>[' + arrTitles[indexItem[i]] +
+                ']</b><p>' + arrResults[i] + "</p><hr />";
+            itemDiv.setAttribute('onclick', 'changeHref(arrLinks[indexItem[' + i + ']])');
+            searchResults.appendChild(itemDiv);
+        }
+    }
+
+    function changeHref(href) {
+        location.href = href;
+    }
+
+    function showqq() {
+        var qq = document.getElementById("qq").innerHTML;
+        if (qq != '')
+            alert("博主的QQ联系方式为：" + qq);
+        else
+            alert("博主暂未设置QQ联系方式");
+    }
+</script></div>
     
+    <div id="main" class="col-xs-12 col-sm-7" style="width:50%;margin-top:50px;left:27%">
+        <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
+<style>
 
-    
+</style>
 
-    
-
-    
-
-    <li><a href="https://weibo.com/936659044"><i class="fa fa-weibo"></i></a></li>
- 
-    
-
-    
-
-    
-
-   </ul>
-   <div class="footer">
-    <div class="by_farbox">
-   Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
- <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
-    </div>
-    
-
-    </div>
-   </div>
-  </div>
-  <div class="main">
-     <div class="page-top animated fadeInDown">
-    <div class="nav">
-    
-     <li><a  href="/">首页</a></li>
-
-     <li><a  href="/archives">归档</a></li>
-
-     <li><a  href="/tags">标签</a></li>
-
-    </div>
-    <div class="information">
-     <div class="back_btn">
-      <li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li>
-     </div>
-    </div>
-   </div>
-   <div class="autopagerize_page_element">
-    <div class="content">
-     <div class="post-page">
-      <div class="post animated fadeInDown">
-       <div class="post-title">
-        <h3><a>提升自己生活品质的8件事情！</a></h3>
-       </div>
-       <div class="post-content">
-        <p>文/小佳</p>
+<body>
+    <div class="allcontent" id="postdetail">
+        <div class="postshow">
+            
+            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
+                
+                <img src="" class="postimage">
+                
+            </div>
+            <div class="postinfo-detail">
+                <div class="postdate"><i class="fa fa-calendar"></i>2020-09-01</div>
+            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 9 min read</div>
+            <div class="posttag">
+                
+                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
+                    <i class="fa fa-tag"></i> 思想聚焦
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
+                    <i class="fa fa-tag"></i> 阅读
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/ulBkKQwhp/" class="postlink">
+                    <i class="fa fa-tag"></i> 随笔
+                </a>
+                
+            </div>
+        </div>
+        
+        <div id="texttitle" style="text-align: center">
+            <h2>提升自己生活品质的8件事情！</h2>
+            <!-- id 将作为查询条件 -->
+            <div id="pl" style="display:none">https://wonder-zhang.github.io/1Bn1tmKTd/</div>
+            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
+            <span id="hotnum" class="leancloud_visitors" data-flag-title="提升自己生活品质的8件事情！">
+                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
+            </span>
+        </div>
+        <div class="text ">
+            <p>文/小佳</p>
 <p>写这篇文章的时间是早晨5:28分开始的，梦里梦到自己得了一场大病即将离开人世，醒来后痛苦万分，实在难以入眠，随机思考人生的各种问题。</p>
 <p>每天忙忙碌碌，我到底在追求什么？我的目标又是什么？</p>
 <p>绝大多数的回答就是：“努力赚钱”，但是赚到钱后我又发现自己根本舍不得花钱，追钱只是为了实现某种目标，但是生活目标又是什么？</p>
@@ -139,47 +277,358 @@
 <p>现在记账的APP很多，无论是安卓和iOS都有免费软件，大家完全可以下载一款记账软件，每天收入和支持记录清楚，月底去分析自己的消费行为，从而养成良好的开支计划，这也是品质生活的重要环节。</p>
 <p>以上就是我一早上起来的重要感悟，不知道有多少伙伴认真看完了，我对自己的要求是每一篇文章都对得起自己的时间，也绝不浪费大家的时间。</p>
 
-       </div>
-       <div class="post-footer">
-        <div class="meta">
-         <div class="info">
-          <i class="fa fa-sun-o"></i>
-          <span class="date">2020-09-01</span>
-          <i class="fa fa-tag"></i>
-          
-          <a class="tag" href="https://wonder-zhang.github.io/1ttwVHLb-/" title="思想聚焦">思想聚焦 </a>
-          
-          <a class="tag" href="https://wonder-zhang.github.io/1w5HbnM2c/" title="阅读">阅读 </a>
-          
-          <a class="tag" href="https://wonder-zhang.github.io/ulBkKQwhp/" title="随笔">随笔 </a>
-          
-         </div>
         </div>
-       </div>
-      </div>
-      <div class="share">
-       <div class="evernote">
-        <a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a>
-       </div>
-       <div class="weibo">
-        <a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
-       </div>
-       <div class="twitter">
-        <a class="fa fa-twitter" href="http://twitter.com/home?status=,https://wonder-zhang.github.io/1Bn1tmKTd/,;"></a>
-       </div>
-      </div>
-      <div class="pagination">
-       <ul class="clearfix">
+        
+        <div class="prev-post">
+            上一篇
+            <a href="https://wonder-zhang.github.io/zpwLvLoui/">
+                大学里最应该做的100件有意义的事！
+            </a>
+        </div>
+        
+        
+        <div class="next-post">
+            下一篇
+            <a href="https://wonder-zhang.github.io/PL2458i3a/">
+                做一个“生性凉薄”的人，到底有多爽
+            </a>
+        </div>
+        
+    </div>
+    </div>
+</body>
+<script>
+    var t_img; // 定时�?
+    var isLoad = true; // 控制变量
+    isImgLoad(function () {
+        // 加载完成
+        $('.postdetailimg').css("display", "block");
+    });
+    // 判断图片加载的函�?
+    function isImgLoad(callback) {
+        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
+        // 查找所有封面图，迭代�?�理
+        $('.postdetailimg').each(function () {
+            // 找到�?0就将isLoad设为false，并退出each
+            if (this.height === 0) {
+                isLoad = false;
+                return false;
+            }
+        });
+        // 为true，没有发现为0的。加载完�?
+        if (isLoad) {
+            clearTimeout(t_img); // 清除定时�?
+            // 回调函数
+            callback();
+            // 为false，因为找到了没有加载完成的图，将调用定时器递归
+        } else {
+            isLoad = true;
+            t_img = setTimeout(function () {
+                isImgLoad(callback); // 递归�?�?
+            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
+        }
+    }
 
-        <li class="pre pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/zpwLvLoui/" title="大学里最应该做的100件有意义的事！">上一篇</a></li>
-         
-        
-        <li class="next pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/PL2458i3a/" title=" 做一个“生性凉薄”的人，到底有多爽">下一篇</a></li>
-        
-       </ul>
+    //文章阅读热度
+    var pl = $("#pl").html();
+    var rootaddr = $("#rootaddr").html();
+    pl = pl.replace(rootaddr, "");
+    $("#hotnum").attr('id', pl);
+</script>
+        <div name="comment" style="background: white">
+            <div class="commentcontainer">
+                
+                
+                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '0a75e243e68be28523b4',
+    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
+    repo: 'wonder-zhang.github.io',
+    owner: 'wonder-zhang',
+    admin: ['wonder-zhang'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+                
+                
+                
+            </div>
+        </div>
+    </div>
+     
+                <div class="toc-container">
+                    
+    </div>
+    </div>
+    </div>
+    <div class="toggleContainer">
+        <div class="toggle">
+            <i class="fas fa-angle-double-up"></i>
+        </div>
+    </div>
+    <div id="bg">
+    </div>
+    <div id="bgchoice" style="display: none"></div>
+    
+    <div id="bgurl" style="display:none"></div>
+       
+    </div>
+    <!-- 响应式布局，针对手机端内容显示 -->
+    <div class="nav-small">
+        <head>
+  <!-- 引入Bootstrap核心样式文件 -->
+  <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+          data-target="#barmenu" aria-expanded="false" id="barbutton">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="https://wonder-zhang.github.io">wonder&#39;s blog&nbsp;&nbsp;|</a>
       </div>
-        
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="barmenu">
+        <ul class="nav navbar-nav">
           
+          
+          <li>
+            <a href="/">
+              首页
+            </a>
+          </li>
+          
+          
+          
+          <li>
+            <a href="/archives">
+              归档
+            </a>
+          </li>
+          
+          
+          
+          <li>
+            <a href="/tags">
+              标签
+            </a>
+          </li>
+          
+          
+          
+          
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+
+  <!-- 引入jQuery核心js文件 -->
+  <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script>
+  var btstate = false;
+  var bt = $("#barbutton");
+  var bm = $("#barmenu");
+  bt.click(function(){
+    dropdown();
+  })
+  function dropdown(){
+    console.log(btstate);
+    //下拉
+    if(btstate==false){
+      bt.removeClass("collapsed");
+      bt.attr("aria-expanded","true");
+      bm.attr("aria-expanded","true")
+      bm.fadeIn(700);
+      btstate = true;
+    }
+    else{
+      bt.addClass("collapsed");
+      bt.attr("aria-expanded","false");
+      bm.removeClass("in");
+      bm.hide();
+      bm.attr("aria-expanded","false");
+      btstate = false;
+    }
+  }
+  </script> 
+</body>
+    <div style="margin-top:30px"></div>
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
+<style>
+
+</style>
+
+<body>
+    <div class="allcontent" id="postdetail">
+        <div class="postshow">
+            
+            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
+                
+                <img src="" class="postimage">
+                
+            </div>
+            <div class="postinfo-detail">
+                <div class="postdate"><i class="fa fa-calendar"></i>2020-09-01</div>
+            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 9 min read</div>
+            <div class="posttag">
+                
+                <a href="https://wonder-zhang.github.io/1ttwVHLb-/" class="postlink">
+                    <i class="fa fa-tag"></i> 思想聚焦
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
+                    <i class="fa fa-tag"></i> 阅读
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/ulBkKQwhp/" class="postlink">
+                    <i class="fa fa-tag"></i> 随笔
+                </a>
+                
+            </div>
+        </div>
+        
+        <div id="texttitle" style="text-align: center">
+            <h2>提升自己生活品质的8件事情！</h2>
+            <!-- id 将作为查询条件 -->
+            <div id="pl" style="display:none">https://wonder-zhang.github.io/1Bn1tmKTd/</div>
+            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
+            <span id="hotnum" class="leancloud_visitors" data-flag-title="提升自己生活品质的8件事情！">
+                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
+            </span>
+        </div>
+        <div class="text ">
+            <p>文/小佳</p>
+<p>写这篇文章的时间是早晨5:28分开始的，梦里梦到自己得了一场大病即将离开人世，醒来后痛苦万分，实在难以入眠，随机思考人生的各种问题。</p>
+<p>每天忙忙碌碌，我到底在追求什么？我的目标又是什么？</p>
+<p>绝大多数的回答就是：“努力赚钱”，但是赚到钱后我又发现自己根本舍不得花钱，追钱只是为了实现某种目标，但是生活目标又是什么？</p>
+<p>把赚钱当作人生目标，这是多么可悲的人生啊，等到离开人世的时候才觉得自己一无所有，月薪5千有月薪5千的生活方式，月薪5万有月薪5万的生活方式，但未必月薪5万生活就更有品质，你可以观察和品味。</p>
+<p>趁着早晨有灵感，我花了3个小时写出这篇关于品质生活的文章。</p>
+<p>我们一直都在说想要追求品质的生活，但什么才是品质的生活呢？</p>
+<p>在我看来，品质生活就是我们日常生活的品位和质量，它应该包含两个方面：“精神生活”和“物质生活”。</p>
+<p>根据哲学的观点，其实这两个方面是相辅相成的，光有精神生活而物质却达不到，这种品质生活其实就是一种自嗨，光有物质生活而高尚的精神生活，可能就会成为人们所说的“土豪”。</p>
+<p>那么男生如何提升自己的品质生活呢？我总结了8个小技巧。</p>
+<p><strong>01、努力赚钱——品质生活的基础</strong></p>
+<p>很多人都会说，没有钱哪有什么品质生活啊，这个观点不能说错误，但有些绝对，这说明自己对品质生活的理解不够透彻。</p>
+<p>赚到多少钱才算够？人的欲望是没有止境的，钱对于我们而言，永远不会有够的时候，品质生活依赖钱但绝对不是要有很多很多钱。</p>
+<p>比如我大学的时候，那时候流传一个社会话题：“卖肾买iPhone”。</p>
+<p>很多大学生都想要一个苹果手机，毕竟我也是靠父母的生活费来维持生活，但是为了想要买一个iPhone6S，我做了2个月的兼职，发传单、做家教、推销产品，最后当我拿到钱到苏宁易购买到自己想要的iPhone6S的时候，我觉得那就是我想要的品质生活，非常开心非常满足。</p>
+<p>品质生活无需攀比，当时我买一台苹果手机就是我追求的品质生活。</p>
+<p>所以如果你不是富二代，也不是拆迁户，你完全可以靠自己的努力实现自己的小目标，不同年龄不同阶段，所想要的品质生活也不一样，学生时代买一双耐克的球鞋，买一台苹果手机···也许就是品质生活的实现。</p>
+<p><strong>02、坚持阅读——提升思想和认知</strong></p>
+<p>读书有什么用，不就是多喝点鸡汤吗？</p>
+<p>这种观点的人估计不少吧，宁可在闲暇时间刷抖音快手，也不乐意多看书，读书有什么用？其实真正静下来读书的人，他们都获益匪浅。</p>
+<p>就拿我个人而言，当我读完《作出好决定》这本书后，我慢慢的利用书中的方法结合实际去做些一些决定，发现真的比之前做决定要科学很多，当我读完《认知突围》这本书后，我对时间、金钱、人脉等多个方面有了更高层次的认知，从来对我的消费，生活，交友有了很大的变化。</p>
+<p>阅读对于精神层面的提升真的大有裨益，现在的我几乎每天都会抽出1-2小时阅读历史、文化、职场、思维、美学相关的书籍，也许这种变化不是几天才会发生的，而其他它时时刻刻都在变化且影响着我。</p>
+<p><strong>03、坚持健身——强健的身体是保障</strong></p>
+<p>健身不仅仅可以强壮我们的身体，更能培养我们的意志力，对于现在瘦弱的男生，完全可以多吃一些，然后去健身从而实现增肥涨肌的目的。对于那些已经肥胖的男生，可以好好控制自己的饮食，实现减脂增肌。</p>
+<p>这里说一个我大学同学的案例，我刚上大一的时候，我的同学张体重180斤，个子1米7左右，脸上肚子上全是赘肉，大二的时候他不知道什么原因就开始去健身房健身，短短1年时间，他竟然瘦到128斤，瞬间他成为全校学生的关注焦点，后来毕业他成为了一名健身教练。</p>
+<p>通过健身他越来越自律，作息时间、饮食习惯都有很大变化，重点是外在也发生了很大变化，穿衣更加有型，说不羡慕那肯定是假的。</p>
+<p><strong>04、培养兴趣爱好——增加自信提升副业收入</strong></p>
+<p>现在互联网时代，兴趣爱好不仅仅可以提升生活品质，还能增加自信和副业的收入，这个我真的有切身的体会。</p>
+<p>我认识的一位男生，他大学的时候超级喜欢唱歌，后来还获得过校园歌唱比赛的第三名，他的闲暇时光大多在KTV度过，最喜欢唱粤语歌曲，后来考研进入中山大学，颜值不高的他但是只要去KTV或者唱歌的时候，绝对是众人的焦点，通过唱歌他越来越自信。</p>
+<p>我的最切身的案例就是通过学习摄影，逐渐找到了自己的副业之路，刚开始就是兴趣，靠着一台佳能入门相机，旅游的时候拍景点，校园的时候拍人像，不断在网络上学习拍摄技巧和修图技巧。</p>
+<p>后来很多摄影机构找到我，平时周六日帮他们去给客人拍片，随着实践，我的拍摄技术有很大提升。大学的时候我就靠摄影维持了自己的生活费用和学费，所以不要小看你的兴趣，它会给你带来意想不到的惊喜。</p>
+<p><strong>05、计划旅行——感受城市和乡野的魅力</strong></p>
+<p>旅行绝对是人生最美妙的体验，陌生的城市、陌生的风景、陌生的人会让你感受到一切都是新鲜。</p>
+<p>去过上海我才知道自己是多么胆怯，不敢去豪华的商场专柜；去过南京我才知道什么是沉重，南京大屠杀纪念馆让我呼吸都变得困难；去过义乌我才知道，原来自己之前买的东西成本是多便宜；去过西安我才知道兵马俑有多壮观，不得不佩服古人的智慧。</p>
+<p>其实中国大好河山真的太多了，只要有机会就应该出去看看，它真的可以让你感受到祖国的美好，也会让心灵有很多启迪，每个城市有每个城市的文化标签和生活风俗，这何尝不是提升生活品质呢？</p>
+<p><strong>06、护肤发型——提升外在形象气质</strong></p>
+<p>谈到护肤，很多男生就会觉得这是女生的专属，皮肤干净，发型有型的男生外在形象一般都不会差。</p>
+<p>以前我自己都觉得男生敷面膜，喷香水有点另类，直到我去北京遇见了一位40岁左右的领导后，我才发现这样原来男生也可以这么有气质。</p>
+<p>他脸上非常干净，走过你身边会有一种淡淡的香水味，言谈举止都超有气质，从来没有看到过他发型凌乱过。</p>
+<p>所以男生们，无论你是否颜值怎么样，请一定要找到自己合适的发型，尽可能在乎一下自己的皮肤和身材，对气质会有帮助。</p>
+<p><strong>07、坚持自律——养成良好的生活方式</strong></p>
+<p>你每天晚上几点睡觉，早上几点起床？泡面垃圾食品已经成为习惯？</p>
+<p>大学的时候我从来没有遇见过自律极强的人，工作后我认识了我的老板，他是做外贸的，每天早晨6点起床，每天要坚持学习英语1小时，他的英语口语能力超强，和老外交流对答如流。</p>
+<p>对于我们普通人而言，根据自己的个人习惯，最起码养成一个良好的睡眠习惯、坚持阅读、饮食均衡、控制刷短视频的时间、制定学习工作计划···</p>
+<p><strong>08、坚持记账——理性消费合理开支</strong></p>
+<p>相信我们绝大多数人还都不是不差钱的人，每月收入还是相对固定，想要品质的生活，还是要学会理性消费和合理开支。</p>
+<p>坚持记账对我们每月了解自己的消费支持有更加清晰的认知，如果你收入只有3-5千，盲目追求所谓的物质品质生活，导致花呗和信用卡入不敷出，那么这并且我们提倡的品质生活，反而适得其反。</p>
+<p>现在记账的APP很多，无论是安卓和iOS都有免费软件，大家完全可以下载一款记账软件，每天收入和支持记录清楚，月底去分析自己的消费行为，从而养成良好的开支计划，这也是品质生活的重要环节。</p>
+<p>以上就是我一早上起来的重要感悟，不知道有多少伙伴认真看完了，我对自己的要求是每一篇文章都对得起自己的时间，也绝不浪费大家的时间。</p>
+
+        </div>
+        
+        <div class="prev-post">
+            上一篇
+            <a href="https://wonder-zhang.github.io/zpwLvLoui/">
+                大学里最应该做的100件有意义的事！
+            </a>
+        </div>
+        
+        
+        <div class="next-post">
+            下一篇
+            <a href="https://wonder-zhang.github.io/PL2458i3a/">
+                做一个“生性凉薄”的人，到底有多爽
+            </a>
+        </div>
+        
+    </div>
+    </div>
+</body>
+<script>
+    var t_img; // 定时�?
+    var isLoad = true; // 控制变量
+    isImgLoad(function () {
+        // 加载完成
+        $('.postdetailimg').css("display", "block");
+    });
+    // 判断图片加载的函�?
+    function isImgLoad(callback) {
+        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
+        // 查找所有封面图，迭代�?�理
+        $('.postdetailimg').each(function () {
+            // 找到�?0就将isLoad设为false，并退出each
+            if (this.height === 0) {
+                isLoad = false;
+                return false;
+            }
+        });
+        // 为true，没有发现为0的。加载完�?
+        if (isLoad) {
+            clearTimeout(t_img); // 清除定时�?
+            // 回调函数
+            callback();
+            // 为false，因为找到了没有加载完成的图，将调用定时器递归
+        } else {
+            isLoad = true;
+            t_img = setTimeout(function () {
+                isImgLoad(callback); // 递归�?�?
+            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
+        }
+    }
+
+    //文章阅读热度
+    var pl = $("#pl").html();
+    var rootaddr = $("#rootaddr").html();
+    pl = pl.replace(rootaddr, "");
+    $("#hotnum").attr('id', pl);
+</script>
+    <div name="comment" style="background: white;margin-top:100px">
+        <div class="commentcontainer">
+            
+            
             <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
 <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
@@ -201,17 +650,73 @@
 
 </script>
 
-          
-          
-        
-     </div>
+            
+            
+            
+        </div>
     </div>
-   </div>
-  </div>
-  <script src="https://wonder-zhang.github.io/media/scripts/jquery.js"></script>
-  <script src="https://wonder-zhang.github.io/media/scripts/jquery-migrate-1.2.1.min.js"></script>
-  <script src="https://wonder-zhang.github.io/media/scripts/jquery.appear.js"></script>
+    </div>
+    <div id="landlord">
+        <div class="message" style="opacity:0"></div>
+        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
+    </div>
+    <div id="codeCopyText" style="display: none"></div>
+    <div id="domainname" style="display:none">https://wonder-zhang.github.io</div>
+    </body>
+    <script src="https://wonder-zhang.github.io/media/js/post.js"></script>
+    <script>
+        //寻找所有code标签，加复制按钮鸭！(行内代码除外)
+        var codes = document.getElementsByTagName('code');
+        if (codes.length) {
+            for (var i = 0; i < codes.length; i++) {
+                //高度/行高=文本行数
+                // var rowNum=Math.round(codes[i].height()/parseFloat(codes[i].css('line-height')));
+                // console.log("当前有"+rowNum+"行");
+                var code_id = "code_id_" + i;
+                codes[i].setAttribute("id", code_id);
+                var ci = "#" + code_id;
+                var codedot = $(ci);
+                var rowNum = Math.round(codedot.height() / parseFloat(codedot.css('line-height')));
+                if (rowNum <= 1) continue;
+                var btn = document.createElement("button");
+                btn.setAttribute("class", "copybt");
+                btn.setAttribute("data-clipboard-target", "#" + code_id);
+                btn.innerHTML = '复制代码';
+                codes[i].parentNode.insertBefore(btn, codes[i]);
+            }
+        };
+        var cop = new ClipboardJS('.copybt');
+        var codeCopyText = $("#codeCopyText").html();
+        cop.on('success', function (e) {
+            alert(codeCopyText);
+            e.clearSelection();
+        });
+        cop.on('error', function (e) {
+            alert("矮油，复制失败了...手动复制吧勇士！");
+            e.clearSelection();
+        });
+    </script>
+    
+<script>
+$(function () {
+    $('.toggleContainer').click(function(){$('html,body').animate({scrollTop: '0px'}, 800);});
+	$(window).scroll(function() {
+        var st = $(window).scrollTop();
+        if(st > 30){
+            $(".toggleContainer").fadeIn(400);
+        }else{
+            $(".toggleContainer").fadeOut(100);
+        }
+	});
+});
+</script>
 
-
- </body>
-</html>
+<script>
+        var bgchoice=$('#bgchoice').html();
+        var bg = $('#bg');
+        var bgurl = document.getElementById("bgurl").innerHTML;
+        if(bgchoice=='default')
+            for (var i = 0; i < 3; i++)
+                bgurl = bgurl.replace("\\", "/");
+        bg.css("background", "url('" + bgurl + "')");
+</script>

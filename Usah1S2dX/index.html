@@ -1,95 +1,228 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
- <head>
-     <meta charset="utf-8" />
-  <title>为了有能力去爱，必须坚强到能够忍耐孤独 | wonder&#39;s blog</title>
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-  <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-   <script src="https://cdn.staticfile.org/highlight.js/9.15.9/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
- </head>
- <body>
-     <div class="sidebar animated fadeInDown">
-   <div class="logo-title">
-    <div class="title">
-     <img src="https://wonder-zhang.github.io/images/avatar.png?v=1604323134436" style="width:127px;" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="文/加藤谛三 摘自《为什么我们爱得这么累》
+她23岁，马上就要过24岁生日了。可她已经没有父亲了，在她上高中的时候，父亲生病去世了。父亲在世时对她非常慈爱。
+在这个世界上，她最喜欢父亲了。每次她过生日，父亲都会给她买来生日蛋糕。而且不管公司..." />
+    <meta name="keywords" content="阅读,摘抄" />
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/styles/main.css">
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/dracula.min.css">
+              
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
+    <script src="https://wonder-zhang.github.io/media/js/clipboard.min.js"></script>
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/live2d.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <!-- 数学公式 -->
+    
+    <title>wonder's blog</title>
+    
+    <style>
+        .markdownIt-TOC {
+            padding-left: 2px;
+            width: 100%;
+        }
+        .markdownIt-TOC li{
+            padding-left: 2%;
+        }
+    </style>
+    
+</head>
 
-     <h3 title=""><a href="/">wonder</a></h3>
+<body>
+    <!-- 响应式布局，针对PC端内容显示 -->
+    <div id="content">
+        <div class="nav-large">
+            <div class="row">
+                <div class="side"><head>
+    <meta name="description" content="Stay Hungry. Stay Foolish" />
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+</head>
 
-     <div class="description">
-      <p>Stay Hungry. Stay Foolish</p>
-     </div>
-    </div>
-   </div>
-   <ul class="social-links">
 
-
-    <li><a href="https://wonder-zhang.github.io/atom.xml"><i class="fa fa-rss"></i></a></li>
- 
+<body>
     
 
-    
+
 
     
+</body>
+<script>
+    //-------------------------------------------------搜索
+    // 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素
+    var searchInput = document.querySelector('.search-input');
+    var searchResults = document.querySelector('.search-results');
 
-    <li><a href="https://github.com/wonder-zhang"><i class="fa fa-github"></i></a></li>
- 
+    // 申明保存文章的标题、链接、内容的数组变量
+    var searchValue = '',
+        arrItems = [],
+        arrLinks = [],
+        arrTitles = [],
+        arrResults = [],
+        indexItem = [],
+        itemLength = 0;
+    var tmpDiv = document.createElement('div');
+    tmpDiv.className = 'result-item';
+
+    // ajax 的兼容写法
+    var xhr = new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            xml = xhr.responseXML;
+            arrItems = xml.getElementsByTagName('entry');
+            itemLength = arrItems.length;
+            // 遍历并保存所有文章对应的标题、链接、内容到对应的数组中
+            // 同时过滤掉 HTML 标签
+            for (i = 0; i < itemLength; i++) {
+                var link = arrItems[i].getElementsByTagName('link')[0];
+                arrLinks[i] = link.getAttribute("href");
+                arrTitles[i] = arrItems[i].getElementsByTagName('title')[0].
+                childNodes[0].nodeValue.replace(/<.*?>/g, '');
+            }
+        }
+    }
+
+    // 开始获取根目录下 feed.xml 文件内的数据
+    xhr.open('get', '/atom.xml', true);
+    xhr.send();
+
+
+
+    // 输入框内容变化后就开始匹配，可以不用点按钮
+    // 经测试，onkeydown, onchange 等方法效果不太理想，
+    // 存在输入延迟等问题，最后发现触发 input 事件最理想，
+    // 并且可以处理中文输入法拼写的变化
+    searchInput.oninput = function () {
+        setTimeout(searchConfirm, 0);
+    }
+    searchInput.onfocus = function () {
+        searchResults.style.display = 'block';
+    }
+
+    function searchConfirm() {
+        if (searchInput.value == '') {
+            searchResults.style.display = 'none';
+        } else if (searchInput.value.search(/^\s+$/) >= 0) {
+            // 检测输入值全是空白的情况
+            searchInit();
+            var itemDiv = tmpDiv.cloneNode(true);
+            itemDiv.innerText = '请输入有效内容...';
+            searchResults.appendChild(itemDiv);
+        } else {
+            // 合法输入值的情况
+            searchInit();
+            searchValue = searchInput.value;
+            // 在标题、内容中查找
+            searchMatching(arrTitles, searchValue);
+        }
+    }
+
+    // 每次搜索完成后的初始化
+    function searchInit() {
+        arrResults = [];
+        indexItem = [];
+        searchResults.innerHTML = '';
+        searchResults.style.display = 'block';
+    }
+
+    function searchMatching(arr1, input) {
+        // 忽略输入大小写
+        input = new RegExp(input, 'i');
+        // 在所有文章标题、内容中匹配查询值
+        for (i = 0; i < itemLength; i++) {
+            if (arr1[i].search(input) !== -1) {
+                var arr = arr1;
+                indexItem.push(i); // 保存匹配值的索引
+                var indexContent = arr[i].search(input);
+                // 此时 input 为 RegExp 格式 /input/i，转换为原 input 字符串长度
+                var l = input.toString().length - 3;
+                var step = 10;
+
+                // 将匹配到内容的地方进行黄色标记，并包括周围一定数量的文本
+                arrResults.push(arr[i].slice(indexContent - step, indexContent));
+            }
+        }
+
+        // 输出总共匹配到的数目
+        var totalDiv = tmpDiv.cloneNode(true);
+        totalDiv.innerHTML = '<b>总匹配：' + indexItem.length + ' 项<hr></b>';
+        searchResults.appendChild(totalDiv);
+
+        // 未匹配到内容的情况
+        if (indexItem.length == 0) {
+            var itemDiv = tmpDiv.cloneNode(true);
+            itemDiv.innerText = '未匹配到内容...';
+            searchResults.appendChild(itemDiv);
+        }
+
+        // 将所有匹配内容进行组合
+        for (i = 0; i < arrResults.length; i++) {
+            var itemDiv = tmpDiv.cloneNode(true);
+            itemDiv.innerHTML = '<b>[' + arrTitles[indexItem[i]] +
+                ']</b><p>' + arrResults[i] + "</p><hr />";
+            itemDiv.setAttribute('onclick', 'changeHref(arrLinks[indexItem[' + i + ']])');
+            searchResults.appendChild(itemDiv);
+        }
+    }
+
+    function changeHref(href) {
+        location.href = href;
+    }
+
+    function showqq() {
+        var qq = document.getElementById("qq").innerHTML;
+        if (qq != '')
+            alert("博主的QQ联系方式为：" + qq);
+        else
+            alert("博主暂未设置QQ联系方式");
+    }
+</script></div>
     
+    <div id="main" class="col-xs-12 col-sm-7" style="width:50%;margin-top:50px;left:27%">
+        <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
+<style>
 
-    
+</style>
 
-    
-
-    
-
-    <li><a href="https://weibo.com/936659044"><i class="fa fa-weibo"></i></a></li>
- 
-    
-
-    
-
-    
-
-   </ul>
-   <div class="footer">
-    <div class="by_farbox">
-   Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
- <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
-    </div>
-    
-
-    </div>
-   </div>
-  </div>
-  <div class="main">
-     <div class="page-top animated fadeInDown">
-    <div class="nav">
-    
-     <li><a  href="/">首页</a></li>
-
-     <li><a  href="/archives">归档</a></li>
-
-     <li><a  href="/tags">标签</a></li>
-
-    </div>
-    <div class="information">
-     <div class="back_btn">
-      <li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li>
-     </div>
-    </div>
-   </div>
-   <div class="autopagerize_page_element">
-    <div class="content">
-     <div class="post-page">
-      <div class="post animated fadeInDown">
-       <div class="post-title">
-        <h3><a>为了有能力去爱，必须坚强到能够忍耐孤独</a></h3>
-       </div>
-       <div class="post-content">
-        <p>文/加藤谛三 摘自《为什么我们爱得这么累》</p>
+<body>
+    <div class="allcontent" id="postdetail">
+        <div class="postshow">
+            
+            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
+                
+                <img src="" class="postimage">
+                
+            </div>
+            <div class="postinfo-detail">
+                <div class="postdate"><i class="fa fa-calendar"></i>2020-06-12</div>
+            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 10 min read</div>
+            <div class="posttag">
+                
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
+                    <i class="fa fa-tag"></i> 阅读
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="postlink">
+                    <i class="fa fa-tag"></i> 摘抄
+                </a>
+                
+            </div>
+        </div>
+        
+        <div id="texttitle" style="text-align: center">
+            <h2>为了有能力去爱，必须坚强到能够忍耐孤独</h2>
+            <!-- id 将作为查询条件 -->
+            <div id="pl" style="display:none">https://wonder-zhang.github.io/Usah1S2dX/</div>
+            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
+            <span id="hotnum" class="leancloud_visitors" data-flag-title="为了有能力去爱，必须坚强到能够忍耐孤独">
+                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
+            </span>
+        </div>
+        <div class="text ">
+            <p>文/加藤谛三 摘自《为什么我们爱得这么累》</p>
 <p>她23岁，马上就要过24岁生日了。可她已经没有父亲了，在她上高中的时候，父亲生病去世了。父亲在世时对她非常慈爱。</p>
 <p>在这个世界上，她最喜欢父亲了。每次她过生日，父亲都会给她买来生日蛋糕。而且不管公司里有多忙，父亲总会想方设法地排开时间，在她生日的那天早早地回家吃饭，为她庆祝。</p>
 <p>而且在接下来的星期天，父亲会带着她出去玩。</p>
@@ -162,45 +295,377 @@
 <p>可是世界上真的会有人不想得到别人的理解吗？任何人都希望自己能够得到理解，特别是希望能够得到最重要的人的理解。然而只有抵制住这种想被理解的心情，才是爱。</p>
 <p>爱是一件多么苦痛的事啊！</p>
 
-       </div>
-       <div class="post-footer">
-        <div class="meta">
-         <div class="info">
-          <i class="fa fa-sun-o"></i>
-          <span class="date">2020-06-12</span>
-          <i class="fa fa-tag"></i>
-          
-          <a class="tag" href="https://wonder-zhang.github.io/1w5HbnM2c/" title="阅读">阅读 </a>
-          
-          <a class="tag" href="https://wonder-zhang.github.io/OVQhcUD1u/" title="摘抄">摘抄 </a>
-          
-         </div>
         </div>
-       </div>
-      </div>
-      <div class="share">
-       <div class="evernote">
-        <a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a>
-       </div>
-       <div class="weibo">
-        <a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
-       </div>
-       <div class="twitter">
-        <a class="fa fa-twitter" href="http://twitter.com/home?status=,https://wonder-zhang.github.io/Usah1S2dX/,;"></a>
-       </div>
-      </div>
-      <div class="pagination">
-       <ul class="clearfix">
+        
+        <div class="prev-post">
+            上一篇
+            <a href="https://wonder-zhang.github.io/0whhhgfHB/">
+                你可以哭，但别哭太久
+            </a>
+        </div>
+        
+        
+        <div class="next-post">
+            下一篇
+            <a href="https://wonder-zhang.github.io/CKD8ZvaEV/">
+                生命中不能拥有的
+            </a>
+        </div>
+        
+    </div>
+    </div>
+</body>
+<script>
+    var t_img; // 定时�?
+    var isLoad = true; // 控制变量
+    isImgLoad(function () {
+        // 加载完成
+        $('.postdetailimg').css("display", "block");
+    });
+    // 判断图片加载的函�?
+    function isImgLoad(callback) {
+        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
+        // 查找所有封面图，迭代�?�理
+        $('.postdetailimg').each(function () {
+            // 找到�?0就将isLoad设为false，并退出each
+            if (this.height === 0) {
+                isLoad = false;
+                return false;
+            }
+        });
+        // 为true，没有发现为0的。加载完�?
+        if (isLoad) {
+            clearTimeout(t_img); // 清除定时�?
+            // 回调函数
+            callback();
+            // 为false，因为找到了没有加载完成的图，将调用定时器递归
+        } else {
+            isLoad = true;
+            t_img = setTimeout(function () {
+                isImgLoad(callback); // 递归�?�?
+            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
+        }
+    }
 
-        <li class="pre pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/0whhhgfHB/" title="你可以哭，但别哭太久">上一篇</a></li>
-         
-        
-        <li class="next pagbuttons"><a class="btn" role="navigation" href="https://wonder-zhang.github.io/CKD8ZvaEV/" title=" 生命中不能拥有的">下一篇</a></li>
-        
-       </ul>
+    //文章阅读热度
+    var pl = $("#pl").html();
+    var rootaddr = $("#rootaddr").html();
+    pl = pl.replace(rootaddr, "");
+    $("#hotnum").attr('id', pl);
+</script>
+        <div name="comment" style="background: white">
+            <div class="commentcontainer">
+                
+                
+                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '0a75e243e68be28523b4',
+    clientSecret: 'e012dd6788cbf27823b84f31f0f5227595824ffa',
+    repo: 'wonder-zhang.github.io',
+    owner: 'wonder-zhang',
+    admin: ['wonder-zhang'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+                
+                
+                
+            </div>
+        </div>
+    </div>
+     
+                <div class="toc-container">
+                    
+    </div>
+    </div>
+    </div>
+    <div class="toggleContainer">
+        <div class="toggle">
+            <i class="fas fa-angle-double-up"></i>
+        </div>
+    </div>
+    <div id="bg">
+    </div>
+    <div id="bgchoice" style="display: none"></div>
+    
+    <div id="bgurl" style="display:none"></div>
+       
+    </div>
+    <!-- 响应式布局，针对手机端内容显示 -->
+    <div class="nav-small">
+        <head>
+  <!-- 引入Bootstrap核心样式文件 -->
+  <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/bootstrap.min.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+          data-target="#barmenu" aria-expanded="false" id="barbutton">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="https://wonder-zhang.github.io">wonder&#39;s blog&nbsp;&nbsp;|</a>
       </div>
-        
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="barmenu">
+        <ul class="nav navbar-nav">
           
+          
+          <li>
+            <a href="/">
+              首页
+            </a>
+          </li>
+          
+          
+          
+          <li>
+            <a href="/archives">
+              归档
+            </a>
+          </li>
+          
+          
+          
+          <li>
+            <a href="/tags">
+              标签
+            </a>
+          </li>
+          
+          
+          
+          
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+
+  <!-- 引入jQuery核心js文件 -->
+  <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script>
+  var btstate = false;
+  var bt = $("#barbutton");
+  var bm = $("#barmenu");
+  bt.click(function(){
+    dropdown();
+  })
+  function dropdown(){
+    console.log(btstate);
+    //下拉
+    if(btstate==false){
+      bt.removeClass("collapsed");
+      bt.attr("aria-expanded","true");
+      bm.attr("aria-expanded","true")
+      bm.fadeIn(700);
+      btstate = true;
+    }
+    else{
+      bt.addClass("collapsed");
+      bt.attr("aria-expanded","false");
+      bm.removeClass("in");
+      bm.hide();
+      bm.attr("aria-expanded","false");
+      btstate = false;
+    }
+  }
+  </script> 
+</body>
+    <div style="margin-top:30px"></div>
+    <link rel="stylesheet" href="https://wonder-zhang.github.io/media/css/font-awesome.css">
+<style>
+
+</style>
+
+<body>
+    <div class="allcontent" id="postdetail">
+        <div class="postshow">
+            
+            <div class="postdetailimg" style="width:100%;overflow: hidden;display: none">
+                
+                <img src="" class="postimage">
+                
+            </div>
+            <div class="postinfo-detail">
+                <div class="postdate"><i class="fa fa-calendar"></i>2020-06-12</div>
+            <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 10 min read</div>
+            <div class="posttag">
+                
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="postlink">
+                    <i class="fa fa-tag"></i> 阅读
+                </a>
+                
+                <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="postlink">
+                    <i class="fa fa-tag"></i> 摘抄
+                </a>
+                
+            </div>
+        </div>
+        
+        <div id="texttitle" style="text-align: center">
+            <h2>为了有能力去爱，必须坚强到能够忍耐孤独</h2>
+            <!-- id 将作为查询条件 -->
+            <div id="pl" style="display:none">https://wonder-zhang.github.io/Usah1S2dX/</div>
+            <div id="rootaddr" style="display:none">https://wonder-zhang.github.io</div>
+            <span id="hotnum" class="leancloud_visitors" data-flag-title="为了有能力去爱，必须坚强到能够忍耐孤独">
+                <h4 class="readercount">热度🔥: <i class="leancloud-visitors-count">loading...</i></h4>
+            </span>
+        </div>
+        <div class="text ">
+            <p>文/加藤谛三 摘自《为什么我们爱得这么累》</p>
+<p>她23岁，马上就要过24岁生日了。可她已经没有父亲了，在她上高中的时候，父亲生病去世了。父亲在世时对她非常慈爱。</p>
+<p>在这个世界上，她最喜欢父亲了。每次她过生日，父亲都会给她买来生日蛋糕。而且不管公司里有多忙，父亲总会想方设法地排开时间，在她生日的那天早早地回家吃饭，为她庆祝。</p>
+<p>而且在接下来的星期天，父亲会带着她出去玩。</p>
+<p>而现在，每当生日来临时，她总是会回忆起父亲，变得无比悲伤。</p>
+<p>后来她上了大学，谈了恋爱，和大学时代的恋人订了婚。</p>
+<p>她24岁生日时，未婚夫特别忙。不，应该说从好几个星期之前，他的公司就忙得要死。他一直在加班，累得疲惫不堪。再加上他的公司最近业绩的风评不好，甚至出现公司要倒闭的传闻了。而且他的上司有时还会没有理由地对他发火。</p>
+<p>当然了，这是他的看法，从他上司的角度看，或许是有充分的理由呵斥他的。</p>
+<p>只是在他看来，上司早上一到公司就把他叫过去，毫无理由地骂他。他觉得上司只有骂过他才能开始一天的工作。</p>
+<p>他和他的上司可能都有点神经过敏。在他看来，现在根本没有心思给女朋友过生日，现在是为了未来拼命努力的时候。</p>
+<p>他希望这种没完没了的繁忙、残酷、可恶的生活，能够靠她的温柔得到拯救。他希望与上司的不和，与同事的不和，这些郁愤都能在和她相处时得到平复，希望至少和她在一起时，自己能够随心所欲地行事。</p>
+<p>和上司在一起时，尽管很恼火，可也必须默默忍耐；和同事在一起时，尽管会突然恼怒，可也必须装出笑脸来。</p>
+<p>然而和她在一起时，他希望自己能够真实地表达情感，得到解放。</p>
+<p>不过随着她生日的临近，他决心一定不再把她当作表达对公司的不满的排泄口。就算是累得没心思约会了，他也想办法安排好加班的时间，勉强设法和她约会。这种时候，他也总是努力对她装出笑脸。</p>
+<p>他认为“从来没有在公司里上过班的她，是不可能理解现实中工作的残酷的”。他想，她能够慢慢地理解这些就可以了，就这样他差不多放弃了拿她发泄的念头。</p>
+<p>他在很多事情上都在忍耐。换句话说，他自身已经处于发出SOS警报的状态了。</p>
+<p>到她生日的那天，不幸的是，他要招待公司的客户。可他还是想方设法地把这工作交给了同事，给她买了生日礼物，并且和她一起吃晚饭。他送了她丝巾作为礼物。</p>
+<p>他打肿脸充胖子，去了银座的一家高级餐厅。他想着，“这得花掉我每天痛苦奋斗得来的多少天的工资啊”，感到有些郁闷。</p>
+<p>打开了生日礼物，她只是流于形式地说了句“谢谢”，并没有显得特别高兴。</p>
+<p>他因为很疲劳，所以有点来气。但今天是她的生日，所以他决定不表露出愤怒或不愉快。</p>
+<p>于是他压抑着自己的感情，努力装得很高兴的样子说话，想要逗她开心。</p>
+<p>“如果自己不是真的开心的话，也没办法让对方开心。”这样想着，他就努力把公司里的一切不愉快都忘掉，努力把自己烦闷的心情抛在脑后，装出很兴奋的样子。</p>
+<p>然而不论他怎么努力，她那落寞悲伤的样子却没有发生变化。</p>
+<p>点菜的时候也一样，他举着菜单，故作高兴地和她说“点些什么好呢”，可她却只小声说了句“嗯”，看起来一定是不开心。</p>
+<p>渐渐地，这顿饭就变成他一个人的独角戏了。</p>
+<p>上了菜，也只有他一个人在说：“哇！看起来很好吃！”</p>
+<p>他感到自己随时都会爆发，却拼命压抑着自己。“要是现在爆发了，自己到底是为了什么压抑了那么长时间不满啊。”</p>
+<p>而且他觉得，要是爆发了的话，还不如一开始就跟她说“我今天要见客户，无论如何都没办法和你见面”呢。</p>
+<p>他甚至隐约觉得，去接待客户反而更好。不过他告诉自己“不能这么想，不能这么想”，拼命地压抑自己的怒火。</p>
+<p>他感到不满正在自己的心中累积，因此很不安。一旦到达某一点，自己就会一下子爆发，他深深地陷入这种不安。</p>
+<p>“拜托你！给我心情变好！给我高兴起来！”他在心中对着她呐喊。</p>
+<p>“已经到了我忍耐的极限啦！我要爆发了！”他沉默着，在心中这样呐喊。</p>
+<p>然而她却完全没有变得开心。而且她最后还把菜都剩下了。</p>
+<p>他的情绪中，责怪她占了越来越大的成分。</p>
+<p>“什么啊，不就是没了爸爸吗！”不知不觉间，他在内心中强烈地谴责起她来了。</p>
+<p>“把这么好的菜都剩下了，你到底怎么想的？有很多人一辈子也来不起这里呢！吃这么一回，花的钱够有的人吃一个月呢！</p>
+<p>“身处银座，很容易让人陷入全日本都已经达到很富裕的消费水平了的错觉，其实根本不是那样。</p>
+<p>没了爸爸算什么啊，这个世界上的所谓艰辛才不是这种事呢，让世上人辛苦的才不是这种事呢。让世上人辛苦的是钱！和赚钱的辛苦比起来，其他的所谓辛苦，根本就算不上辛苦！”他在内心里强烈地谴责着她，渐渐地，他也变得不说话了。</p>
+<p>他谴责女朋友的情绪越来越强烈。一旦他的能量指向了谴责，就再也停不下来了。</p>
+<p>“连休息时间都没有的人，要是看到这两个人如今坐在银座的高级饭店里，一边吃饭，一边互相闹着别扭，到底会怎么想呢？”</p>
+<p>他逐渐开始认为：“唉，不了解现实的女人真是干什么都不行！”</p>
+<p>遭到这样现实的一击之后，自己之前觉得不满意的事一下子全都烟消云散了。</p>
+<p>“走吧。”说着，他站了起来。</p>
+<p>“爱情真是要求一个人像神一样啊。”他在心里宽慰自己。</p>
+<p>恋爱并不是玫瑰色的甜美梦境，恋爱意味着每一天甚至会让人疲乏到觉得徒劳。不管他为了女朋友，多么勉强自己、多么竭尽全力、多么想忍耐，只要他还认为“我明明为她做了这么多”，他就还不是真正地爱她。</p>
+<p>考虑对方想要的是什么，这才是爱。</p>
+<p>爱情并不是在花园里漫步，而是在荒凉的沙漠中行走。</p>
+<p>恰恰因为爱对方，有时甚至会让人感到深深的孤独。</p>
+<p>正因为爱，所以孤独。</p>
+<p>正因为爱，往往不得不独自忍耐。</p>
+<p>正因为爱，所以势必会有不对任何人言说、自己一个人沉默的时间。人类是多么悲剧性的存在啊。</p>
+<p>就算一个人为了自己的未婚妻打算多么辛劳工作，就算为了未婚妻打算多么竭尽全力，可只要他还对自己的所作所为有“我明明都做了这么多了”的感觉，他的人格就还没有成熟到可以去爱别人。</p>
+<p>不管你打算多么拼命去做，可只要还在考虑自己做过的事情，人格上就没有达到能够爱别人的成熟度。</p>
+<p>所谓爱，并不是站在自己的立场上去为对方考虑，而是站在对方的立场上去为对方考虑。</p>
+<p>要考虑的，并不是自己在公司有多么忙，而是她有多么思念父亲。“任何人到了自己生日那天，都会回想起过去每到这一天，父亲慈爱地做过些什么。父亲那么爱自己，任何人想起他都会落寞的。”像这样把自己做过什么完全置之度外，只为对方考虑，这才是够格的恋爱。</p>
+<p>“自己明明都这么辛苦了，自己明明都为她做了那么多了”，只要还这样站在自己的立场上看待对方，就算不上爱。</p>
+<p>不如说恰恰相反，自己都这么努力了，可还是不能给对方她想要的，真正在爱的人会检讨自己的不足之处。</p>
+<p>不考虑自己给予对方的，而考虑对方想要的，这就是爱。</p>
+<p>尽管自己很努力，但还是给不了对方想要的，为此而感到落寞，这就是爱。</p>
+<p>当然了，她也必须采取同样的态度。两个人都采取这样的态度，爱才能够成立。</p>
+<p>从她的角度来看，不是对未婚夫诉说因为父亲不在了而产生的落寞，而是感激未婚夫为自己所做的一切，那就是爱。</p>
+<p>两个人都能如此顾念对方的感受，爱就能够成立。如果其中一方想要的不是爱，而单纯是被爱，那么恐怕爱是无法成立的。</p>
+<p>会思考对方的事情才是爱。一个人要是打算去爱那种单纯想要被爱的人，看着他，就会知道自己没办法给他真正想要的东西。所以真正打算去爱的人，肯定会从想要被爱的人身边离开的。</p>
+<p>想要被爱的人所渴求的是被拯救。然而人类是没有办法拯救渴求救赎的人的。</p>
+<p>两个想要自我救赎的人才能够相互拯救。</p>
+<p>爱和撒娇正相反。爱一个人是要去理解对方，而不是寻求对方的理解。</p>
+<p>因为要持这样的态度，所以爱是痛苦的，是让人难以忍受的。</p>
+<p>为了有能力去爱，必须要坚强到能够忍耐孤独。</p>
+<p>所谓爱，并不是想着：“理解我！我现在正因为思念父亲而落寞呢，理解我！”爱并不是绷着脸怄气、闹别扭，要求对方抛开他自己的感受来理解自己，爱并不会因为对方不能够理解、共感自己的落寞就跟他闹别扭。</p>
+<p>所谓爱，是能够忍住自己的落寞，试图去理解对方的疲惫和繁忙。</p>
+<p>可是世界上真的会有人不想得到别人的理解吗？任何人都希望自己能够得到理解，特别是希望能够得到最重要的人的理解。然而只有抵制住这种想被理解的心情，才是爱。</p>
+<p>爱是一件多么苦痛的事啊！</p>
+
+        </div>
+        
+        <div class="prev-post">
+            上一篇
+            <a href="https://wonder-zhang.github.io/0whhhgfHB/">
+                你可以哭，但别哭太久
+            </a>
+        </div>
+        
+        
+        <div class="next-post">
+            下一篇
+            <a href="https://wonder-zhang.github.io/CKD8ZvaEV/">
+                生命中不能拥有的
+            </a>
+        </div>
+        
+    </div>
+    </div>
+</body>
+<script>
+    var t_img; // 定时�?
+    var isLoad = true; // 控制变量
+    isImgLoad(function () {
+        // 加载完成
+        $('.postdetailimg').css("display", "block");
+    });
+    // 判断图片加载的函�?
+    function isImgLoad(callback) {
+        // 注意我的图片类名都是cover，因为我�?需要�?�理cover。其它图片可以不管�?
+        // 查找所有封面图，迭代�?�理
+        $('.postdetailimg').each(function () {
+            // 找到�?0就将isLoad设为false，并退出each
+            if (this.height === 0) {
+                isLoad = false;
+                return false;
+            }
+        });
+        // 为true，没有发现为0的。加载完�?
+        if (isLoad) {
+            clearTimeout(t_img); // 清除定时�?
+            // 回调函数
+            callback();
+            // 为false，因为找到了没有加载完成的图，将调用定时器递归
+        } else {
+            isLoad = true;
+            t_img = setTimeout(function () {
+                isImgLoad(callback); // 递归�?�?
+            }, 500); // 我这里�?�置的是500�?秒就�?描一次，�?以自己调�?
+        }
+    }
+
+    //文章阅读热度
+    var pl = $("#pl").html();
+    var rootaddr = $("#rootaddr").html();
+    pl = pl.replace(rootaddr, "");
+    $("#hotnum").attr('id', pl);
+</script>
+    <div name="comment" style="background: white;margin-top:100px">
+        <div class="commentcontainer">
+            
+            
             <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
 <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
@@ -222,17 +687,73 @@
 
 </script>
 
-          
-          
-        
-     </div>
+            
+            
+            
+        </div>
     </div>
-   </div>
-  </div>
-  <script src="https://wonder-zhang.github.io/media/scripts/jquery.js"></script>
-  <script src="https://wonder-zhang.github.io/media/scripts/jquery-migrate-1.2.1.min.js"></script>
-  <script src="https://wonder-zhang.github.io/media/scripts/jquery.appear.js"></script>
+    </div>
+    <div id="landlord">
+        <div class="message" style="opacity:0"></div>
+        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
+    </div>
+    <div id="codeCopyText" style="display: none"></div>
+    <div id="domainname" style="display:none">https://wonder-zhang.github.io</div>
+    </body>
+    <script src="https://wonder-zhang.github.io/media/js/post.js"></script>
+    <script>
+        //寻找所有code标签，加复制按钮鸭！(行内代码除外)
+        var codes = document.getElementsByTagName('code');
+        if (codes.length) {
+            for (var i = 0; i < codes.length; i++) {
+                //高度/行高=文本行数
+                // var rowNum=Math.round(codes[i].height()/parseFloat(codes[i].css('line-height')));
+                // console.log("当前有"+rowNum+"行");
+                var code_id = "code_id_" + i;
+                codes[i].setAttribute("id", code_id);
+                var ci = "#" + code_id;
+                var codedot = $(ci);
+                var rowNum = Math.round(codedot.height() / parseFloat(codedot.css('line-height')));
+                if (rowNum <= 1) continue;
+                var btn = document.createElement("button");
+                btn.setAttribute("class", "copybt");
+                btn.setAttribute("data-clipboard-target", "#" + code_id);
+                btn.innerHTML = '复制代码';
+                codes[i].parentNode.insertBefore(btn, codes[i]);
+            }
+        };
+        var cop = new ClipboardJS('.copybt');
+        var codeCopyText = $("#codeCopyText").html();
+        cop.on('success', function (e) {
+            alert(codeCopyText);
+            e.clearSelection();
+        });
+        cop.on('error', function (e) {
+            alert("矮油，复制失败了...手动复制吧勇士！");
+            e.clearSelection();
+        });
+    </script>
+    
+<script>
+$(function () {
+    $('.toggleContainer').click(function(){$('html,body').animate({scrollTop: '0px'}, 800);});
+	$(window).scroll(function() {
+        var st = $(window).scrollTop();
+        if(st > 30){
+            $(".toggleContainer").fadeIn(400);
+        }else{
+            $(".toggleContainer").fadeOut(100);
+        }
+	});
+});
+</script>
 
-
- </body>
-</html>
+<script>
+        var bgchoice=$('#bgchoice').html();
+        var bg = $('#bg');
+        var bgurl = document.getElementById("bgurl").innerHTML;
+        if(bgchoice=='default')
+            for (var i = 0; i < 3; i++)
+                bgurl = bgurl.replace("\\", "/");
+        bg.css("background", "url('" + bgurl + "')");
+</script>
