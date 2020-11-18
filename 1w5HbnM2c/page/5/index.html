@@ -43,7 +43,6 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
-    
 </head>
 <body>
 
@@ -93,88 +92,83 @@
     </nav>
 </div>
 <div id="content" class="container">
-    <div class="row">
-        <div class="col-sm-100 col-lg-9">
-            <div class="shadow-sm post-detail">
-                <article class="post i-card">
-                    <h2 class="post-title">
-                        我的第一篇GitHub博客
-                    </h2>
-                    <div class="post-info">
-                        <time class="post-time">2020-06-07</time>
-                        
-                            <a href="https://wonder-zhang.github.io/ulBkKQwhp/" class="post-tag i-tag
-                            i-tag-error">
-                                #随笔
-                            </a>
-                        
-                    </div>
-                    
-                    <div class="post-content">
-                        <p>姑且算是一个自我介绍吧！<br>
-第一篇GitHub的博客，写着玩玩把，算上那个博客，算是很多了<br>
-我也不知道自己这么多的收集癖好是在哪里来的<br>
-总是怕博客过期了，然后准备续费下一个，若事物不窝在我自己的手中，我始终是害怕的<br>
-这些不安全感，总归是我前行的动力！<br>
-向前吧！少年</p>
-
-                    </div>
-                </article>
-            </div>
-            <div class="row">
-                <div class="next-post col-6">
-                    
-                        <div class="next">上一篇</div>
-                        <a href="https://wonder-zhang.github.io/jie-dian-ding-yue/">
-                            <h3 class="post-title">
-                                节点订阅
-                            </h3>
-                        </a>
-                    
-                </div>
-                <div class="next-post col-6">
-                    
-                </div>
-            </div>
+        <div class="row">
+            <div class="col-sm-100 col-lg-9 index-post-list">
+                
+<article class="post-item row">
+    
+    <div class="post-desc col-sm-12 ">
+        <h2 class="post-title">
+            <a href="https://wonder-zhang.github.io/nrkBaNcXV/">
+                从思想开始，聊聊系统与个体的关系
+            </a>
+        </h2>
+        <div class="post-info">
+            <time class="post-time">2020-06-11</time>
+            
+                <a href="https://wonder-zhang.github.io/1w5HbnM2c/" class="post-tag i-tag
+                                i-tag-warning">
+                    #阅读
+                </a>
+            
+                <a href="https://wonder-zhang.github.io/OVQhcUD1u/" class="post-tag i-tag
+                                i-tag-other_2">
+                    #摘抄
+                </a>
             
         </div>
-        <div class="d-none d-lg-block col-lg-3">
-            
-                <div class="toc-card i-card shadow-sm sticky-top">
-    <div class="toc-title i-card-title">目录</div>
-    <div class="toc-content">
+        <div class="post-summary">
+            <div class="post-summary-description">
+                
+                    我们不愿承认这样的事实，只有独立于人类思想之外的才是真实世界
+一、列夫托尔斯泰与苦恼意志
+初中的时候，语文课本里有一段列夫托尔斯泰的生平。在生命的最后几年，这位文学泰斗一方面注意到了农民的觉醒，一方面对自己的地主身份感到不安，他为农民所说的...
+                
+            </div>
+            <a class="btn-readMore" href="https://wonder-zhang.github.io/nrkBaNcXV/">Read More ~</a>
+        </div>
+    </div>
+    
+</article>
+
+
+    <div class="pagination-container">
+        
+            <a href="https://wonder-zhang.github.io/1w5HbnM2c/page/4/" class="btn btn-outline-primary">上一页</a>
+        
         
     </div>
-    <script>
-        function locateCatelogList() {
-            /*获取文章目录集合,可通过:header过滤器*/
-            var alis = $('.post-content :header');
-            /*获取侧边栏目录列表集合**/
-            var sidebar_alis = $('.markdownIt-TOC a');
-            /*获取滚动条到顶部的距离*/
-            var scroll_height = $(window).scrollTop();
-            for (var i = 0; i < alis.length; i++) {
-                /*获取锚点集合中的元素分别到顶点的距离*/
-                var a_height = $(alis[i]).offset().top-150;
-                if (a_height < scroll_height) {
-                    /*高亮显示*/
-                    sidebar_alis.removeClass('on');
-                    $(sidebar_alis[i]).addClass('on');
-                }
-            }
-        }
 
-        $(function () {
-            /*绑定滚动事件 */
-            $(window).bind('scroll', locateCatelogList);
-        });
-    </script>
-</div>
-
-            
-        </div>
+            </div>
+            <div class="col-lg-3">
+                
+<div class="id_card i-card">
+    <div class="id_card-avatar"
+         style="background-image: url(https://wonder-zhang.github.io/images/avatar.png?v=1605704527269)">
     </div>
-    <div class="site-footer">
+    <h1 class="id_card-title">
+        wonder&#39;s blog
+    </h1>
+    <h2 class="id_card-description">
+        Stay Hungry. Stay Foolish
+    </h2>
+    <ul class="id_card-site-info row">
+        <li class="col-6"><a href="https://wonder-zhang.github.io/archives">文章</a></li>
+        <li class="col-6"><a href="https://wonder-zhang.github.io/tags">标签</a></li>
+        <li class="col-6"><a href="https://wonder-zhang.github.io/archives">75</a></li>
+        <li class="col-6"><a href="https://wonder-zhang.github.io/tags">11</a></li>
+    </ul>
+    <div class="id_card-sns">
+         
+        
+    </div>
+</div>
+                
+                
+                
+            </div>
+        </div>
+        <div class="site-footer">
     Powered by <a href="https://www.wonder1999.com" target="_blank">wonder</a>
  <a class="rss" href="https://wonder-zhang.github.io/atom.xml" target="_blank">
     <i class="ri-rss-line"></i> RSS
@@ -202,7 +196,5 @@
 
 
 </div>
-
-
 </body>
 </html>
