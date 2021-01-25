@@ -98,128 +98,41 @@
             <div class="shadow-sm post-detail">
                 <article class="post i-card">
                     <h2 class="post-title">
-                        CentOS7 常用命令集合
+                        论人的自私与包容
                     </h2>
                     <div class="post-info">
-                        <time class="post-time">2020-06-07</time>
+                        <time class="post-time">2021-01-25</time>
                         
-                            <a href="https://wonder-zhang.github.io/MlPEoUGcv/" class="post-tag i-tag
-                            i-tag-primary">
-                                #linux
+                            <a href="https://wonder-zhang.github.io/-8gQxkgd2/" class="post-tag i-tag
+                            i-tag-banana">
+                                #左岸
                             </a>
                         
                     </div>
                     
                     <div class="post-content">
-                        <p><strong>常用命令文件与目录操作</strong></p>
-<p>cd /home 进入 ‘/home’ 目录<br>
-cd .. 返回上一级目录<br>
-cd ../.. 返回上两级目录<br>
-cd – 返回上次所在目录<br>
-cp file1 file2 将file1复制为file2<br>
-cp -a dir1 dir2 复制一个目录<br>
-cp -a /tmp/dir1 . 复制一个目录到当前工作目录（.代表当前目录）<br>
-ls 查看目录中的文件<br>
-ls -a 显示隐藏文件<br>
-ls -l 显示详细信息<br>
-ls -lrt 按时间显示文件（l表示详细列表，r表示反向排序，t表示按时间排序）<br>
-pwd 显示工作路径<br>
-mkdir dir1 创建 ‘dir1’ 目录<br>
-mkdir dir1 dir2 同时创建两个目录<br>
-mkdir -p /tmp/dir1/dir2 创建一个目录树<br>
-mv dir1 dir2 移动/重命名一个目录<br>
-rm -f file1 删除 ‘file1’<br>
-rm -rf dir1 删除 ‘dir1’ 目录及其子目录内容查看文件内容</p>
-<p>cat file1 从第一个字节开始正向查看文件的内容<br>
-head -2 file1 查看一个文件的前两行<br>
-more file1 查看一个长文件的内容<br>
-tac file1 从最后一行开始反向查看一个文件的内容<br>
-tail -3 file1 查看一个文件的最后三行<br>
-vi file 打开并浏览文件</p>
-<p><strong>文本内容处理</strong></p>
-<p>grep str /tmp/test 在文件 ‘/tmp/test’ 中查找 “str”<br>
-grep ^str /tmp/test 在文件 ‘/tmp/test’ 中查找以 “str” 开始的行<br>
-grep [0-9] /tmp/test 查找 ‘/tmp/test’ 文件中所有包含数字的行<br>
-grep str -r /tmp/* 在目录 ‘/tmp’ 及其子目录中查找 “str” diff file1 file2 找出两个文件的不同处<br>
-sdiff file1 file2 以对比的方式显示两个文件的不同<br>
-vi file操作</p>
-<p>i 进入编辑文本模式<br>
-Esc 退出编辑文本模式<br>
-:w 保存当前修改<br>
-:q 不保存退出vi<br>
-:wq 保存当前修改并退出vi查询操作</p>
-<p>find / -name file1 从 ‘/’ 开始进入根文件系统查找文件和目录<br>
-find / -user user1 查找属于用户 ‘user1’ 的文件和目录<br>
-find /home/user1 -name .bin 在目录 ‘/ home/user1’ 中查找以 ‘.bin’ 结尾的文件<br>
-find /usr/bin -type f -atime +100 查找在过去100天内未被使用过的执行文件<br>
-find /usr/bin -type f -mtime -10 查找在10天内被创建或者修改过的文件<br>
-locate .ps 寻找以 ‘.ps’ 结尾的文件，先运行 ‘updatedb’ 命令<br>
-find -name ‘*.[ch]’ | xargs grep -E ‘expr’ 在当前目录及其子目录所有.c和.h文件中查找 ‘expr’<br>
-find -type f -print0 | xargs -r0 grep -F ‘expr’ 在当前目录及其子目录的常规文件中查找 ‘expr’<br>
-find -maxdepth 1 -type f | xargs grep -F ‘expr’ 在当前目录中查找 ‘expr’压缩、解压</p>
-<p>bzip2 file1 压缩 file1<br>
-bunzip2 file1.bz2 解压 file1.bz2<br>
-gzip file1 压缩 file1<br>
-gzip -9 file1 最大程度压缩 file1<br>
-gunzip file1.gz 解压 file1.gz<br>
-tar -cvf archive.tar file1 把file1打包成 archive.tar（-c: 建立压缩档案；-v: 显示所有过程；-f: 使用档案名字，是必须的，是最后一个参数）<br>
-tar -cvf archive.tar file1 dir1 把 file1，dir1 打包成 archive.tar<br>
-tar -tf archive.tar 显示一个包中的内容<br>
-tar -xvf archive.tar 释放一个包<br>
-tar -xvf archive.tar -C /tmp 把压缩包释放到 /tmp目录下<br>
-zip file1.zip file1 创建一个zip格式的压缩包<br>
-zip -r file1.zip file1 dir1 把文件和目录压缩成一个zip格式的压缩包<br>
-unzip file1.zip 解压一个zip格式的压缩包到当前目录<br>
-unzip test.zip -d /tmp/ 解压一个zip格式的压缩包到 /tmp 目录yum安装器</p>
-<p>yum -y install [package] 下载并安装一个rpm包<br>
-yum localinstall [package.rpm] 安装一个rpm包，使用你自己的软件仓库解决所有依赖关系<br>
-yum -y update 更新当前系统中安装的所有rpm包<br>
-yum update [package] 更新一个rpm包<br>
-yum remove [package] 删除一个rpm包<br>
-yum list 列出当前系统中安装的所有包<br>
-yum search [package] 在rpm仓库中搜寻软件包<br>
-yum clean [package] 清除缓存目录（/var/cache/yum）下的软件包<br>
-yum clean headers 删除所有头文件<br>
-yum clean all 删除所有缓存的包和头文件网络相关</p>
-<p>ifconfig eth0 显示一个以太网卡的配置<br>
-ifconfig eth0 192.168.1.1 netmask 255.255.255.0 配置网卡的IP地址<br>
-ifdown eth0 禁用 ‘eth0’ 网络设备<br>
-ifup eth0 启用 ‘eth0’ 网络设备<br>
-iwconfig eth1 显示一个无线网卡的配置<br>
-iwlist scan 显示无线网络<br>
-ip addr show 显示网卡的IP地址系统相关</p>
-<p>su – 切换到root权限（与su有区别）<br>
-shutdown -h now 关机<br>
-shutdown -r now 重启<br>
-top 罗列使用CPU资源最多的linux任务 （输入q退出）<br>
-pstree 以树状图显示程序<br>
-man ping 查看参考手册（例如ping 命令）<br>
-passwd 修改密码<br>
-df -h 显示磁盘的使用情况<br>
-cal -3 显示前一个月，当前月以及下一个月的月历<br>
-cal 10 1988 显示指定月，年的月历<br>
-date –date ‘1970-01-01 UTC 1427888888 seconds’ 把一相对于1970-01-01 00:00的秒数转换成时间XSheel 5相关操作窗体快捷键</p>
-<p>Ctrl + u 删除光标之前到行首的字符<br>
-Ctrl + k 删除光标之前到行尾的字符<br>
-Ctrl + c 取消当前行输入的命令，相当于Ctrl + Break<br>
-Ctrl + a 光标移动到行首（ahead of line），相当于通常的Home键<br>
-Ctrl + e 光标移动到行尾（end of line）<br>
-Ctrl + f 光标向前（forward）移动一个字符位置<br>
-Ctrl + b 光标往回（backward）移动一个字符位置<br>
-Ctrl + l 清屏，相当于执行clear命令<br>
-Ctrl + r 显示:号提示，根据用户输入查找相关历史命令（reverse-i-search）<br>
-Ctrl + w 删除从光标位置前到当前所处单词（word）的开头<br>
-Ctrl + t 交换光标位置前的两个字符<br>
-Ctrl + y 粘贴最后一次被删除的单词<br>
-Ctrl + Alt + d 显示桌面<br>
-Alt + b 光标往回（backward）移动到前一个单词<br>
-Alt + d 删除从光标位置到当前所处单词的末尾<br>
-Alt + F2 运行<br>
-Alt + F4 关闭当前窗口<br>
-Alt + F9 最小化当前窗口<br>
-Alt + F10 最大化当前窗口<br>
-Alt + Tab 切换窗口<br>
-Alt + 左键 移动窗口（或在最下面的任务栏滚动鼠标滑轮）</p>
+                        <p><strong>文/苏樊</strong></p>
+<p>过去有人曾经告诉我，人的自私是因为家庭孩子的多少造成的，早期都是独生子女的时候人们大多这样说，现代的子女都太过自私霸道。可我觉得70后和80后的人很多不是那样的，他们更加的通情达理和包容，也比较努力。</p>
+<p>很多人经历了世界科技以及经济社会人文的变化，从最初的土房到楼房，再到后来自己有能力购房；在这个最美好的时间段里，我们很多人都会发现互联网的出现给生活带来的便利，过去看电视剧已经是很奢侈，有一部座机已经是非常方便，再到后来的发展，人与人的距离变得更加接近，人与人的沟通和信息的分享变得非常频繁，但是在这个过程中，却从未有人质疑过世界带来的真相与假象。</p>
+<p>我的家庭里，我排行老二，但在祖辈眼里我可能是老三或者老四，因为最上面有个姐姐，然后是堂弟与堂姐，而我们都觉得彼此是平等互爱的，只有我的姐姐在家里独大，所有人包括外面的人都说她是最大、最得宠和最受尊重的。人们尽管不了解情况或只因表面现象，就已经认同这样存在的合理性，不论尊重或者怎样特殊的待遇，我们当时根本不知道如何争取自己想要的。还好，我比较幸运，妈妈最疼我也最保护我。</p>
+<p>尽管我18岁出去以后，抱怨妈妈以前不给我讲社会的经验和道理，以至于我无法理解和认同别人的行为和语言，但我涉足社会时间久了，才明白她也只是局限在她的圈子里。对于人的自私程度，大多数人会认为有公认的道理，其实不然，家庭里的自私和社会上的，根本不一样，家庭更多讲的是理解和相互协作。我小时候的安稳和快乐就来自母亲的安定和坚韧，可我依然看到和感受到那时家庭的压力和她的无助，以至于后来她有了工作后的自信。</p>
+<p>人都是不满足于现状的，因为不论怎样，总有很多痛苦的根源在驱使着人们去做出改变，或是来自经济，精神，追求自我价值认可，或是因为环境的影响，比如有人攀比，有人嫉妒，或是被人讽刺，都是非常“正常“的。</p>
+<p>很多人不在意周围环境的影响，但我觉得人不可能不食人间烟火，不可能不进柴米油盐，但我知道，有些时候这个社会包容了那些自私的人，那些自私的人以为自己可以用他们的价值或者视野凌驾左右他人，可我觉得，人坚定的意志和包容来自稳定的情绪和安全感和对外界不公及伤害的反抗。</p>
+<p>他们希望人人都去满足他们的需求与不足，可我觉得，在互动关系中，包容与自私是并存且相互支持的。<br>
+这并不矛盾，因为人不为己天诛地灭（如果人不修身，那么就会为天地所不容）的原因是动物的生存道理，在食物链顶端的我们，却活得不如富人家的狗，就是这样的原因，多数人选择了打肿脸充胖子地挤兑他人的生活。比如炫耀，伪善，假装正义，其实这来自他们对自己的角色定位和价值衡量超过了事实。</p>
+<p>我过去也经历了这样的困境，表面的伪装本是要保护自己，最后却成了不可控的负累，比如买很多的包包，衣服，或者旅游，哪怕是学习什么，也不过是在给自己增加虚荣的保护罩。</p>
+<p>大多数人都叫嚣着，不要抱怨别人，抱怨父母，是你自己不好，你要反省，可多少人真正了解情况并且愿意真实的说一句，好了，你累了，你需要安静一会儿；好了，你会好的，相信你自己，你很快会走出困境的。你需要的正是远离那些带给你负能量和伤害的人。<br>
+要是没有知心朋友和家人的支持会很痛苦，很孤单。</p>
+<p>多少人说着正义和正能量，却在风口浪尖关头也不敢出声说一句，我可能觉得不对，我不相信。</p>
+<p>这个社会充满了燃烧着的焦虑，恐惧，还有欺骗与压制，尽管这样说很痛苦，会被谴责，可的确是这样的。人们内心的声音太多了……上网一搜都是生活、精神的困扰和求助，连我自己也曾是这样去寻找解脱的办法。</p>
+<p>我觉得原因在于，从离开学校那一刻开始，我们虽然停止了课堂学习，生活习惯却一下子改变了，很多人要么一蹶不振，要么被社会层层裹挟着，受各种因素的干扰和刺激，就走偏了，每个人的目标和情绪是直接挂钩的。</p>
+<p>生活习惯可以改变，思维可以学习，甚至爱谁都可以选择和努力经营，人们学到的很多是如何面对和相信自己，却是少了如何反思和质疑，少了面对权力和威胁下力所能及的行为和自我保护意识。</p>
+<p>要活就要不后悔，当下走的每一步都是正确的，因为时局不可控，因为你不是一个人，因为世界早已经不是最初的模样，因为物欲横流，和爱的传递比起来，大多显得更加可靠和能带来安全感的就剩金钱和权力了。</p>
+<p>安逸不是错，平淡很奢侈，在充满诱惑的信息时代，我们才发现安静多么的难能可贵，安静是最能滋养人的一剂良药。</p>
+<p>在这样的囚徒困境下，背叛和不背叛都不重要了，你急了，你认真了，他们只是当在看热闹，没有人在意你是否快乐，因为他们自己也不知道该如何做了，他们的行为也只是想要满足他们的需求而已。</p>
+<p>活着，不要太讲究，但是健康一定要有，品行一定要正。</p>
+<p>就算被骂装逼，也要坚持！</p>
+<p>**左岸记：**其实，一个人的成长有些时候必然是伴随着别人的牺牲的,很多人压根没意识到成长中的消耗关系，只顾自己开心，这无疑就是自私。当你成长起来了，希望你不要认为别人的这种牺牲，你消耗别人是应该的。如果你周围有人没有成长起来，希望到时候你也能宽容一些，给他一些时间和空间。想想，我们是怎样从无知开始的，犯过多少错，让多少人伤心过，我们却能这样活得好好，是不是要谢谢这个世界的包容，让我们依旧有空间去成就自己。</p>
 
                     </div>
                 </article>
@@ -227,20 +140,13 @@ Alt + 左键 移动窗口（或在最下面的任务栏滚动鼠标滑轮）</p>
             <div class="row">
                 <div class="next-post col-6">
                     
-                        <div class="next">上一篇</div>
-                        <a href="https://wonder-zhang.github.io/jiazhi/">
-                            <h3 class="post-title">
-                                她那时候还太年轻，不知道所有命运赠送的礼物，早已在暗中标好了价格。
-                            </h3>
-                        </a>
-                    
                 </div>
                 <div class="next-post col-6">
                     
                         <div class="next">下一篇</div>
-                        <a href="https://wonder-zhang.github.io/jie-dian-ding-yue/">
+                        <a href="https://wonder-zhang.github.io/Pc-MZ_bQ6/">
                             <h3 class="post-title">
-                                节点订阅
+                                你能接受真实么
                             </h3>
                         </a>
                     

@@ -98,128 +98,45 @@
             <div class="shadow-sm post-detail">
                 <article class="post i-card">
                     <h2 class="post-title">
-                        CentOS7 常用命令集合
+                        你能接受真实么
                     </h2>
                     <div class="post-info">
-                        <time class="post-time">2020-06-07</time>
+                        <time class="post-time">2021-01-25</time>
                         
-                            <a href="https://wonder-zhang.github.io/MlPEoUGcv/" class="post-tag i-tag
-                            i-tag-primary">
-                                #linux
+                            <a href="https://wonder-zhang.github.io/-8gQxkgd2/" class="post-tag i-tag
+                            i-tag-">
+                                #左岸
                             </a>
                         
                     </div>
                     
                     <div class="post-content">
-                        <p><strong>常用命令文件与目录操作</strong></p>
-<p>cd /home 进入 ‘/home’ 目录<br>
-cd .. 返回上一级目录<br>
-cd ../.. 返回上两级目录<br>
-cd – 返回上次所在目录<br>
-cp file1 file2 将file1复制为file2<br>
-cp -a dir1 dir2 复制一个目录<br>
-cp -a /tmp/dir1 . 复制一个目录到当前工作目录（.代表当前目录）<br>
-ls 查看目录中的文件<br>
-ls -a 显示隐藏文件<br>
-ls -l 显示详细信息<br>
-ls -lrt 按时间显示文件（l表示详细列表，r表示反向排序，t表示按时间排序）<br>
-pwd 显示工作路径<br>
-mkdir dir1 创建 ‘dir1’ 目录<br>
-mkdir dir1 dir2 同时创建两个目录<br>
-mkdir -p /tmp/dir1/dir2 创建一个目录树<br>
-mv dir1 dir2 移动/重命名一个目录<br>
-rm -f file1 删除 ‘file1’<br>
-rm -rf dir1 删除 ‘dir1’ 目录及其子目录内容查看文件内容</p>
-<p>cat file1 从第一个字节开始正向查看文件的内容<br>
-head -2 file1 查看一个文件的前两行<br>
-more file1 查看一个长文件的内容<br>
-tac file1 从最后一行开始反向查看一个文件的内容<br>
-tail -3 file1 查看一个文件的最后三行<br>
-vi file 打开并浏览文件</p>
-<p><strong>文本内容处理</strong></p>
-<p>grep str /tmp/test 在文件 ‘/tmp/test’ 中查找 “str”<br>
-grep ^str /tmp/test 在文件 ‘/tmp/test’ 中查找以 “str” 开始的行<br>
-grep [0-9] /tmp/test 查找 ‘/tmp/test’ 文件中所有包含数字的行<br>
-grep str -r /tmp/* 在目录 ‘/tmp’ 及其子目录中查找 “str” diff file1 file2 找出两个文件的不同处<br>
-sdiff file1 file2 以对比的方式显示两个文件的不同<br>
-vi file操作</p>
-<p>i 进入编辑文本模式<br>
-Esc 退出编辑文本模式<br>
-:w 保存当前修改<br>
-:q 不保存退出vi<br>
-:wq 保存当前修改并退出vi查询操作</p>
-<p>find / -name file1 从 ‘/’ 开始进入根文件系统查找文件和目录<br>
-find / -user user1 查找属于用户 ‘user1’ 的文件和目录<br>
-find /home/user1 -name .bin 在目录 ‘/ home/user1’ 中查找以 ‘.bin’ 结尾的文件<br>
-find /usr/bin -type f -atime +100 查找在过去100天内未被使用过的执行文件<br>
-find /usr/bin -type f -mtime -10 查找在10天内被创建或者修改过的文件<br>
-locate .ps 寻找以 ‘.ps’ 结尾的文件，先运行 ‘updatedb’ 命令<br>
-find -name ‘*.[ch]’ | xargs grep -E ‘expr’ 在当前目录及其子目录所有.c和.h文件中查找 ‘expr’<br>
-find -type f -print0 | xargs -r0 grep -F ‘expr’ 在当前目录及其子目录的常规文件中查找 ‘expr’<br>
-find -maxdepth 1 -type f | xargs grep -F ‘expr’ 在当前目录中查找 ‘expr’压缩、解压</p>
-<p>bzip2 file1 压缩 file1<br>
-bunzip2 file1.bz2 解压 file1.bz2<br>
-gzip file1 压缩 file1<br>
-gzip -9 file1 最大程度压缩 file1<br>
-gunzip file1.gz 解压 file1.gz<br>
-tar -cvf archive.tar file1 把file1打包成 archive.tar（-c: 建立压缩档案；-v: 显示所有过程；-f: 使用档案名字，是必须的，是最后一个参数）<br>
-tar -cvf archive.tar file1 dir1 把 file1，dir1 打包成 archive.tar<br>
-tar -tf archive.tar 显示一个包中的内容<br>
-tar -xvf archive.tar 释放一个包<br>
-tar -xvf archive.tar -C /tmp 把压缩包释放到 /tmp目录下<br>
-zip file1.zip file1 创建一个zip格式的压缩包<br>
-zip -r file1.zip file1 dir1 把文件和目录压缩成一个zip格式的压缩包<br>
-unzip file1.zip 解压一个zip格式的压缩包到当前目录<br>
-unzip test.zip -d /tmp/ 解压一个zip格式的压缩包到 /tmp 目录yum安装器</p>
-<p>yum -y install [package] 下载并安装一个rpm包<br>
-yum localinstall [package.rpm] 安装一个rpm包，使用你自己的软件仓库解决所有依赖关系<br>
-yum -y update 更新当前系统中安装的所有rpm包<br>
-yum update [package] 更新一个rpm包<br>
-yum remove [package] 删除一个rpm包<br>
-yum list 列出当前系统中安装的所有包<br>
-yum search [package] 在rpm仓库中搜寻软件包<br>
-yum clean [package] 清除缓存目录（/var/cache/yum）下的软件包<br>
-yum clean headers 删除所有头文件<br>
-yum clean all 删除所有缓存的包和头文件网络相关</p>
-<p>ifconfig eth0 显示一个以太网卡的配置<br>
-ifconfig eth0 192.168.1.1 netmask 255.255.255.0 配置网卡的IP地址<br>
-ifdown eth0 禁用 ‘eth0’ 网络设备<br>
-ifup eth0 启用 ‘eth0’ 网络设备<br>
-iwconfig eth1 显示一个无线网卡的配置<br>
-iwlist scan 显示无线网络<br>
-ip addr show 显示网卡的IP地址系统相关</p>
-<p>su – 切换到root权限（与su有区别）<br>
-shutdown -h now 关机<br>
-shutdown -r now 重启<br>
-top 罗列使用CPU资源最多的linux任务 （输入q退出）<br>
-pstree 以树状图显示程序<br>
-man ping 查看参考手册（例如ping 命令）<br>
-passwd 修改密码<br>
-df -h 显示磁盘的使用情况<br>
-cal -3 显示前一个月，当前月以及下一个月的月历<br>
-cal 10 1988 显示指定月，年的月历<br>
-date –date ‘1970-01-01 UTC 1427888888 seconds’ 把一相对于1970-01-01 00:00的秒数转换成时间XSheel 5相关操作窗体快捷键</p>
-<p>Ctrl + u 删除光标之前到行首的字符<br>
-Ctrl + k 删除光标之前到行尾的字符<br>
-Ctrl + c 取消当前行输入的命令，相当于Ctrl + Break<br>
-Ctrl + a 光标移动到行首（ahead of line），相当于通常的Home键<br>
-Ctrl + e 光标移动到行尾（end of line）<br>
-Ctrl + f 光标向前（forward）移动一个字符位置<br>
-Ctrl + b 光标往回（backward）移动一个字符位置<br>
-Ctrl + l 清屏，相当于执行clear命令<br>
-Ctrl + r 显示:号提示，根据用户输入查找相关历史命令（reverse-i-search）<br>
-Ctrl + w 删除从光标位置前到当前所处单词（word）的开头<br>
-Ctrl + t 交换光标位置前的两个字符<br>
-Ctrl + y 粘贴最后一次被删除的单词<br>
-Ctrl + Alt + d 显示桌面<br>
-Alt + b 光标往回（backward）移动到前一个单词<br>
-Alt + d 删除从光标位置到当前所处单词的末尾<br>
-Alt + F2 运行<br>
-Alt + F4 关闭当前窗口<br>
-Alt + F9 最小化当前窗口<br>
-Alt + F10 最大化当前窗口<br>
-Alt + Tab 切换窗口<br>
-Alt + 左键 移动窗口（或在最下面的任务栏滚动鼠标滑轮）</p>
+                        <p><strong>文/白玄</strong></p>
+<p>很久没有体验到一口气读完一本书的痛快淋漓了，何其有幸，《沉默的病人》让我复验了。</p>
+<p>亚历克斯·麦克利兹绝对是技术型的写手，技术堪称出神入化，所以简单的故事写的特别精彩。构思巧妙，节奏流畅，开篇霸气，反转精彩。</p>
+<p><strong>开篇写到</strong>：<br>
+<strong>杀死自己丈夫的时候，艾丽西亚· 贝伦森三十三岁。</strong><br>
+<strong>当时他们已经结婚七年。</strong></p>
+<p><strong>反转：</strong><br>
+<strong>这就是真相。我没有杀死加布里耶尔。是他杀死了我。</strong><br>
+<strong>我只是扣动了扳机。</strong></p>
+<p>这是一本即使剧透也不会影响阅读体验的书。就像斗地主中的明牌，作者就这么霸气。“她往丈夫脸上连开五枪，从此不再说一个字。”一支枪应该有六发子弹，为什么如此疯狂却只有五枪呢？那一颗子弹哪里去了？这个答案只能自己书中找了。</p>
+<p>从开篇到反转，中间的动机分解用了26万字，所以这不是一部悬疑惊悚小说，而是一部心理学著作。悬疑只是它的面具。</p>
+<p>其目的是引发三思：关于原生家庭，关于婚姻，关于自我。</p>
+<p>女主角深受原生家庭之害。在同一场车祸中，她妈妈去世，她幸存。但她父亲却说“为什么不是艾丽西亚替她去死？”最诛心的往往是轻描淡写的脱口而出，不经意的。因此她觉得“爸爸杀死了我。”心被砍上了裂缝是事实。但是接下来是抱着剑舔着血的迷醉呢？还是自我成长？这裂缝或许只有两个功能，让光照进来或从这里长出翅膀。如果光不能照进来温暖你，那就自己飞向温暖的光。</p>
+<p>对于原生家庭或说童年，最近影视乃至文学作品全是呼喊其影响之大近乎一生。真的如此严重么？我觉得，不至于。问题不能全赖环境。外部条件是既存事实，怎么看待与应对环境才是成长的关键。对自己负起责任，它不香么？</p>
+<p>对于婚姻。有两个关于出轨的残忍拷问。第一，假如被出轨了，你有勇气知道真相么？还是宁愿不知道。其实不知道倒不失为一种幸福，不知道就是没有，没有就可以一直幸福下去。第二，如果你知道了，你会怎么做？如书中的两种选择：A同归于尽，至死方休。B佯装不知，继续苟活。还是书外的第三种选择：转身离开。</p>
+<p>在开枪前的所有时间里，艾丽西亚一直以为自己遇到的是爱情。“从我们相识的那天起，他就是我的全部世界。无论他做了什么，无论发生了什么事，我都会爱他——不管他怎么惹我生气——不管他怎么邋遢或不卫生，不管他如何轻率，如何自私，我都会一如既往的爱他。直到死亡将我们分离。”结果一语成谶，真的是“死亡”将他们分离的，而且是她亲自邀请的死亡。</p>
+<p>但我觉得艾丽西亚自认为的爱情，并非爱情。是一种畸形的感情依附，是飞蛾扑火的倾覆。这阵式其实挺吓人的，因为对方可能根本不是火，只是一个烟头，所以扑灭对方的同时也呛死了自己。但有一点是对的，那就是不能考验人性。暗黑与道德同笼，而暗黑的那部分更容易被唤醒，能休眠已经够好了，何况去特意拨弄呢。艾丽西亚的丈夫在你死还是我活的单项选择里，选择了“我不想死”。艾丽西亚觉得自己又被杀死了一次，所以淡然的扣动了扳机，五连发。</p>
+<p>作为男主角，心理治疗师西奥的婚姻，也遭遇了出轨。但他坚定地选择了佯装不知。在知道真相之前，他也以为自己遇到的是爱情。“唤醒我的是凯西——是她邀请我走进了生活。我用双手紧紧抓住了她。我记得自己当时就在想，原来如此，这就是爱情。我意识到这毫无疑问就是爱情。”“她就是为我量身打造的”这是西奥的感觉。所以即使被绿了，西奥依然选择继续下去，只要你也在，我也在，心在不在又有什么关系呢。对此，作者早就言明了“真的是一见钟情——呃，反正是情欲呗。”</p>
+<p>这两桩婚姻的交集是，艾丽西亚的丈夫和西奥的妻子就是那对情人。</p>
+<p>爱情是什么样子呢？也许是鲁西以为的“真正的爱情是非常平静的，没那么轰轰烈烈。”爱情什么都不需要，不用相见，什么都不用说，我心里有过你——就已足够。心里有就是真的有，我为的是我的心，这就是了。</p>
+<p>爱情不是生活的全部，不是还有大自然么，不是还有艺术么，不是还有自我么。</p>
+<p>对于自我。你之所以不幸福，不是环境带给你的不幸，不是他人带给你的伤害，只不过是你缺乏重新选择生活方式的勇气。妄图指望他人拯救自己，这种想法太天真了。</p>
+<p>父母不是你的救赎，配偶不是你的救赎，甚至爱情也不是你的救赎，最后能救自己的，只有自己。你是你自己的英雄。所以，还有C选择，那就是，转身离开，关键看你有没有底气。把受害的意识清空，你就是一个完整的自己。你本身就是完整的。对自己负起责任来。</p>
+<p>我愿意接受真实，那可能丑陋，可能不堪，可能龌龊，但那都是它本来的样子，接受世界如其所是。世界上只有一种英雄主义，那就是看透它的真相之后依然热爱它。</p>
+<p>All is well。</p>
+<p>左岸记：白玄说得对，人生从来就不会是个死局，除非你把自己做死，或者选择欺骗自己。当你勇敢地选择面对真相，哪怕真相让人失望害怕恐惧，你就始终握着自己的命运。没有遥远的救世主，只有你自己。</p>
 
                     </div>
                 </article>
@@ -228,9 +145,9 @@ Alt + 左键 移动窗口（或在最下面的任务栏滚动鼠标滑轮）</p>
                 <div class="next-post col-6">
                     
                         <div class="next">上一篇</div>
-                        <a href="https://wonder-zhang.github.io/jiazhi/">
+                        <a href="https://wonder-zhang.github.io/ZMiqd_TTj/">
                             <h3 class="post-title">
-                                她那时候还太年轻，不知道所有命运赠送的礼物，早已在暗中标好了价格。
+                                论人的自私与包容
                             </h3>
                         </a>
                     
@@ -238,9 +155,9 @@ Alt + 左键 移动窗口（或在最下面的任务栏滚动鼠标滑轮）</p>
                 <div class="next-post col-6">
                     
                         <div class="next">下一篇</div>
-                        <a href="https://wonder-zhang.github.io/jie-dian-ding-yue/">
+                        <a href="https://wonder-zhang.github.io/OV4Zqej6p/">
                             <h3 class="post-title">
-                                节点订阅
+                                打破执著
                             </h3>
                         </a>
                     
